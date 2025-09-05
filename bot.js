@@ -526,7 +526,7 @@ client.on('interactionCreate', async interaction => {
                 });
                 
                 await interaction.reply({
-                    content: `Arc Raiders countdown bot configured!\nChannel: #${channelName}\nTime: 12:00 (UTC) - Use \`/countdown-time\` to change`,
+                    content: `Configuration complete!\nChannel: #${channelName}\nTime: 12:00 (UTC) - Use \`/countdown-time\` to change`,
                     ephemeral: true
                 });
                 break;
