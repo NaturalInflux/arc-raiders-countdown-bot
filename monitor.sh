@@ -12,15 +12,21 @@ if pm2 list | grep -q "arc-raiders-countdown-bot"; then
     echo "✅ Bot is running"
     echo ""
     
-    # Get PM2 process info
-    PM2_INFO=$(pm2 jlist | jq -r '.[] | select(.name=="arc-raiders-countdown-bot")')
-    
-    # Performance Metrics
+    # Performance Metrics (using pm2 list output)
     echo "📊 Performance:"
-    echo "  Memory: $(echo $PM2_INFO | jq -r '.monit.memory / 1024 / 1024 | floor')MB"
-    echo "  CPU: $(echo $PM2_INFO | jq -r '.monit.cpu')%"
-    echo "  Uptime: $(echo $PM2_INFO | jq -r '.pm2_env.status')"
-    echo "  Restarts: $(echo $PM2_INFO | jq -r '.pm2_env.restart_time')"
+    PM2_STATUS=$(pm2 list | grep "arc-raiders-countdown-bot")
+    if [ ! -z "$PM2_STATUS" ]; then
+        MEMORY=$(echo $PM2_STATUS | awk '{print $10}')
+        CPU=$(echo $PM2_STATUS | awk '{print $9}')
+        STATUS=$(echo $PM2_STATUS | awk '{print $8}')
+        RESTARTS=$(echo $PM2_STATUS | awk '{print $7}')
+        echo "  Memory: $MEMORY"
+        echo "  CPU: $CPU"
+        echo "  Status: $STATUS"
+        echo "  Restarts: $RESTARTS"
+    else
+        echo "  Unable to get performance data"
+    fi
     echo ""
     
     # Server Status
