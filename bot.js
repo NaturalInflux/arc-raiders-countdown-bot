@@ -83,6 +83,9 @@ async function getRedditAccessToken() {
 
     try {
         console.log('Getting Reddit OAuth access token...');
+        console.log('Client ID length:', config.REDDIT_CLIENT_ID ? config.REDDIT_CLIENT_ID.length : 'null');
+        console.log('Client Secret length:', config.REDDIT_CLIENT_SECRET ? config.REDDIT_CLIENT_SECRET.length : 'null');
+        console.log('Username:', config.REDDIT_USERNAME ? config.REDDIT_USERNAME : 'null');
         
         const auth = Buffer.from(`${config.REDDIT_CLIENT_ID}:${config.REDDIT_CLIENT_SECRET}`).toString('base64');
         
@@ -99,6 +102,9 @@ async function getRedditAccessToken() {
             }
         );
 
+        console.log('Reddit OAuth response status:', response.status);
+        console.log('Reddit OAuth response data:', JSON.stringify(response.data, null, 2));
+        
         redditAccessToken = response.data.access_token;
         // Set expiry to 45 minutes (tokens last 1 hour, but we refresh early)
         tokenExpiry = Date.now() + (45 * 60 * 1000);
