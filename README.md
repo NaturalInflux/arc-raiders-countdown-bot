@@ -57,11 +57,11 @@ npm start
 ## Monitor:
 > Make monitor script executable
 ```bash
-chmod +x monitor-bot.sh
+chmod +x monitor.sh
 ```
 > Run monitor script to watch live logs and server joins
 ```bash
-./monitor-bot.sh
+./monitor.sh
 ```
 > Check if running
 ```bash
