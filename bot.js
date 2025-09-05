@@ -514,7 +514,6 @@ function getCustomEmoji(daysRemaining) {
         '<a:peepoFine:1411864159943000135>', // peepoFine
         '<a:goosePls:1411879516007301201>', // goosePls
         '<a:happi:1411879733309870081>', // happi
-        '<:cool~1:1411879256958697552>', // cool~1
         '<a:AwareMan:1411879237522165903>', // AwareMan
         '<a:Uware:1411880512255033455>' // Uware
     ];
@@ -763,7 +762,8 @@ function getCustomEmoji(daysRemaining) {
             emojiCount = Math.floor(Math.random() * 2) + 4; // 4-5 emojis
         }
         
-        for (let i = selectedEmojis.length; i < emojiCount + selectedEmojis.length; i++) {
+        // Add remaining emojis to reach the target count
+        while (selectedEmojis.length < emojiCount) {
             const randomEmoji = finalMonthEmojis[Math.floor(Math.random() * finalMonthEmojis.length)];
             selectedEmojis.push(randomEmoji);
         }
@@ -777,7 +777,7 @@ function getCustomEmoji(daysRemaining) {
             selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
             
             // Add random emojis for the rest
-            for (let i = 2; i < emojiCount; i++) {
+            while (selectedEmojis.length < emojiCount) {
                 const randomEmoji = finalWeekEmojis[Math.floor(Math.random() * finalWeekEmojis.length)];
                 selectedEmojis.push(randomEmoji);
             }
@@ -800,7 +800,7 @@ function getCustomEmoji(daysRemaining) {
             selectedEmojis.push('<a:LETSGOOO:1081971175133024377>');
             
             // Add random emojis for the rest
-            for (let i = 3; i < emojiCount; i++) {
+            while (selectedEmojis.length < emojiCount) {
                 const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
                 selectedEmojis.push(randomEmoji);
             }
@@ -812,7 +812,7 @@ function getCustomEmoji(daysRemaining) {
             selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
             
             // Add random emojis for the rest
-            for (let i = 2; i < emojiCount; i++) {
+            while (selectedEmojis.length < emojiCount) {
                 const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
                 selectedEmojis.push(randomEmoji);
             }
@@ -827,7 +827,9 @@ function getCustomEmoji(daysRemaining) {
     }
     
     // Join emojis with spaces for better display
-    return selectedEmojis.join(' ');
+    const result = selectedEmojis.join(' ');
+    console.log(`🎭 Emoji selection for ${daysRemaining} days: ${selectedEmojis.length} emojis selected`);
+    return result;
 }
 
 // Function to get emojis for different parts of the message
