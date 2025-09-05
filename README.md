@@ -34,13 +34,13 @@ cd arc-raiders-countdown-bot
 ```bash
 npm install
 ```
-- Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
-- Optional: Create a Reddit app on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
 > Copy environment file
 ```bash
 cp env.example .env
 ```
-> Edit .env with your Discord bot token (and Reddit credentials)
+- Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
+- Optional: Create a Reddit app on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
+- Edit .env with your Discord bot token (and Reddit credentials)
 > Make deploy script executable
 ```bash
 chmod +x deploy.sh
