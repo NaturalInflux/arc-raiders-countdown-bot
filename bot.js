@@ -13,6 +13,10 @@ const config = {
     POST_SCHEDULE: process.env.POST_SCHEDULE || '0 9 * * *',
     POST_TIMEZONE: process.env.POST_TIMEZONE || 'UTC',
     REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || 'arcraiders',
+    REDDIT_CLIENT_ID: process.env.REDDIT_CLIENT_ID,
+    REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
+    REDDIT_USERNAME: process.env.REDDIT_USERNAME,
+    REDDIT_PASSWORD: process.env.REDDIT_PASSWORD,
     REDDIT_POST_LIMIT: parseInt(process.env.REDDIT_POST_LIMIT) || 1,
     REDDIT_MAX_TEXT_LENGTH: parseInt(process.env.REDDIT_MAX_TEXT_LENGTH) || 500,
     REDDIT_MIN_TITLE_LENGTH: parseInt(process.env.REDDIT_MIN_TITLE_LENGTH) || 10,
@@ -59,6 +63,54 @@ const client = new Client({
 // Arc Raiders release date: October 30, 2025 (configurable)
 const RELEASE_DATE = new Date(config.RELEASE_DATE || '2025-10-30T00:00:00Z');
 
+// Reddit OAuth access token cache
+let redditAccessToken = null;
+let tokenExpiry = null;
+
+// Function to get Reddit OAuth access token
+async function getRedditAccessToken() {
+    // Check if we have a valid cached token
+    if (redditAccessToken && tokenExpiry && Date.now() < tokenExpiry) {
+        return redditAccessToken;
+    }
+
+    // Validate Reddit OAuth credentials
+    if (!config.REDDIT_CLIENT_ID || !config.REDDIT_CLIENT_SECRET || 
+        !config.REDDIT_USERNAME || !config.REDDIT_PASSWORD) {
+        console.log('Reddit OAuth credentials not configured, skipping Reddit integration');
+        return null;
+    }
+
+    try {
+        console.log('Getting Reddit OAuth access token...');
+        
+        const auth = Buffer.from(`${config.REDDIT_CLIENT_ID}:${config.REDDIT_CLIENT_SECRET}`).toString('base64');
+        
+        const response = await axios.post('https://www.reddit.com/api/v1/access_token', 
+            'grant_type=password&username=' + encodeURIComponent(config.REDDIT_USERNAME) + 
+            '&password=' + encodeURIComponent(config.REDDIT_PASSWORD),
+            {
+                headers: {
+                    'Authorization': `Basic ${auth}`,
+                    'User-Agent': config.REDDIT_USER_AGENT,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                timeout: config.API_TIMEOUT
+            }
+        );
+
+        redditAccessToken = response.data.access_token;
+        // Set expiry to 45 minutes (tokens last 1 hour, but we refresh early)
+        tokenExpiry = Date.now() + (45 * 60 * 1000);
+        
+        console.log('✅ Reddit OAuth access token obtained successfully');
+        return redditAccessToken;
+    } catch (error) {
+        console.error('❌ Failed to get Reddit OAuth access token:', error.response?.data || error.message);
+        return null;
+    }
+}
+
 // Function to calculate days remaining
 function getDaysRemaining() {
     const now = new Date();
@@ -69,12 +121,20 @@ function getDaysRemaining() {
 
 // Function to fetch top Arc Raiders Reddit post with image
 async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS) {
+    // Get OAuth access token
+    const accessToken = await getRedditAccessToken();
+    if (!accessToken) {
+        console.log('No Reddit access token available, skipping Reddit post');
+        return null;
+    }
+
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             // Fetch top post of the day from configured subreddit
-            const response = await axios.get(`https://www.reddit.com/r/${config.REDDIT_SUBREDDIT}/top.json?limit=1&t=day`, {
+            const response = await axios.get(`https://oauth.reddit.com/r/${config.REDDIT_SUBREDDIT}/top.json?limit=1&t=day`, {
                 timeout: config.API_TIMEOUT,
                 headers: {
+                    'Authorization': `Bearer ${accessToken}`,
                     'User-Agent': config.REDDIT_USER_AGENT
                 }
             });

@@ -53,7 +53,23 @@ npm install
 2. Select "Copy Channel ID"
 3. You'll need this for the configuration
 
-### 6. Configure the Bot
+### 6. Create Reddit API Application (Optional)
+
+To enable Reddit integration, you need to create a Reddit API application:
+
+1. Go to [Reddit App Preferences](https://www.reddit.com/prefs/apps)
+2. Click "Create App" or "Create Another App"
+3. Fill in the details:
+   - **Name**: Arc Raiders Countdown Bot
+   - **App type**: Select "script"
+   - **Description**: Discord bot for Arc Raiders countdown
+   - **About URL**: Leave blank
+   - **Redirect URI**: `http://localhost:8080` (required but not used)
+4. Click "Create app"
+5. Note down the **Client ID** (under the app name) and **Client Secret**
+6. You'll also need your Reddit username and password
+
+### 7. Configure the Bot
 
 1. Copy the environment example file:
    ```bash
@@ -64,11 +80,17 @@ npm install
    ```bash
    DISCORD_TOKEN=your_actual_bot_token
    CHANNEL_ID=your_actual_channel_id
+   
+   # Reddit API credentials (optional - bot works without these)
+   REDDIT_CLIENT_ID=your_reddit_client_id
+   REDDIT_CLIENT_SECRET=your_reddit_client_secret
+   REDDIT_USERNAME=your_reddit_username
+   REDDIT_PASSWORD=your_reddit_password
    ```
 
 3. Optionally customize other settings like posting schedule, timezone, etc.
 
-### 7. Run the Bot
+### 8. Run the Bot
 
 ```bash
 npm start
@@ -124,6 +146,10 @@ REDDIT_SUBREDDIT=arcraiders
 - `POST_SCHEDULE` - Cron schedule for daily posts (default: 0 9 * * *)
 - `POST_TIMEZONE` - Timezone for posting schedule (default: UTC)
 - `REDDIT_SUBREDDIT` - Subreddit to fetch posts from (default: arcraiders)
+- `REDDIT_CLIENT_ID` - Reddit API client ID (optional)
+- `REDDIT_CLIENT_SECRET` - Reddit API client secret (optional)
+- `REDDIT_USERNAME` - Reddit username for API access (optional)
+- `REDDIT_PASSWORD` - Reddit password for API access (optional)
 - `REDDIT_POST_LIMIT` - Number of posts to fetch (default: 1 - only top post of the day)
 - `API_TIMEOUT` - API request timeout in ms (default: 10000)
 - `API_RETRY_ATTEMPTS` - Number of retry attempts (default: 3)
@@ -146,9 +172,12 @@ REDDIT_SUBREDDIT=arcraiders
 - Ensure the channel ID is valid (17-19 digits)
 
 **No Reddit posts appearing:**
+- Check if Reddit OAuth credentials are configured in `.env`
+- Verify Reddit API credentials are correct
 - Check if the subreddit exists and has posts
 - Verify internet connection
 - Check console logs for API errors
+- The bot will work without Reddit integration if credentials are not provided
 
 ## Production Deployment
 
