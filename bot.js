@@ -104,6 +104,8 @@ async function getRedditAccessToken() {
         tokenExpiry = Date.now() + (45 * 60 * 1000);
         
         console.log('✅ Reddit OAuth access token obtained successfully');
+        console.log('Token length:', redditAccessToken ? redditAccessToken.length : 'null');
+        console.log('Token preview:', redditAccessToken ? redditAccessToken.substring(0, 10) + '...' : 'null');
         return redditAccessToken;
     } catch (error) {
         console.error('❌ Failed to get Reddit OAuth access token:', error.response?.data || error.message);
@@ -123,6 +125,10 @@ function getDaysRemaining() {
 async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS) {
     // Get OAuth access token
     const accessToken = await getRedditAccessToken();
+    console.log('Access token received:', accessToken ? 'YES' : 'NO');
+    if (accessToken) {
+        console.log('Token length:', accessToken.length);
+    }
     if (!accessToken) {
         console.log('No Reddit access token available, skipping Reddit post');
         return null;
