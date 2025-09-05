@@ -4,7 +4,7 @@ A Discord bot that posts daily countdown messages for the release of Arc Raiders
 
 ## Features
 
-- 🎮 Daily countdown messages posted automatically at 9:00 AM UTC
+- 🎮 Daily countdown messages posted automatically at 12:00 PM UTC (optimal for EU/NA timezones)
 - 📅 Beautiful embed messages with game artwork and Steam header image
 - 🔥 Top Reddit post of the day from r/ArcRaiders (with image) included in each message
 - 🚀 Special messages for the final week and release day
@@ -98,7 +98,7 @@ npm start
 
 ## Usage
 
-- The bot will automatically post countdown messages every day at 9:00 AM UTC
+- The bot will automatically post countdown messages every day at 12:00 PM UTC (optimal for EU/NA timezones)
 - Each message includes the top Reddit post of the day from r/ArcRaiders (with image, when available)
 - Special formatting for the final week and release day
 - The bot will gracefully handle Reddit API failures and continue posting countdown messages
@@ -143,7 +143,7 @@ REDDIT_SUBREDDIT=arcraiders
 - `DISCORD_TOKEN` - Your Discord bot token (required)
 - `CHANNEL_ID` - Discord channel ID for countdown messages (required)
 - `RELEASE_DATE` - Game release date (default: 2025-10-30T00:00:00Z)
-- `POST_SCHEDULE` - Cron schedule for daily posts (default: 0 9 * * *)
+- `POST_SCHEDULE` - Cron schedule for daily posts (default: 0 12 * * * - optimal for EU/NA)
 - `POST_TIMEZONE` - Timezone for posting schedule (default: UTC)
 - `REDDIT_SUBREDDIT` - Subreddit to fetch posts from (default: arcraiders)
 - `REDDIT_CLIENT_ID` - Reddit API client ID (optional)
