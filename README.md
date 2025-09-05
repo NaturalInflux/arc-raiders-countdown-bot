@@ -33,34 +33,39 @@ cd arc-raiders-countdown-bot
 ```bash
 npm install
 ```
+> Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
+> Optional: Create a Reddit app on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
+> Copy 
 ```bash
 cp env.example .env
 ```
+> Edit .env with your Discord bot token (and Reddit credentials)
+> Make deploy script executable
 ```bash
 chmod +x deploy.sh
 ```
+> Run deploy script
 ```bash
 ./deploy.sh
 ```
+> Start the bot
 ```bash
 npm start
 ```
-> Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
-> Optional: Create a Reddit apo on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
-> Edit .env with your Discord bot token (and Reddit credentials)
 
 **Monitor:**
+> Make script executable
 ```bash
 chmod +x monitor-bot.sh
 ```
+> Run monitor script to watch live logs and server joins
 ```bash
 ./monitor-bot.sh
 ```
-> Watch live logs and server joins
+> Check if running
 ```bash
 pm2 status
 ```
-> Check if running
 
 **Update:**
 ```bash
