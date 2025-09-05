@@ -526,7 +526,7 @@ client.on('interactionCreate', async interaction => {
                 });
                 
                 await interaction.reply({
-                    content: `Arc Raiders countdown bot configured!\nChannel: #${channelName}\nTime: 12:00 (UTC) - Use \`/countdown-time\` to change\nTimezone: UTC`,
+                    content: `Arc Raiders countdown bot configured!\nChannel: #${channelName}\nTime: 12:00 (UTC) - Use \`/countdown-time\` to change`,
                     ephemeral: true
                 });
                 break;
@@ -565,11 +565,7 @@ client.on('interactionCreate', async interaction => {
                     .setColor(0x00ff00)
                     .addFields(
                         { name: 'Channel', value: serverConfig.channelName ? `#${serverConfig.channelName}` : 'Not configured', inline: true },
-                        { name: 'Release Date', value: 'October 30, 2025', inline: true },
-                        { name: 'Days Remaining', value: daysRemaining.toString(), inline: true },
-                        { name: 'Post Time', value: serverConfig.postTime || '12:00', inline: true },
-                        { name: 'Timezone', value: 'UTC', inline: true },
-                        { name: 'Reddit', value: 'r/arcraiders (top post with image)', inline: true }
+                        { name: 'Post Time', value: serverConfig.postTime || '12:00', inline: true }
                     )
                     .setTimestamp();
                 
