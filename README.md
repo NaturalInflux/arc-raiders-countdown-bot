@@ -34,7 +34,7 @@ cd arc-raiders-countdown-bot
 ```bash
 npm install
 ```
-> Copy environment file
+> Copy environment file to .env
 ```bash
 cp env.example .env
 ```
