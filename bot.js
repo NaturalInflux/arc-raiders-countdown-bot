@@ -435,9 +435,32 @@ async function postCountdownMessage(guildId) {
     }
 }
 
+// Monitor bot joins and leaves
+function logGuildEvent(event, guild) {
+    const timestamp = new Date().toISOString();
+    const guildInfo = {
+        id: guild.id,
+        name: guild.name,
+        memberCount: guild.memberCount,
+        ownerId: guild.ownerId,
+        createdAt: guild.createdAt.toISOString(),
+        region: guild.preferredLocale || 'Unknown'
+    };
+    
+    console.log(`\n🔔 ${event.toUpperCase()} EVENT - ${timestamp}`);
+    console.log(`📊 Server: ${guildInfo.name} (${guildInfo.id})`);
+    console.log(`👥 Members: ${guildInfo.memberCount}`);
+    console.log(`👑 Owner ID: ${guildInfo.ownerId}`);
+    console.log(`🌍 Region: ${guildInfo.region}`);
+    console.log(`📅 Created: ${guildInfo.createdAt}`);
+    console.log(`📈 Total servers: ${client.guilds.cache.size}`);
+    console.log('─'.repeat(50));
+}
+
 // When the client is ready, run this code
 client.once('ready', async () => {
     console.log(`Bot is ready! Logged in as ${client.user.tag}`);
+    console.log(`📊 Currently in ${client.guilds.cache.size} servers`);
     
     // Register slash commands
     await registerCommands();
@@ -459,6 +482,16 @@ client.once('ready', async () => {
             console.log(`📅 Scheduled for guild ${guildId} at ${serverConfig.postTime} (UTC)`);
         }
     }
+});
+
+// Monitor when bot joins a server
+client.on('guildCreate', (guild) => {
+    logGuildEvent('JOINED', guild);
+});
+
+// Monitor when bot leaves a server
+client.on('guildDelete', (guild) => {
+    logGuildEvent('LEFT', guild);
 });
 
 // Handle slash command interactions

@@ -38,20 +38,20 @@ npm install
 
 ### 4. Invite Bot to Your Server
 
+**Quick Invite Link:**
+[**Click here to add the bot to your server**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
+
+The bot will automatically register slash commands when it joins your server.
+
+**Manual Setup (if needed):**
 1. Go to the "OAuth2" > "URL Generator" section
-2. Select scopes: `bot` (slash commands not needed for this bot)
+2. Select scopes: `bot` and `applications.commands`
 3. Select bot permissions:
    - Send Messages
    - Embed Links
    - Attach Files
 4. Copy the generated URL and open it in your browser
 5. Select your server and authorize the bot
-
-### 5. Get Channel ID
-
-1. In Discord, right-click on the channel where you want countdown messages
-2. Select "Copy Channel ID"
-3. You'll need this for the configuration
 
 ### 6. Create Reddit API Application (Optional)
 
@@ -98,9 +98,28 @@ npm start
 
 ## Usage
 
-- The bot will automatically post countdown messages every day at 12:00 PM UTC (optimal for EU/NA timezones)
-- Each message includes the top Reddit post of the day from r/ArcRaiders (with image, when available)
+### Quick Setup
+1. **Add the bot to your server** using the invite link above
+2. **Set up the bot:**
+   ```
+   /countdown-setup channel:general
+   ```
+3. **Set the posting time (optional):**
+   ```
+   /countdown-time time:3pm
+   ```
+
+### Commands
+- **`/countdown-setup channel`** - Set which channel to post in (defaults to 12:00 UTC)
+- **`/countdown-time time`** - Set the posting time (e.g., "3am", "15:00", "3:30pm")
+- **`/countdown-status`** - View current configuration
+- **`/countdown-test`** - Test the bot by posting a message now
+
+### Features
+- Posts daily countdown messages at your specified time (UTC timezone)
+- Each message includes the top Reddit post of the day from r/arcraiders (with image, when available)
 - Special formatting for the final week and release day
+- Multi-server support - each server has its own configuration
 - The bot will gracefully handle Reddit API failures and continue posting countdown messages
 
 ## File Structure
