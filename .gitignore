@@ -98,3 +98,6 @@ Thumbs.db
 
 # PM2 logs
 .pm2/
+
+# Server configuration database
+server-config.json

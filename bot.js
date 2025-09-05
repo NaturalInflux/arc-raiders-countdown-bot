@@ -1,9 +1,128 @@
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, REST, Routes } = require('discord.js');
 const cron = require('node-cron');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 // Load environment variables
 require('dotenv').config();
+
+// Server configuration database
+const CONFIG_FILE = path.join(__dirname, 'server-config.json');
+
+// Load server configurations
+function loadServerConfigs() {
+    try {
+        if (fs.existsSync(CONFIG_FILE)) {
+            return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+        }
+    } catch (error) {
+        console.error('Error loading server configs:', error);
+    }
+    return { servers: {} };
+}
+
+// Save server configurations
+function saveServerConfigs(configs) {
+    try {
+        fs.writeFileSync(CONFIG_FILE, JSON.stringify(configs, null, 2));
+    } catch (error) {
+        console.error('Error saving server configs:', error);
+    }
+}
+
+// Get server configuration with defaults
+function getServerConfig(guildId) {
+    const configs = loadServerConfigs();
+    const serverConfig = configs.servers[guildId] || {};
+    
+    return {
+        channelId: serverConfig.channelId || null,
+        channelName: serverConfig.channelName || null,
+        postTime: serverConfig.postTime || '12:00',
+        timezone: serverConfig.timezone || 'UTC'
+    };
+}
+
+// Update server configuration
+function updateServerConfig(guildId, updates) {
+    const configs = loadServerConfigs();
+    if (!configs.servers[guildId]) {
+        configs.servers[guildId] = {};
+    }
+    
+    Object.assign(configs.servers[guildId], updates);
+    saveServerConfigs(configs);
+}
+
+// Convert simple time input to cron format
+function timeToCron(timeInput) {
+    // Remove spaces and convert to lowercase
+    const time = timeInput.toLowerCase().replace(/\s/g, '');
+    
+    // Handle formats like "3am", "3pm", "15:00", "3:00pm", etc.
+    let hour, minute = 0;
+    
+    if (time.includes('am') || time.includes('pm')) {
+        // Handle 12-hour format
+        const isPM = time.includes('pm');
+        const timeOnly = time.replace(/[amp]/g, '');
+        
+        if (timeOnly.includes(':')) {
+            [hour, minute] = timeOnly.split(':').map(Number);
+        } else {
+            hour = parseInt(timeOnly);
+        }
+        
+        if (isPM && hour !== 12) hour += 12;
+        if (!isPM && hour === 12) hour = 0;
+    } else if (time.includes(':')) {
+        // Handle 24-hour format
+        [hour, minute] = time.split(':').map(Number);
+    } else {
+        // Assume it's just an hour
+        hour = parseInt(time);
+    }
+    
+    // Validate
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+        throw new Error('Invalid time format');
+    }
+    
+    return `0 ${minute} ${hour} * * *`;
+}
+
+// Get timezone from country name
+function getTimezoneFromCountry(countryName) {
+    const timezoneMap = {
+        'usa': 'America/New_York',
+        'us': 'America/New_York',
+        'united states': 'America/New_York',
+        'canada': 'America/Toronto',
+        'uk': 'Europe/London',
+        'united kingdom': 'Europe/London',
+        'germany': 'Europe/Berlin',
+        'france': 'Europe/Paris',
+        'spain': 'Europe/Madrid',
+        'italy': 'Europe/Rome',
+        'netherlands': 'Europe/Amsterdam',
+        'sweden': 'Europe/Stockholm',
+        'norway': 'Europe/Oslo',
+        'denmark': 'Europe/Copenhagen',
+        'finland': 'Europe/Helsinki',
+        'poland': 'Europe/Warsaw',
+        'australia': 'Australia/Sydney',
+        'japan': 'Asia/Tokyo',
+        'south korea': 'Asia/Seoul',
+        'china': 'Asia/Shanghai',
+        'india': 'Asia/Kolkata',
+        'brazil': 'America/Sao_Paulo',
+        'mexico': 'America/Mexico_City',
+        'russia': 'Europe/Moscow'
+    };
+    
+    return timezoneMap[countryName.toLowerCase()] || 'UTC';
+}
 
 // Configuration from environment variables with fallbacks
 const config = {
@@ -53,12 +172,61 @@ function validateConfig() {
 // Validate config on startup
 validateConfig();
 
-// Create a new client instance with minimal intents
+// Create a new client instance with necessary intents
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages
     ]
 });
+
+// Define slash commands
+const commands = [
+    new SlashCommandBuilder()
+        .setName('countdown-setup')
+        .setDescription('Setup the Arc Raiders countdown bot for this server')
+        .addStringOption(option =>
+            option.setName('channel')
+                .setDescription('Channel name to post countdown messages (e.g., "general")')
+                .setRequired(true)
+        )
+        .addStringOption(option =>
+            option.setName('time')
+                .setDescription('Time to post daily (e.g., "3am", "15:00", "3:30pm")')
+                .setRequired(false)
+        )
+        .addStringOption(option =>
+            option.setName('country')
+                .setDescription('Your country for timezone (e.g., "USA", "Germany", "UK")')
+                .setRequired(false)
+        ),
+    
+    new SlashCommandBuilder()
+        .setName('countdown-status')
+        .setDescription('View current countdown bot configuration'),
+    
+    new SlashCommandBuilder()
+        .setName('countdown-test')
+        .setDescription('Test the countdown bot by posting a message now')
+];
+
+// Register slash commands
+async function registerCommands() {
+    const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN);
+    
+    try {
+        console.log('Started refreshing application (/) commands.');
+        
+        await rest.put(
+            Routes.applicationCommands(client.user.id),
+            { body: commands }
+        );
+        
+        console.log('Successfully reloaded application (/) commands.');
+    } catch (error) {
+        console.error('Error registering commands:', error);
+    }
+}
 
 // Arc Raiders release date: October 30, 2025 (configurable)
 const RELEASE_DATE = new Date(config.RELEASE_DATE || '2025-10-30T00:00:00Z');
@@ -121,9 +289,9 @@ async function getRedditAccessToken() {
 }
 
 // Function to calculate days remaining
-function getDaysRemaining() {
+function getDaysRemaining(releaseDate) {
     const now = new Date();
-    const timeDiff = RELEASE_DATE.getTime() - now.getTime();
+    const timeDiff = releaseDate.getTime() - now.getTime();
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return Math.max(0, daysRemaining);
 }
@@ -139,8 +307,8 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
 
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-            // Fetch top post of the day from configured subreddit
-            const response = await axios.get(`https://oauth.reddit.com/r/${config.REDDIT_SUBREDDIT}/top.json?limit=1&t=day`, {
+            // Fetch top post of the day from Arc Raiders subreddit
+            const response = await axios.get(`https://oauth.reddit.com/r/arcraiders/top.json?limit=1&t=day`, {
                 timeout: config.API_TIMEOUT,
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -151,7 +319,7 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
             const posts = response.data.data.children;
             
             if (posts.length === 0) {
-                console.log(`No posts found in r/${config.REDDIT_SUBREDDIT}`);
+                console.log('No posts found in r/arcraiders');
                 return null;
             }
             
@@ -216,7 +384,8 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
 
 // Function to create countdown embed with Arc Raiders Reddit post
 async function createCountdownEmbed() {
-    const daysRemaining = getDaysRemaining();
+    const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
+    const daysRemaining = getDaysRemaining(releaseDate);
     
     const embed = new EmbedBuilder()
         .setTitle('🎮 Arc Raiders Countdown')
@@ -245,7 +414,7 @@ async function createCountdownEmbed() {
     const redditPost = await getTopArcRaidersPostWithImage();
     if (redditPost) {
         embed.addFields({
-            name: `🔥 Top r/${config.REDDIT_SUBREDDIT} Post Today`,
+            name: '🔥 Top r/arcraiders Post Today',
             value: `[${redditPost.title}](${redditPost.url})\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
@@ -258,10 +427,18 @@ async function createCountdownEmbed() {
 }
 
 // Function to post countdown message
-async function postCountdownMessage() {
+async function postCountdownMessage(guildId) {
     try {
-        const channelId = config.CHANNEL_ID;
-        const daysRemaining = getDaysRemaining();
+        const serverConfig = getServerConfig(guildId);
+        const channelId = serverConfig.channelId;
+        
+        if (!channelId) {
+            console.log(`No channel configured for guild ${guildId}, skipping countdown message`);
+            return;
+        }
+        
+        const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
+        const daysRemaining = getDaysRemaining(releaseDate);
         
         console.log(`📅 Attempting to post countdown message (${daysRemaining} days remaining)...`);
 
@@ -293,24 +470,143 @@ async function postCountdownMessage() {
 }
 
 // When the client is ready, run this code
-client.once('ready', () => {
+client.once('ready', async () => {
     console.log(`Bot is ready! Logged in as ${client.user.tag}`);
-    console.log(`Arc Raiders releases on: ${RELEASE_DATE.toDateString()}`);
-    console.log(`Days remaining: ${getDaysRemaining()}`);
     
-    // Schedule daily countdown message (configurable)
-    const schedule = config.POST_SCHEDULE || '0 9 * * *';
-    const timezone = config.POST_TIMEZONE || 'UTC';
+    // Register slash commands
+    await registerCommands();
     
-    cron.schedule(schedule, () => {
-        console.log('Running scheduled countdown post...');
-        postCountdownMessage();
-    }, {
-        scheduled: true,
-        timezone: timezone
-    });
-    
-    console.log(`📅 Scheduled to post daily at ${schedule} (${timezone})`);
+    // Schedule daily countdown messages for all configured servers
+    const configs = loadServerConfigs();
+    for (const [guildId, serverConfig] of Object.entries(configs.servers)) {
+        if (serverConfig.channelId) {
+            const schedule = timeToCron(serverConfig.postTime || '12:00');
+            const timezone = serverConfig.timezone || 'UTC';
+            
+            cron.schedule(schedule, () => {
+                console.log(`Running scheduled countdown post for guild ${guildId}...`);
+                postCountdownMessage(guildId);
+            }, {
+                scheduled: true,
+                timezone: timezone
+            });
+            
+            console.log(`📅 Scheduled for guild ${guildId} at ${serverConfig.postTime} (${timezone})`);
+        }
+    }
+});
+
+// Handle slash command interactions
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    const { commandName, guildId, user } = interaction;
+
+    // Check if user has permission to manage the server
+    if (!interaction.member.permissions.has('ManageGuild')) {
+        return interaction.reply({ 
+            content: '❌ You need the "Manage Server" permission to use this command.', 
+            ephemeral: true 
+        });
+    }
+
+    try {
+        switch (commandName) {
+            case 'countdown-setup': {
+                const channelName = interaction.options.getString('channel');
+                const timeInput = interaction.options.getString('time') || '12:00';
+                const countryInput = interaction.options.getString('country') || 'UTC';
+                
+                // Find channel by name
+                const channel = interaction.guild.channels.cache.find(
+                    ch => ch.name.toLowerCase() === channelName.toLowerCase() && ch.type === 0
+                );
+                
+                if (!channel) {
+                    return interaction.reply({
+                        content: `❌ Channel "#${channelName}" not found. Make sure the channel exists and I have access to it.`,
+                        ephemeral: true
+                    });
+                }
+                
+                // Validate time input
+                let postTime;
+                try {
+                    timeToCron(timeInput); // Validate format
+                    postTime = timeInput;
+                } catch (error) {
+                    return interaction.reply({
+                        content: '❌ Invalid time format. Use formats like: "3am", "15:00", "3:30pm"',
+                        ephemeral: true
+                    });
+                }
+                
+                // Get timezone from country
+                const timezone = getTimezoneFromCountry(countryInput);
+                
+                // Update configuration
+                updateServerConfig(guildId, { 
+                    channelId: channel.id,
+                    channelName: channelName,
+                    postTime: postTime,
+                    timezone: timezone
+                });
+                
+                await interaction.reply({
+                    content: `✅ Arc Raiders countdown bot configured!\n📺 Channel: #${channelName}\n⏰ Time: ${postTime}\n🌍 Timezone: ${timezone}`,
+                    ephemeral: true
+                });
+                break;
+            }
+            
+            case 'countdown-status': {
+                const serverConfig = getServerConfig(guildId);
+                const releaseDate = new Date('2025-10-30T00:00:00Z');
+                const daysRemaining = getDaysRemaining(releaseDate);
+                
+                const embed = new EmbedBuilder()
+                    .setTitle('📊 Arc Raiders Countdown Bot Status')
+                    .setColor(0x00ff00)
+                    .addFields(
+                        { name: 'Channel', value: serverConfig.channelName ? `#${serverConfig.channelName}` : 'Not configured', inline: true },
+                        { name: 'Release Date', value: 'October 30, 2025', inline: true },
+                        { name: 'Days Remaining', value: daysRemaining.toString(), inline: true },
+                        { name: 'Post Time', value: serverConfig.postTime || '12:00', inline: true },
+                        { name: 'Timezone', value: serverConfig.timezone || 'UTC', inline: true },
+                        { name: 'Reddit', value: 'r/arcraiders (top post with image)', inline: true }
+                    )
+                    .setTimestamp();
+                
+                await interaction.reply({ embeds: [embed], ephemeral: true });
+                break;
+            }
+            
+            case 'countdown-test': {
+                const serverConfig = getServerConfig(guildId);
+                
+                if (!serverConfig.channelId) {
+                    return interaction.reply({
+                        content: '❌ No channel configured. Use `/countdown-setup` first.',
+                        ephemeral: true
+                    });
+                }
+                
+                await interaction.reply({
+                    content: '🧪 Testing countdown message...',
+                    ephemeral: true
+                });
+                
+                await postCountdownMessage(guildId);
+                break;
+            }
+        }
+    } catch (error) {
+        console.error('Error handling slash command:', error);
+        await interaction.reply({
+            content: '❌ An error occurred while processing the command.',
+            ephemeral: true
+        });
+    }
 });
 
 // Graceful shutdown handling
