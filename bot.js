@@ -179,7 +179,11 @@ const commands = [
                     { name: 'Phase 3: Final Month (15-29 days)', value: 'final_month' },
                     { name: 'Phase 4: Final Week (7-14 days)', value: 'final_week' },
                     { name: 'Phase 5: Final Days (1-6 days)', value: 'final_days' }
-                ))
+                )),
+    
+    new SlashCommandBuilder()
+        .setName('countdown-monitor')
+        .setDescription('View bot monitoring data and server statistics')
 ];
 
 // Register slash commands
@@ -1231,6 +1235,96 @@ client.on('interactionCreate', async interaction => {
                 });
                 
                 await postTestCountdownMessage(guildId, testPhase);
+                break;
+            }
+            
+            case 'countdown-monitor': {
+                // Check if user has admin permissions
+                if (!interaction.member.permissions.has('Administrator')) {
+                    return interaction.reply({
+                        content: 'You need Administrator permissions to view monitoring data.',
+                        ephemeral: true
+                    });
+                }
+                
+                try {
+                    const fs = require('fs');
+                    const path = require('path');
+                    const os = require('os');
+                    
+                    const monitorDir = path.join(os.homedir(), '.arc-raiders-monitor');
+                    const dataFile = path.join(monitorDir, 'monitor-data.json');
+                    const logFile = path.join(monitorDir, 'monitor.log');
+                    
+                    let monitorData = {};
+                    let recentLogs = [];
+                    
+                    // Read monitor data
+                    if (fs.existsSync(dataFile)) {
+                        try {
+                            monitorData = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+                        } catch (e) {
+                            console.error('Error reading monitor data:', e);
+                        }
+                    }
+                    
+                    // Read recent logs
+                    if (fs.existsSync(logFile)) {
+                        try {
+                            const allLogs = fs.readFileSync(logFile, 'utf8').split('\n');
+                            recentLogs = allLogs.slice(-10).filter(line => line.trim());
+                        } catch (e) {
+                            console.error('Error reading monitor logs:', e);
+                        }
+                    }
+                    
+                    // Create embed
+                    const embed = new EmbedBuilder()
+                        .setTitle('📊 Bot Monitoring Data')
+                        .setColor(0x00ff00)
+                        .setTimestamp();
+                    
+                    // Add server statistics
+                    const baseline = monitorData.baseline_servers || 'Unknown';
+                    const current = monitorData.current_servers || client.guilds.cache.size;
+                    const difference = monitorData.server_difference || 0;
+                    
+                    embed.addFields({
+                        name: '📈 Server Statistics',
+                        value: `**Baseline:** ${baseline}\n**Current:** ${current}\n**Net Change:** ${difference > 0 ? '+' : ''}${difference}`,
+                        inline: true
+                    });
+                    
+                    // Add bot status
+                    embed.addFields({
+                        name: '🤖 Bot Status',
+                        value: `**Servers:** ${client.guilds.cache.size}\n**Uptime:** ${Math.floor(process.uptime() / 3600)}h ${Math.floor((process.uptime() % 3600) / 60)}m\n**Memory:** ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
+                        inline: true
+                    });
+                    
+                    // Add recent events
+                    const recentEvents = recentLogs.filter(log => log.includes('GUILD_EVENT')).slice(-5);
+                    if (recentEvents.length > 0) {
+                        embed.addFields({
+                            name: '🔔 Recent Server Events',
+                            value: recentEvents.map(event => event.split('] ')[1] || event).join('\n').substring(0, 1000),
+                            inline: false
+                        });
+                    }
+                    
+                    // Add last update time
+                    if (monitorData.last_updated) {
+                        embed.setFooter({ text: `Last updated: ${new Date(monitorData.last_updated).toLocaleString()}` });
+                    }
+                    
+                    await interaction.reply({ embeds: [embed], ephemeral: true });
+                } catch (error) {
+                    console.error('Error in monitor command:', error);
+                    await interaction.reply({
+                        content: 'Error retrieving monitoring data. Make sure the smart monitor is running.',
+                        ephemeral: true
+                    });
+                }
                 break;
             }
         }
