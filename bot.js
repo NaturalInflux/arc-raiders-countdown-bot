@@ -95,7 +95,6 @@ function timeToCron(timeInput) {
 // Configuration from environment variables with fallbacks
 const config = {
     DISCORD_TOKEN: process.env.DISCORD_TOKEN,
-    CHANNEL_ID: process.env.CHANNEL_ID,
     RELEASE_DATE: process.env.RELEASE_DATE || '2025-10-30T00:00:00Z',
     POST_SCHEDULE: process.env.POST_SCHEDULE || '0 9 * * *',
     POST_TIMEZONE: process.env.POST_TIMEZONE || 'UTC',
@@ -121,16 +120,10 @@ function validateConfig() {
         errors.push('DISCORD_TOKEN is not configured');
     }
     
-    if (!config.CHANNEL_ID || config.CHANNEL_ID === 'your_channel_id_here') {
-        errors.push('CHANNEL_ID is not configured');
-    } else if (!/^\d{17,19}$/.test(config.CHANNEL_ID)) {
-        errors.push('CHANNEL_ID must be a valid Discord channel ID (17-19 digits)');
-    }
-    
     if (errors.length > 0) {
         console.error('❌ Configuration errors:');
         errors.forEach(error => console.error(`  - ${error}`));
-        console.error('\nPlease check your config.js file and ensure all values are properly set.');
+        console.error('\nPlease check your .env file and ensure all values are properly set.');
         process.exit(1);
     }
     
