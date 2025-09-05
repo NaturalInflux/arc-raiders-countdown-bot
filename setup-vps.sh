@@ -15,7 +15,7 @@ npm install -g pm2
 echo "📦 Installing git..."
 sudo apt install git -y
 
-# Clone the repository
+# Clone the repository (public repo, no auth needed)
 echo "📥 Cloning repository..."
 cd ~/projects/discord-bots/
 git clone https://github.com/NaturalInflux/arc-raiders-countdown-bot.git arc-countdown

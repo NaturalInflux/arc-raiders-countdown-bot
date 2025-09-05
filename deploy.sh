@@ -3,6 +3,10 @@
 # Arc Raiders Countdown Bot Deployment Script
 echo "🚀 Deploying Arc Raiders Countdown Bot..."
 
+# Pull latest changes from GitHub (public repo)
+echo "📥 Pulling latest changes..."
+git pull origin main
+
 # Create logs directory if it doesn't exist
 mkdir -p logs
 
