@@ -849,6 +849,9 @@ function getCustomEmoji(daysRemaining) {
     // Join emojis with spaces for better display
     const result = selectedEmojis.join(' ');
     console.log(`🎭 Emoji selection for ${daysRemaining} days: ${selectedEmojis.length} emojis selected (target: ${emojiCount})`);
+    if (selectedEmojis.length !== emojiCount) {
+        console.log(`⚠️ WARNING: Emoji count mismatch! Expected ${emojiCount}, got ${selectedEmojis.length}`);
+    }
     console.log(`🎭 Selected emojis: ${result}`);
     return result;
 }
@@ -989,11 +992,17 @@ async function postAllTestPhases(guildId) {
         ];
 
         for (const phase of phases) {
-            const embed = await createCountdownEmbedTest(phase.days);
-            await channel.send({ 
-                content: `**${phase.name}**`,
-                embeds: [embed] 
-            });
+            console.log(`🧪 Testing phase: ${phase.name} (${phase.days} days)`);
+            try {
+                const embed = await createCountdownEmbedTest(phase.days);
+                await channel.send({ 
+                    content: `**${phase.name}**`,
+                    embeds: [embed] 
+                });
+                console.log(`✅ Successfully posted ${phase.name}`);
+            } catch (error) {
+                console.error(`❌ Error posting ${phase.name}:`, error.message);
+            }
             
             // Add delay between messages to avoid rate limiting
             await new Promise(resolve => setTimeout(resolve, 1000));
