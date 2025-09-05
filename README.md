@@ -19,7 +19,7 @@ Want a different time?
 
 # Self-Hosting
 
-Want to run on your own server?
+Want to run on your own server? Instructions for Ubuntu below.
 
 ## Deploy:
 > Clone the repository
