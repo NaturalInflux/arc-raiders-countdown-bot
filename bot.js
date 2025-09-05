@@ -735,30 +735,32 @@ function getCustomEmoji(daysRemaining) {
     let emojiCount = 1;
     
     if (daysRemaining >= 55) {
-        // Phase 1: Early Days - 1 emoji (depressed)
-        emojiCount = 1;
-        const randomEmoji = earlyEmojis[Math.floor(Math.random() * earlyEmojis.length)];
-        selectedEmojis.push(randomEmoji);
+        // Phase 1: Early Days - 2-3 emojis (depressed but more intense)
+        emojiCount = Math.floor(Math.random() * 2) + 2; // 2-3 emojis
+        for (let i = 0; i < emojiCount; i++) {
+            const randomEmoji = earlyEmojis[Math.floor(Math.random() * earlyEmojis.length)];
+            selectedEmojis.push(randomEmoji);
+        }
     } else if (daysRemaining >= 30) {
-        // Phase 2: Mid Countdown - 1-2 emojis (hopeful)
-        emojiCount = Math.random() < 0.3 ? 2 : 1; // 30% chance for 2 emojis
+        // Phase 2: Mid Countdown - 3-4 emojis (hopeful and excited)
+        emojiCount = Math.floor(Math.random() * 2) + 3; // 3-4 emojis
         for (let i = 0; i < emojiCount; i++) {
             const randomEmoji = midEmojis[Math.floor(Math.random() * midEmojis.length)];
             selectedEmojis.push(randomEmoji);
         }
     } else if (daysRemaining >= 15) {
-        // Phase 3: Final Month - 2-3 emojis (hype building)
+        // Phase 3: Final Month - 4-6 emojis (hype building)
         if (daysRemaining <= 20) {
             // Last 5 days of final month - MORE HYPE
-            emojiCount = Math.random() < 0.7 ? 3 : 2; // 70% chance for 3 emojis
+            emojiCount = Math.floor(Math.random() * 3) + 4; // 4-6 emojis
             // Sometimes start with a hype emoji
-            if (Math.random() < 0.4) {
+            if (Math.random() < 0.6) {
                 selectedEmojis.push('<a:INSANECAT:1411864653587546226>');
                 emojiCount--;
             }
         } else {
-            // Early final month - 2-3 emojis
-            emojiCount = Math.random() < 0.5 ? 3 : 2; // 50% chance for 3 emojis
+            // Early final month - 4-5 emojis
+            emojiCount = Math.floor(Math.random() * 2) + 4; // 4-5 emojis
         }
         
         for (let i = selectedEmojis.length; i < emojiCount + selectedEmojis.length; i++) {
@@ -766,10 +768,10 @@ function getCustomEmoji(daysRemaining) {
             selectedEmojis.push(randomEmoji);
         }
     } else if (daysRemaining >= 7) {
-        // Phase 4: Final Week - 3-5 emojis (maximum hype)
+        // Phase 4: Final Week - 6-8 emojis (maximum hype)
         if (daysRemaining <= 10) {
             // Last 3 days of final week - EXTRA HYPE
-            emojiCount = Math.floor(Math.random() * 2) + 4; // 4-5 emojis
+            emojiCount = Math.floor(Math.random() * 3) + 6; // 6-8 emojis
             // Start with guaranteed hype emojis
             selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
             selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
@@ -780,19 +782,19 @@ function getCustomEmoji(daysRemaining) {
                 selectedEmojis.push(randomEmoji);
             }
         } else {
-            // Early final week - 3-4 emojis
-            emojiCount = Math.floor(Math.random() * 2) + 3; // 3-4 emojis
+            // Early final week - 5-6 emojis
+            emojiCount = Math.floor(Math.random() * 2) + 5; // 5-6 emojis
             for (let i = 0; i < emojiCount; i++) {
                 const randomEmoji = finalWeekEmojis[Math.floor(Math.random() * finalWeekEmojis.length)];
                 selectedEmojis.push(randomEmoji);
             }
         }
     } else {
-        // Phase 5: Final Days - 5-8 emojis (INSANE HYPE)
+        // Phase 5: Final Days - 8-12 emojis (INSANE HYPE)
         if (daysRemaining === 1) {
             // FINAL DAY - MAXIMUM CHAOS
-            emojiCount = Math.floor(Math.random() * 3) + 8; // 8-10 emojis for final day
-            // Always start with the most hype emoji
+            emojiCount = Math.floor(Math.random() * 5) + 8; // 8-12 emojis for final day
+            // Always start with the most hype emojis
             selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
             selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
             selectedEmojis.push('<a:LETSGOOO:1081971175133024377>');
@@ -804,7 +806,7 @@ function getCustomEmoji(daysRemaining) {
             }
         } else if (daysRemaining <= 3) {
             // 2-3 days - EXTREME HYPE
-            emojiCount = Math.floor(Math.random() * 3) + 6; // 6-8 emojis
+            emojiCount = Math.floor(Math.random() * 4) + 7; // 7-10 emojis
             // Start with some guaranteed hype emojis
             selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
             selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
@@ -816,7 +818,7 @@ function getCustomEmoji(daysRemaining) {
             }
         } else {
             // 4-6 days - High hype
-            emojiCount = Math.floor(Math.random() * 3) + 5; // 5-7 emojis
+            emojiCount = Math.floor(Math.random() * 3) + 6; // 6-8 emojis
             for (let i = 0; i < emojiCount; i++) {
                 const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
                 selectedEmojis.push(randomEmoji);
@@ -832,28 +834,8 @@ function getCustomEmoji(daysRemaining) {
 function getEmojiPlacement(daysRemaining) {
     const emojis = getCustomEmoji(daysRemaining).split(' ');
     const placement = {
-        title: '',
-        description: '',
-        footer: ''
+        title: emojis.join(' ') // All emojis go after the title
     };
-    
-    if (emojis.length === 1) {
-        // Single emoji - put after title
-        placement.title = emojis[0];
-    } else if (emojis.length === 2) {
-        // Two emojis - after title and after description
-        placement.title = emojis[0];
-        placement.description = emojis[1];
-    } else if (emojis.length === 3) {
-        // Three emojis - after title, after description, in footer
-        placement.title = emojis[0];
-        placement.description = emojis[1];
-        placement.footer = emojis[2];
-    } else if (emojis.length >= 4) {
-        // Four or more emojis - distribute them after text
-        placement.title = emojis.slice(0, Math.ceil(emojis.length / 2)).join(' ');
-        placement.description = emojis.slice(Math.ceil(emojis.length / 2)).join(' ');
-    }
     
     return placement;
 }
@@ -892,10 +874,10 @@ async function createCountdownEmbedTest(testPhase = null) {
     
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
-        .setDescription(`Arc Raiders launches on October 30, 2025${emojiPlacement.description ? '\n' + emojiPlacement.description : ''}`)
+        .setDescription(`Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
-        .setFooter({ text: `Arc Raiders - Embark Studios${emojiPlacement.footer ? ' ' + emojiPlacement.footer : ''}` })
+        .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
 
     if (daysRemaining === 0) {
@@ -936,10 +918,10 @@ async function createCountdownEmbed() {
     
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
-        .setDescription(`Arc Raiders launches on October 30, 2025${emojiPlacement.description ? '\n' + emojiPlacement.description : ''}`)
+        .setDescription(`Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
-        .setFooter({ text: `Arc Raiders - Embark Studios${emojiPlacement.footer ? ' ' + emojiPlacement.footer : ''}` })
+        .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
 
     if (daysRemaining === 0) {
@@ -1368,7 +1350,15 @@ client.on('interactionCreate', async interaction => {
                     ephemeral: true
                 });
                 
-                await postTestCountdownMessage(guildId, testPhase);
+                try {
+                    await postTestCountdownMessage(guildId, testPhase);
+                } catch (error) {
+                    console.error('Error in test command:', error);
+                    await interaction.followUp({
+                        content: `❌ Error testing countdown message: ${error.message}`,
+                        ephemeral: true
+                    });
+                }
                 break;
             }
             
