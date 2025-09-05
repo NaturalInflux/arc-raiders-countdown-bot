@@ -1,6 +1,6 @@
 # Arc Raiders Countdown Bot [Discord]
 
-Daily countdown post in Discord channel to Arc Raiders release (October 30, 2025) with the top daily Reddit post from r/arcraiders.
+Daily countdown post in Discord channel till Arc Raiders release (October 30, 2025) with the top daily Reddit post from r/arcraiders.
 
 ## Quick Add
 
@@ -23,19 +23,22 @@ Want a different time?
 
 Want to run on your own server?
 
-**Deploy:**
+### Deploy:
+> Clone the repository
 ```bash
 git clone https://github.com/NaturalInflux/arc-raiders-countdown-bot.git
 ```
+> Navigate to the directory
 ```bash
 cd arc-raiders-countdown-bot
 ```
+> Install dependencies
 ```bash
 npm install
 ```
 > Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
 > Optional: Create a Reddit app on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
-> Copy 
+> Copy environment file
 ```bash
 cp env.example .env
 ```
@@ -53,7 +56,7 @@ chmod +x deploy.sh
 npm start
 ```
 
-**Monitor:**
+### Monitor:
 > Make script executable
 ```bash
 chmod +x monitor-bot.sh
@@ -67,10 +70,12 @@ chmod +x monitor-bot.sh
 pm2 status
 ```
 
-**Update:**
+### Update:
+> Pull latest changes
 ```bash
 git pull origin main
 ```
+> Restart the bot
 ```bash
 pm2 restart arc-countdown-bot
 ```
