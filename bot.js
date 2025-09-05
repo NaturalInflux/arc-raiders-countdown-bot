@@ -154,10 +154,10 @@ const commands = [
     
     new SlashCommandBuilder()
         .setName('countdown-time')
-        .setDescription('Set the time to post daily countdown messages (UTC timezone)')
+        .setDescription('Set the time to post daily countdown messages (in UTC)')
         .addStringOption(option =>
             option.setName('time')
-                .setDescription('Time to post daily (e.g., "3am", "15:00", "3:30pm")')
+                .setDescription('Time to post daily in UTC (e.g., "3am", "15:00", "3:30pm")')
                 .setRequired(true)
         ),
     
@@ -349,7 +349,7 @@ async function createCountdownEmbed() {
     
     const embed = new EmbedBuilder()
         .setTitle(`⚙️ **${daysRemaining} DAYS** until Arc Raiders!`)
-        .setDescription(`**Arc Raiders launches on October 30, 2025**`)
+        .setDescription(`Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
@@ -357,15 +357,15 @@ async function createCountdownEmbed() {
 
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
-        embed.setDescription('**Arc Raiders has launched on October 30, 2025!**');
+        embed.setDescription('Arc Raiders has launched on October 30, 2025!');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
         embed.setTitle('🛠️ **1 DAY** until Arc Raiders!');
-        embed.setDescription('**Arc Raiders launches TOMORROW - October 30, 2025!**');
+        embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders!`);
-        embed.setDescription(`**Only ${daysRemaining} days left until October 30, 2025!**`);
+        embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
         embed.setColor(0xff4500);
     }
 
@@ -373,7 +373,7 @@ async function createCountdownEmbed() {
     const redditPost = await getTopArcRaidersPostWithImage();
     if (redditPost) {
         embed.addFields({
-            name: '🪖 **Top r/arcraiders Post Today**',
+            name: 'Top r/arcraiders Post Today',
             value: `**[${redditPost.title}](${redditPost.url})**\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
@@ -561,11 +561,11 @@ client.on('interactionCreate', async interaction => {
                 const daysRemaining = getDaysRemaining(releaseDate);
                 
                 const embed = new EmbedBuilder()
-                    .setTitle('📊 Arc Raiders Countdown Bot Status')
+                    .setTitle('📊 Status')
                     .setColor(0x00ff00)
                     .addFields(
                         { name: 'Channel', value: serverConfig.channelName ? `#${serverConfig.channelName}` : 'Not configured', inline: true },
-                        { name: 'Post Time', value: serverConfig.postTime || '12:00', inline: true }
+                        { name: 'Post Time (UTC)', value: serverConfig.postTime || '12:00', inline: true }
                     )
                     .setTimestamp();
                 
