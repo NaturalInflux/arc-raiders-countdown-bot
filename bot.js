@@ -39,8 +39,7 @@ function getServerConfig(guildId) {
     return {
         channelId: serverConfig.channelId || null,
         channelName: serverConfig.channelName || null,
-        postTime: serverConfig.postTime || '12:00',
-        timezone: serverConfig.timezone || 'UTC'
+        postTime: serverConfig.postTime || '12:00'
     };
 }
 
@@ -92,37 +91,6 @@ function timeToCron(timeInput) {
     return `0 ${minute} ${hour} * * *`;
 }
 
-// Get timezone from country name
-function getTimezoneFromCountry(countryName) {
-    const timezoneMap = {
-        'usa': 'America/New_York',
-        'us': 'America/New_York',
-        'united states': 'America/New_York',
-        'canada': 'America/Toronto',
-        'uk': 'Europe/London',
-        'united kingdom': 'Europe/London',
-        'germany': 'Europe/Berlin',
-        'france': 'Europe/Paris',
-        'spain': 'Europe/Madrid',
-        'italy': 'Europe/Rome',
-        'netherlands': 'Europe/Amsterdam',
-        'sweden': 'Europe/Stockholm',
-        'norway': 'Europe/Oslo',
-        'denmark': 'Europe/Copenhagen',
-        'finland': 'Europe/Helsinki',
-        'poland': 'Europe/Warsaw',
-        'australia': 'Australia/Sydney',
-        'japan': 'Asia/Tokyo',
-        'south korea': 'Asia/Seoul',
-        'china': 'Asia/Shanghai',
-        'india': 'Asia/Kolkata',
-        'brazil': 'America/Sao_Paulo',
-        'mexico': 'America/Mexico_City',
-        'russia': 'Europe/Moscow'
-    };
-    
-    return timezoneMap[countryName.toLowerCase()] || 'UTC';
-}
 
 // Configuration from environment variables with fallbacks
 const config = {
@@ -189,16 +157,15 @@ const commands = [
             option.setName('channel')
                 .setDescription('Channel name to post countdown messages (e.g., "general")')
                 .setRequired(true)
-        )
+        ),
+    
+    new SlashCommandBuilder()
+        .setName('countdown-time')
+        .setDescription('Set the time to post daily countdown messages (UTC timezone)')
         .addStringOption(option =>
             option.setName('time')
                 .setDescription('Time to post daily (e.g., "3am", "15:00", "3:30pm")')
-                .setRequired(false)
-        )
-        .addStringOption(option =>
-            option.setName('country')
-                .setDescription('Your country for timezone (e.g., "USA", "Germany", "UK")')
-                .setRequired(false)
+                .setRequired(true)
         ),
     
     new SlashCommandBuilder()
@@ -481,17 +448,16 @@ client.once('ready', async () => {
     for (const [guildId, serverConfig] of Object.entries(configs.servers)) {
         if (serverConfig.channelId) {
             const schedule = timeToCron(serverConfig.postTime || '12:00');
-            const timezone = serverConfig.timezone || 'UTC';
             
             cron.schedule(schedule, () => {
                 console.log(`Running scheduled countdown post for guild ${guildId}...`);
                 postCountdownMessage(guildId);
             }, {
                 scheduled: true,
-                timezone: timezone
+                timezone: 'UTC'
             });
             
-            console.log(`📅 Scheduled for guild ${guildId} at ${serverConfig.postTime} (${timezone})`);
+            console.log(`📅 Scheduled for guild ${guildId} at ${serverConfig.postTime} (UTC)`);
         }
     }
 });
@@ -514,8 +480,6 @@ client.on('interactionCreate', async interaction => {
         switch (commandName) {
             case 'countdown-setup': {
                 const channelName = interaction.options.getString('channel');
-                const timeInput = interaction.options.getString('time') || '12:00';
-                const countryInput = interaction.options.getString('country') || 'UTC';
                 
                 // Find channel by name
                 const channel = interaction.guild.channels.cache.find(
@@ -529,11 +493,26 @@ client.on('interactionCreate', async interaction => {
                     });
                 }
                 
+                // Update configuration
+                updateServerConfig(guildId, { 
+                    channelId: channel.id,
+                    channelName: channelName,
+                    postTime: '12:00' // Default time
+                });
+                
+                await interaction.reply({
+                    content: `✅ Arc Raiders countdown bot configured!\n📺 Channel: #${channelName}\n⏰ Time: 12:00 (UTC) - Use \`/countdown-time\` to change\n🌍 Timezone: UTC`,
+                    ephemeral: true
+                });
+                break;
+            }
+            
+            case 'countdown-time': {
+                const timeInput = interaction.options.getString('time');
+                
                 // Validate time input
-                let postTime;
                 try {
                     timeToCron(timeInput); // Validate format
-                    postTime = timeInput;
                 } catch (error) {
                     return interaction.reply({
                         content: '❌ Invalid time format. Use formats like: "3am", "15:00", "3:30pm"',
@@ -541,19 +520,11 @@ client.on('interactionCreate', async interaction => {
                     });
                 }
                 
-                // Get timezone from country
-                const timezone = getTimezoneFromCountry(countryInput);
-                
                 // Update configuration
-                updateServerConfig(guildId, { 
-                    channelId: channel.id,
-                    channelName: channelName,
-                    postTime: postTime,
-                    timezone: timezone
-                });
+                updateServerConfig(guildId, { postTime: timeInput });
                 
                 await interaction.reply({
-                    content: `✅ Arc Raiders countdown bot configured!\n📺 Channel: #${channelName}\n⏰ Time: ${postTime}\n🌍 Timezone: ${timezone}`,
+                    content: `✅ Post time updated to ${timeInput} (UTC)`,
                     ephemeral: true
                 });
                 break;
@@ -572,7 +543,7 @@ client.on('interactionCreate', async interaction => {
                         { name: 'Release Date', value: 'October 30, 2025', inline: true },
                         { name: 'Days Remaining', value: daysRemaining.toString(), inline: true },
                         { name: 'Post Time', value: serverConfig.postTime || '12:00', inline: true },
-                        { name: 'Timezone', value: serverConfig.timezone || 'UTC', inline: true },
+                        { name: 'Timezone', value: 'UTC', inline: true },
                         { name: 'Reddit', value: 'r/arcraiders (top post with image)', inline: true }
                     )
                     .setTimestamp();
