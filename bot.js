@@ -995,6 +995,13 @@ async function postAllTestPhases(guildId) {
             console.log(`🧪 Testing phase: ${phase.name} (${phase.days} days)`);
             try {
                 const embed = await createCountdownEmbedTest(phase.days);
+                
+                // Check embed content length
+                const embedJson = JSON.stringify(embed.data);
+                if (embedJson.length > 6000) {
+                    console.warn(`⚠️ Embed content is very long (${embedJson.length} chars) for ${phase.name}`);
+                }
+                
                 await channel.send({ 
                     content: `**${phase.name}**`,
                     embeds: [embed] 
@@ -1002,10 +1009,16 @@ async function postAllTestPhases(guildId) {
                 console.log(`✅ Successfully posted ${phase.name}`);
             } catch (error) {
                 console.error(`❌ Error posting ${phase.name}:`, error.message);
+                if (error.code) {
+                    console.error(`Discord API Error Code: ${error.code}`);
+                }
+                if (error.errors) {
+                    console.error(`Discord API Errors:`, JSON.stringify(error.errors, null, 2));
+                }
             }
             
             // Add delay between messages to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 2000));
         }
         
         console.log(`✅ All test phases posted successfully!`);
