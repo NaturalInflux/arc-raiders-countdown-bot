@@ -39,8 +39,8 @@ npm install
 cp env.example .env
 ```
 - Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
-- Optional: Create a Reddit app on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
-- Edit .env with your Discord bot token (and Reddit credentials)
+- Create a Reddit app with type "Script" on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
+- Edit .env with your Discord bot token and Reddit credentials
 > Make deploy script executable
 ```bash
 chmod +x deploy.sh
