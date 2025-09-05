@@ -66,7 +66,15 @@ pm2 restart arc-raiders-countdown-bot
 
 ## Monitoring
 
-The bot includes an integrated monitoring system that automatically starts when the bot starts:
+The bot includes an integrated monitoring system that automatically starts when the bot starts.
+
+The monitoring system:
+- **Automatically starts** when the bot starts
+- **Tracks baseline server count** and calculates net changes
+- **Logs all guild join/leave events** persistently
+- **Stores data in** `~/.arc-raiders-monitor/`
+- **Runs continuously** in the background
+- **Survives server restarts**
 
 > Make monitor script executable
 ```bash
@@ -76,11 +84,3 @@ chmod +x monitor.sh
 ```bash
 ./monitor
 ```
-
-The monitoring system:
-- **Automatically starts** when the bot starts
-- **Tracks baseline server count** and calculates net changes
-- **Logs all guild join/leave events** persistently
-- **Stores data in** `~/.arc-raiders-monitor/`
-- **Runs continuously** in the background
-- **Survives server restarts**
