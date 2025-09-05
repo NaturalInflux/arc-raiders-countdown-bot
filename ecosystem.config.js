@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'arc-countdown-bot',
+    name: 'arc-raiders-countdown-bot',
     script: 'bot.js',
     instances: 1,
     autorestart: true,

@@ -355,7 +355,7 @@ async function createCountdownEmbed() {
     const daysRemaining = getDaysRemaining(releaseDate);
     
     const embed = new EmbedBuilder()
-        .setTitle(`🎮 **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setTitle(`⚙️ **${daysRemaining} DAYS** until Arc Raiders!`)
         .setDescription(`**Arc Raiders launches on October 30, 2025**`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
@@ -367,11 +367,11 @@ async function createCountdownEmbed() {
         embed.setDescription('**Arc Raiders has launched on October 30, 2025!**');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
-        embed.setTitle('🚀 **1 DAY** until Arc Raiders!');
+        embed.setTitle('🛠️ **1 DAY** until Arc Raiders!');
         embed.setDescription('**Arc Raiders launches TOMORROW - October 30, 2025!**');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
-        embed.setTitle(`🔥 **${daysRemaining} DAYS** until Arc Raiders!`);
+        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders!`);
         embed.setDescription(`**Only ${daysRemaining} days left until October 30, 2025!**`);
         embed.setColor(0xff4500);
     }
@@ -380,7 +380,7 @@ async function createCountdownEmbed() {
     const redditPost = await getTopArcRaidersPostWithImage();
     if (redditPost) {
         embed.addFields({
-            name: '🔥 **Top r/arcraiders Post Today**',
+            name: '🪖 **Top r/arcraiders Post Today**',
             value: `**[${redditPost.title}](${redditPost.url})**\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
@@ -503,7 +503,7 @@ client.on('interactionCreate', async interaction => {
     // Check if user has permission to manage the server
     if (!interaction.member.permissions.has('ManageGuild')) {
         return interaction.reply({ 
-            content: '❌ You need the "Manage Server" permission to use this command.', 
+            content: 'You need the "Manage Server" permission to use this command.', 
             ephemeral: true 
         });
     }
@@ -520,7 +520,7 @@ client.on('interactionCreate', async interaction => {
                 
                 if (!channel) {
                     return interaction.reply({
-                        content: `❌ Channel "#${channelName}" not found. Make sure the channel exists and I have access to it.`,
+                        content: `Channel "#${channelName}" not found. Make sure the channel exists and I have access to it.`,
                         ephemeral: true
                     });
                 }
@@ -533,7 +533,7 @@ client.on('interactionCreate', async interaction => {
                 });
                 
                 await interaction.reply({
-                    content: `✅ Arc Raiders countdown bot configured!\n📺 Channel: #${channelName}\n⏰ Time: 12:00 (UTC) - Use \`/countdown-time\` to change\n🌍 Timezone: UTC`,
+                    content: `Arc Raiders countdown bot configured!\nChannel: #${channelName}\nTime: 12:00 (UTC) - Use \`/countdown-time\` to change\nTimezone: UTC`,
                     ephemeral: true
                 });
                 break;
@@ -547,7 +547,7 @@ client.on('interactionCreate', async interaction => {
                     timeToCron(timeInput); // Validate format
                 } catch (error) {
                     return interaction.reply({
-                        content: '❌ Invalid time format. Use formats like: "3am", "15:00", "3:30pm"',
+                        content: 'Invalid time format. Use formats like: "3am", "15:00", "3:30pm"',
                         ephemeral: true
                     });
                 }
@@ -556,7 +556,7 @@ client.on('interactionCreate', async interaction => {
                 updateServerConfig(guildId, { postTime: timeInput });
                 
                 await interaction.reply({
-                    content: `✅ Post time updated to ${timeInput} (UTC)`,
+                    content: `Post time updated to ${timeInput} (UTC)`,
                     ephemeral: true
                 });
                 break;
@@ -589,7 +589,7 @@ client.on('interactionCreate', async interaction => {
                 
                 if (!serverConfig.channelId) {
                     return interaction.reply({
-                        content: '❌ No channel configured. Use `/countdown-setup` first.',
+                        content: 'No channel configured. Use `/countdown-setup` first.',
                         ephemeral: true
                     });
                 }
@@ -606,7 +606,7 @@ client.on('interactionCreate', async interaction => {
     } catch (error) {
         console.error('Error handling slash command:', error);
         await interaction.reply({
-            content: '❌ An error occurred while processing the command.',
+            content: 'An error occurred while processing the command.',
             ephemeral: true
         });
     }

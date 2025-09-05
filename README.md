@@ -41,8 +41,8 @@ npm install
 cp env.example .env
 ```
 - Create a Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications)
-- Create a Reddit app with type "Script" on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
-- Edit .env with your Discord bot token and Reddit credentials
+- Create a Reddit app of type "Script" on the [Reddit App Preferences](https://www.reddit.com/prefs/apps)
+- Edit .env with your Discord bot token and Reddit credentials (comments inside)
 > Make deploy script executable
 ```bash
 chmod +x deploy.sh
@@ -77,5 +77,5 @@ git pull origin main
 ```
 > Restart the bot
 ```bash
-pm2 restart arc-countdown-bot
+pm2 restart arc-raiders-countdown-bot
 ```

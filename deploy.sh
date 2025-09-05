@@ -51,7 +51,7 @@ fi
 
 # Stop existing PM2 process if running
 echo "🛑 Stopping existing bot..."
-pm2 stop arc-countdown-bot 2>/dev/null || true
+pm2 stop arc-raiders-countdown-bot 2>/dev/null || true
 
 # Start the bot with PM2
 echo "▶️ Starting bot..."
