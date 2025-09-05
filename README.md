@@ -83,8 +83,12 @@ pm2 restart arc-raiders-countdown-bot
 
 The bot includes an integrated monitoring system that automatically starts when the bot starts:
 
+> Make monitor script executable
 ```bash
-# View monitoring data (one simple command)
+chmod +x monitor.sh
+```
+> View monitoring data
+```bash
 ./monitor
 ```
 
@@ -95,5 +99,3 @@ The monitoring system:
 - **Stores data in** `~/.arc-raiders-monitor/`
 - **Runs continuously** in the background
 - **Survives server restarts**
-
-No setup required - just run `./monitor` to view the data!
