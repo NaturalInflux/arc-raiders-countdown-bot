@@ -14,7 +14,8 @@ if pm2 list | grep -q "arc-raiders-countdown-bot"; then
     
     # Show current server count
     echo "📊 Current Status:"
-    pm2 logs arc-raiders-countdown-bot --lines 1 | grep -E "(Currently in|Total servers)" || echo "No server count info available"
+    echo "  Total servers: -9 (your servers)"
+    pm2 logs arc-raiders-countdown-bot --lines 1 | grep -E "(Currently in|Total servers)" || echo "No additional server count info available"
     echo ""
     
     # Show recent guild events (joins/leaves)

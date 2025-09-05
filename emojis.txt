@@ -1,0 +1,151 @@
+# Arc Raiders Countdown Bot - Custom Emoji Usage
+# Each emoji is categorized by intensity level and usage phase
+
+<:EZ:1081947114663321620> - EZ - Used in final phases for "easy win" energy
+<:HYPERS:1081947121009295401> - HYPERS - Hyper energy, used in mid-to-late phases
+[LETSGOOO](https://cdn.discordapp.com/emojis/1081971175133024377.gif?size=48&animated=true&name=LETSGOOO) - LETSGOOO - Let's go energy, used in mid-to-late phases
+[NODDERS](https://cdn.discordapp.com/emojis/1081963012405071953.gif?size=48&animated=true&name=NODDERS) - NODDERS - Nodding approval, used in mid-to-late phases
+<:PauseChamp:1081947249493418028> - PauseChamp - Pause champ energy, used in mid-to-late phases
+<:OkayChamp:1081948107853529108> - OkayChamp - Okay champ vibes, used in mid-to-late phases
+<:PagMan:1081948129693290546> - PagMan - Pag energy, used in mid-to-late phases
+<:PogU:1081948140392939592> - PogU - Pog energy, used in mid-to-late phases
+<:TrollDespair:1081962916615553034> - TrollDespair - Troll despair, used in early phases for sadness
+[modCheck](https://cdn.discordapp.com/emojis/1081971177246965871.gif?size=48&animated=true&name=modCheck) - modCheck - Mod check, used in mid phases
+[HYPERNODDERS](https://cdn.discordapp.com/emojis/1229852036288217118.gif?size=48&animated=true&name=HYPERNODDERS) - HYPERNODDERS - Hyper nodding, used in late phases
+[Loading](https://cdn.discordapp.com/emojis/1229852033981612102.gif?size=48&animated=true&name=Loading) - Loading - Loading animation, used in early phases for waiting
+[NAILS](https://cdn.discordapp.com/emojis/1229843671176839262.webp?size=48&name=NAILS) - NAILS - Nails, used in mid phases
+[OkayuDance](https://cdn.discordapp.com/emojis/1229866154244182026.gif?size=48&animated=true&name=OkayuDance) - OkayuDance - Okayu dance, used in late phases
+[POGGIES](https://cdn.discordapp.com/emojis/1229852070002294785.gif?size=48&animated=true&name=POGGIES) - POGGIES - Pog energy, used in mid-to-late phases
+[PagBounce](https://cdn.discordapp.com/emojis/1229866080613437562.gif?size=48&animated=true&name=PagBounce) - PagBounce - Pag bounce, used in late phases
+[PagChomp](https://cdn.discordapp.com/emojis/1229843704387338281.webp?size=48&name=PagChomp) - PagChomp - Pag chomp, used in late phases
+[PepeCringe](https://cdn.discordapp.com/emojis/1229843734557098036.webp?size=48&name=PepeCringe) - PepeCringe - Pepe cringe, used in early phases for cringe
+[Sodge](https://cdn.discordapp.com/emojis/1263626742317453386.webp?size=48&name=Sodge) - Sodge - Sodge energy, used in mid phases
+[pepeSmoke](https://cdn.discordapp.com/emojis/1081963039881961572.gif?size=48&animated=true&name=pepeSmoke) - pepeSmoke - Pepe smoke, used in early phases for despair
+<:pepeW:1081947385560829973> - pepeW - Pepe W, used in mid phases
+[sumSmash](https://cdn.discordapp.com/emojis/1081971182976381118.gif?size=48&animated=true&name=sumSmash) - sumSmash - Sum smash, used in late phases
+[ppHop](https://cdn.discordapp.com/emojis/1081971100193403000.gif?size=48&animated=true&name=ppHop) - ppHop - PP hop, used in late phases
+[pepeMeltdown](https://cdn.discordapp.com/emojis/1081967381460557824.gif?size=48&animated=true&name=pepeMeltdown) - pepeMeltdown - Pepe meltdown, used in early phases for meltdown
+[peepoClap](https://cdn.discordapp.com/emojis/1081963018813980804.gif?size=48&animated=true&name=peepoClap) - peepoClap - Peepo clap, used in mid-to-late phases
+[zyzzBass](https://cdn.discordapp.com/emojis/1081980963627745460.gif?size=48&animated=true&name=zyzzBass) - zyzzBass - Zyzz bass, used in late phases
+[waga](https://cdn.discordapp.com/emojis/1411843141224366232.gif?size=48&animated=true&name=waga) - waga - Waga energy, used in late phases
+[docSpin](https://cdn.discordapp.com/emojis/1229866150347804774.gif?size=48&animated=true&name=docSpin) - docSpin - Doc spin, used in late phases
+[nyanPls](https://cdn.discordapp.com/emojis/1229866114557808641.gif?size=48&animated=true&name=nyanPls) - nyanPls - Nyan please, used in mid phases
+[peepoLurk](https://cdn.discordapp.com/emojis/1229866148489859255.gif?size=48&animated=true&name=peepoLurk) - peepoLurk - Peepo lurk, used in early phases for lurking
+[1G](https://cdn.discordapp.com/emojis/1411862007212408932.webp?size=48&name=1G) - 1G - 1G energy, used in mid phases
+[AWNAWWWW](https://cdn.discordapp.com/emojis/1411850454626861096.webp?size=48&name=AWNAWWWW) - AWNAWWWW - Awnawwww, used in early phases for sadness
+[AlienPls3](https://cdn.discordapp.com/emojis/1229866466355187744.gif?size=48&animated=true&name=AlienPls3) - AlienPls3 - Alien please 3, used in mid phases
+[AlienUnpleased](https://cdn.discordapp.com/emojis/1411850384439251035.webp?size=48&name=AlienUnpleased) - AlienUnpleased - Alien unpleased, used in early phases for displeasure
+[Bruhge](https://cdn.discordapp.com/emojis/1411850668939149515.webp?size=48&name=Bruhge) - Bruhge - Bruh energy, used in mid phases
+[Buggin](https://cdn.discordapp.com/emojis/1411850686995632199.webp?size=48&name=Buggin) - Buggin - Bugging, used in early phases for confusion
+[FeelsOldMan](https://cdn.discordapp.com/emojis/1411861297255026830.webp?size=48&name=FeelsOldMan) - FeelsOldMan - Feels old man, used in early phases for feeling old
+[FlushedBite](https://cdn.discordapp.com/emojis/1411861492747468912.webp?size=48&name=FlushedBite) - FlushedBite - Flushed bite, used in mid phases
+[MONKE](https://cdn.discordapp.com/emojis/1229857286751518822.gif?size=48&animated=true&name=MONKE) - MONKE - Monke energy, used in mid-to-late phases
+[NAHHH](https://cdn.discordapp.com/emojis/1229857243999109243.gif?size=48&animated=true&name=NAHHH) - NAHHH - Nah energy, used in early phases for denial
+[Nessie](https://cdn.discordapp.com/emojis/1229861597556510841.gif?size=48&animated=true&name=Nessie) - Nessie - Nessie energy, used in mid phases
+[NoBitches](https://cdn.discordapp.com/emojis/1411861731294318654.webp?size=48&name=NoBitches) - NoBitches - No bitches, used in early phases for despair
+[Waiting](https://cdn.discordapp.com/emojis/1411861661706354829.webp?size=48&name=Waiting) - Waiting - Waiting, used in early phases for waiting
+[WOO](https://cdn.discordapp.com/emojis/1229857245756657805.gif?size=48&animated=true&name=WOO) - WOO - Woo energy, used in mid-to-late phases
+[WAAAAYTOODANK](https://cdn.discordapp.com/emojis/1229857219730997330.gif?size=48&animated=true&name=WAAAAYTOODANK) - WAAAAYTOODANK - Way too dank, used in late phases
+[agaCheck](https://cdn.discordapp.com/emojis/1411849176798462042.gif?size=48&animated=true&name=agaCheck) - agaCheck - Aga check, used in mid phases
+[crabPls](https://cdn.discordapp.com/emojis/1229866458448658552.gif?size=48&animated=true&name=crabPls) - crabPls - Crab please, used in mid phases
+[pepeY](https://cdn.discordapp.com/emojis/1411861364728795187.webp?size=48&name=pepeY) - pepeY - Pepe Y, used in mid phases
+[zyzzPls](https://cdn.discordapp.com/emojis/1229857288320192542.gif?size=48&animated=true&name=zyzzPls) - zyzzPls - Zyzz please, used in late phases
+[zyzzRave](https://cdn.discordapp.com/emojis/1229861574152294550.gif?size=48&animated=true&name=zyzzRave) - zyzzRave - Zyzz rave, used in late phases
+[Awkward](https://cdn.discordapp.com/emojis/1229853029193482361.gif?size=48&animated=true&name=Awkward) - Awkward - Awkward energy, used in early phases for awkwardness
+[CatSpin](https://cdn.discordapp.com/emojis/1229852879733391461.gif?size=48&animated=true&name=CatSpin) - CatSpin - Cat spin, used in late phases
+[Jigglin](https://cdn.discordapp.com/emojis/1229852953356013568.gif?size=48&animated=true&name=Jigglin) - Jigglin - Jiggling, used in late phases
+[Sisi](https://cdn.discordapp.com/emojis/1229852717061636106.gif?size=48&animated=true&name=Sisi) - Sisi - Sisi energy, used in mid phases
+[aga](https://cdn.discordapp.com/emojis/1411849048981245994.webp?size=48&name=aga) - aga - Aga energy, used in mid phases
+[WeirdDude](https://cdn.discordapp.com/emojis/1411877735671791709.webp?size=48&name=WeirdDude) - WeirdDude - Weird dude, used in early phases for weirdness
+[Weirdge](https://cdn.discordapp.com/emojis/1411862572503662703.webp?size=48&name=Weirdge) - Weirdge - Weird energy, used in early phases for weirdness
+[catBop](https://cdn.discordapp.com/emojis/1411848568100098048.gif?size=48&animated=true&name=catBop) - catBop - Cat bop, used in late phases
+[CatTime](https://cdn.discordapp.com/emojis/1229853027897442354.gif?size=48&animated=true&name=CatTime) - CatTime - Cat time, used in late phases
+[ReallyMad](https://cdn.discordapp.com/emojis/1411877862474121266.webp?size=48&name=ReallyMad) - ReallyMad - Really mad, used in early phases for anger
+[SadCat](https://cdn.discordapp.com/emojis/1229853138958418031.gif?size=48&animated=true&name=SadCat) - SadCat - Sad cat, used in early phases for sadness
+[catBruh](https://cdn.discordapp.com/emojis/1229852991792615537.gif?size=48&animated=true&name=catBruh) - catBruh - Cat bruh, used in early phases for bruh
+[catDespair](https://cdn.discordapp.com/emojis/1229598854140264488.webp?size=48&name=catDespair) - catDespair - Cat despair, used in early phases for despair
+[catJam](https://cdn.discordapp.com/emojis/1229853092766547998.gif?size=48&animated=true&name=catJam) - catJam - Cat jam, used in late phases
+[happie](https://cdn.discordapp.com/emojis/1229852997002203317.gif?size=48&animated=true&name=happie) - happie - Happy energy, used in mid-to-late phases
+[catWait](https://cdn.discordapp.com/emojis/1229852915720654878.gif?size=48&animated=true&name=catWait) - catWait - Cat wait, used in early phases for waiting
+[meow](https://cdn.discordapp.com/emojis/1229853140786876517.gif?size=48&animated=true&name=meow) - meow - Meow energy, used in mid phases
+[pepeScream](https://cdn.discordapp.com/emojis/1411862505394802791.webp?size=48&name=pepeScream) - pepeScream - Pepe scream, used in early phases for screaming
+[peepoPog](https://cdn.discordapp.com/emojis/1411878357645266955.webp?size=48&name=peepoPog) - peepoPog - Peepo pog, used in mid-to-late phases
+[sajj](https://cdn.discordapp.com/emojis/1411862526349807687.webp?size=48&name=sajj) - sajj - Sajj energy, used in mid phases
+[veryCat](https://cdn.discordapp.com/emojis/1229852881465905212.gif?size=48&animated=true&name=veryCat) - veryCat - Very cat, used in late phases
+[AlienPls](https://cdn.discordapp.com/emojis/1411849327558529155.gif?size=48&animated=true&name=AlienPls) - AlienPls - Alien please, used in mid phases
+[AnkhaPls](https://cdn.discordapp.com/emojis/1411849504541642964.gif?size=48&animated=true&name=AnkhaPls) - AnkhaPls - Ankha please, used in mid phases
+[AnnyLebronJam](https://cdn.discordapp.com/emojis/1411849529124196533.gif?size=48&animated=true&name=AnnyLebronJam) - AnnyLebronJam - Anny Lebron jam, used in late phases
+[Awkward~1](https://cdn.discordapp.com/emojis/1411849577778380842.gif?size=48&animated=true&name=Awkward%7E1) - Awkward~1 - Awkward variant, used in early phases for awkwardness
+[BLUBBERS](https://cdn.discordapp.com/emojis/1411849753708204203.gif?size=48&animated=true&name=BLUBBERS) - BLUBBERS - Blubbers, used in late phases
+[Despairge](https://cdn.discordapp.com/emojis/1411878584087478394.webp?size=48&name=Despairge) - Despairge - Despair energy, used in early phases for despair
+[Crying](https://cdn.discordapp.com/emojis/1411878641486401646.webp?size=48&name=Crying) - Crying - Crying, used in early phases for sadness
+[agaDespair](https://cdn.discordapp.com/emojis/1411878984194592859.webp?size=48&name=agaDespair) - agaDespair - Aga despair, used in early phases for despair
+[anga](https://cdn.discordapp.com/emojis/1411878986627420340.webp?size=48&name=anga) - anga - Anga energy, used in mid phases
+[awaree](https://cdn.discordapp.com/emojis/1411849553254158517.gif?size=48&animated=true&name=awaree) - awaree - Aware energy, used in mid phases
+[borpaCheck](https://cdn.discordapp.com/emojis/1411849941780926495.gif?size=48&animated=true&name=borpaCheck) - borpaCheck - Borpa check, used in mid phases
+[borpafast](https://cdn.discordapp.com/emojis/1411849800168505507.gif?size=48&animated=true&name=borpafast) - borpafast - Borpa fast, used in late phases
+[dudee](https://cdn.discordapp.com/emojis/1411878512100642866.webp?size=48&name=dudee) - dudee - Dude energy, used in mid phases
+[catRAVE](https://cdn.discordapp.com/emojis/1411862766553399336.gif?size=48&animated=true&name=catRAVE) - catRAVE - Cat rave, used in late phases
+[catPls](https://cdn.discordapp.com/emojis/1411862743497314384.gif?size=48&animated=true&name=catPls) - catPls - Cat please, used in mid phases
+[juh](https://cdn.discordapp.com/emojis/1229862725841326100.gif?size=48&animated=true&name=juh) - juh - Juh energy, used in mid phases
+[Cheergi](https://cdn.discordapp.com/emojis/1411864001402503198.gif?size=48&animated=true&name=Cheergi) - Cheergi - Cheer energy, used in late phases
+[lebronJAM](https://cdn.discordapp.com/emojis/1411862813357379776.gif?size=48&animated=true&name=lebronJAM) - lebronJAM - Lebron jam, used in late phases
+[Dance](https://cdn.discordapp.com/emojis/1411864399492415588.gif?size=48&animated=true&name=Dance) - Dance - Dance energy, used in late phases
+[Headbang](https://cdn.discordapp.com/emojis/1411864607148216330.gif?size=48&animated=true&name=Headbang) - Headbang - Headbang energy, used in late phases
+[EDM](https://cdn.discordapp.com/emojis/1411864471949021184.gif?size=48&animated=true&name=EDM) - EDM - EDM energy, used in late phases
+[INSANECAT](https://cdn.discordapp.com/emojis/1411864653587546226.gif?size=48&animated=true&name=INSANECAT) - INSANECAT - Insane cat, used in late phases
+[MUGA](https://cdn.discordapp.com/emojis/1411864885142229143.gif?size=48&animated=true&name=MUGA) - MUGA - Muga energy, used in late phases
+[OOOOBANG](https://cdn.discordapp.com/emojis/1411864122676744262.gif?size=48&animated=true&name=OOOOBANG) - OOOOBANG - Oooo bang, used in late phases
+[Plead](https://cdn.discordapp.com/emojis/1411864761368580218.gif?size=48&animated=true&name=Plead) - Plead - Plead energy, used in early phases for pleading
+[WeirdChamping](https://cdn.discordapp.com/emojis/1411864489477013627.gif?size=48&animated=true&name=WeirdChamping) - WeirdChamping - Weird champing, used in early phases for weirdness
+[TouchGrass](https://cdn.discordapp.com/emojis/1411864242151231509.gif?size=48&animated=true&name=TouchGrass) - TouchGrass - Touch grass, used in early phases for grass touching
+[SEXO](https://cdn.discordapp.com/emojis/1411864455129595944.gif?size=48&animated=true&name=SEXO) - SEXO - Sexo energy, used in late phases
+[ROACH](https://cdn.discordapp.com/emojis/1411864726958248026.gif?size=48&animated=true&name=ROACH) - ROACH - Roach energy, used in late phases
+[cokebert](https://cdn.discordapp.com/emojis/1411863951356067861.gif?size=48&animated=true&name=cokebert) - cokebert - Cokebert energy, used in late phases
+[forsenGriddy](https://cdn.discordapp.com/emojis/1411864083841548350.gif?size=48&animated=true&name=forsenGriddy) - forsenGriddy - Forsen griddy, used in late phases
+[goosePls4x](https://cdn.discordapp.com/emojis/1411878995716345867.gif?size=48&animated=true&name=goosePls4x) - goosePls4x - Goose please 4x, used in late phases
+[peepoFine](https://cdn.discordapp.com/emojis/1411864159943000135.gif?size=48&animated=true&name=peepoFine) - peepoFine - Peepo fine, used in mid phases
+[omgBruh](https://cdn.discordapp.com/emojis/1411863929117741218.gif?size=48&animated=true&name=omgBruh) - omgBruh - OMG bruh, used in early phases for bruh
+[mwah](https://cdn.discordapp.com/emojis/1411864629738733638.gif?size=48&animated=true&name=mwah) - mwah - Mwah energy, used in late phases
+[vibePls](https://cdn.discordapp.com/emojis/1411864435210977393.gif?size=48&animated=true&name=vibePls) - vibePls - Vibe please, used in late phases
+[zazabert](https://cdn.discordapp.com/emojis/1411863893420150866.gif?size=48&animated=true&name=zazabert) - zazabert - Zazabert energy, used in late phases
+[BANGER](https://cdn.discordapp.com/emojis/1411864800165888123.gif?size=48&animated=true&name=BANGER) - BANGER - Banger energy, used in late phases
+[AYOOO](https://cdn.discordapp.com/emojis/1411877554771722342.gif?size=48&animated=true&name=AYOOO) - AYOOO - AYOOO energy, used in late phases
+[AwareMan](https://cdn.discordapp.com/emojis/1411879237522165903.gif?size=48&animated=true&name=AwareMan) - AwareMan - Aware man, used in mid phases
+[Copege](https://cdn.discordapp.com/emojis/1411879378832593007.gif?size=48&animated=true&name=Copege) - Copege - Cope energy, used in early phases for coping
+[DEMONCAT](https://cdn.discordapp.com/emojis/1411879385509789736.gif?size=48&animated=true&name=DEMONCAT) - DEMONCAT - Demon cat, used in late phases
+[ForsenSingingAtYou](https://cdn.discordapp.com/emojis/1411879503982235679.gif?size=48&animated=true&name=ForsenSingingAtYou) - ForsenSingingAtYou - Forsen singing, used in late phases
+[Enough](https://cdn.discordapp.com/emojis/1411879498047164627.gif?size=48&animated=true&name=Enough) - Enough - Enough energy, used in early phases for enough
+[DemonTime](https://cdn.discordapp.com/emojis/1411879388663779419.gif?size=48&animated=true&name=DemonTime) - DemonTime - Demon time, used in late phases
+[Glerm](https://cdn.discordapp.com/emojis/1411879509229174824.gif?size=48&animated=true&name=Glerm) - Glerm - Glerm energy, used in late phases
+[HYPERYump](https://cdn.discordapp.com/emojis/1411879742671687790.gif?size=48&animated=true&name=HYPERYump) - HYPERYump - Hyper jump, used in late phases
+[IMDEAD](https://cdn.discordapp.com/emojis/1411879744412192860.gif?size=48&animated=true&name=IMDEAD) - IMDEAD - I'm dead, used in early phases for being dead
+[JustAnotherDay](https://cdn.discordapp.com/emojis/1411879858958499850.gif?size=48&animated=true&name=JustAnotherDay) - JustAnotherDay - Just another day, used in early phases for routine
+[INSANECAT~1](https://cdn.discordapp.com/emojis/1411879746341699614.gif?size=48&animated=true&name=INSANECAT%7E1) - INSANECAT~1 - Insane cat variant, used in late phases
+[Kissahomie](https://cdn.discordapp.com/emojis/1411879860707659776.gif?size=48&animated=true&name=Kissahomie) - Kissahomie - Kiss a homie, used in late phases
+[deadass](https://cdn.discordapp.com/emojis/1411879383425355888.gif?size=48&animated=true&name=deadass) - deadass - Dead ass, used in early phases for being dead
+[danse](https://cdn.discordapp.com/emojis/1411879380380024953.gif?size=48&animated=true&name=danse) - danse - Dance energy, used in late phases
+[cool~1](https://cdn.discordapp.com/emojis/1411879256958697552.gif?size=48&animated=true&name=cool%7E1) - cool~1 - Cool variant, used in mid phases
+[clappi](https://cdn.discordapp.com/emojis/1411879249165418607.gif?size=48&animated=true&name=clappi) - clappi - Clapping energy, used in late phases
+[duckass](https://cdn.discordapp.com/emojis/1411879397161570366.gif?size=48&animated=true&name=duckass) - duckass - Duck ass, used in late phases
+[dvaWalk4x](https://cdn.discordapp.com/emojis/1411879494192464055.gif?size=48&animated=true&name=dvaWalk4x) - dvaWalk4x - DVA walk 4x, used in late phases
+[glorpNotL](https://cdn.discordapp.com/emojis/1411879514233114694.gif?size=48&animated=true&name=glorpNotL) - glorpNotL - Glorp not L, used in late phases
+[goosePls](https://cdn.discordapp.com/emojis/1411879516007301201.gif?size=48&animated=true&name=goosePls) - goosePls - Goose please, used in mid phases
+[happi](https://cdn.discordapp.com/emojis/1411879733309870081.gif?size=48&animated=true&name=happi) - happi - Happy energy, used in mid-to-late phases
+[lerolero](https://cdn.discordapp.com/emojis/1411879867812675594.gif?size=48&animated=true&name=lerolero) - lerolero - Lero lero, used in late phases
+[PartyKirby](https://cdn.discordapp.com/emojis/1411880282226819243.gif?size=48&animated=true&name=PartyKirby) - PartyKirby - Party Kirby, used in late phases
+[RainbowPls](https://cdn.discordapp.com/emojis/1411880375537631372.gif?size=48&animated=true&name=RainbowPls) - RainbowPls - Rainbow please, used in late phases
+[SadgeRain](https://cdn.discordapp.com/emojis/1411880380289646703.gif?size=48&animated=true&name=SadgeRain) - SadgeRain - Sadge rain, used in early phases for sadness
+[Sussy4x](https://cdn.discordapp.com/emojis/1411880500930285568.gif?size=48&animated=true&name=Sussy4x) - Sussy4x - Sussy 4x, used in late phases
+[Uware](https://cdn.discordapp.com/emojis/1411880512255033455.gif?size=48&animated=true&name=Uware) - Uware - U aware, used in mid phases
+[VeiO](https://cdn.discordapp.com/emojis/1411880518655676566.gif?size=48&animated=true&name=VeiO) - VeiO - Vei O, used in late phases
+[veiNODDERS](https://cdn.discordapp.com/emojis/1411880514104725644.gif?size=48&animated=true&name=veiNODDERS) - veiNODDERS - Vei nodders, used in late phases
+[poggSpin](https://cdn.discordapp.com/emojis/1411880370198024292.gif?size=48&animated=true&name=poggSpin) - poggSpin - Pog spin, used in late phases
+[TryHarding](https://cdn.discordapp.com/emojis/1411880509499375736.gif?size=48&animated=true&name=TryHarding) - TryHarding - Try harding, used in early phases for trying hard
+[WOW](https://cdn.discordapp.com/emojis/1411880525836320779.gif?size=48&animated=true&name=WOW) - WOW - Wow energy, used in late phases
+[luh](https://cdn.discordapp.com/emojis/1411880270533103636.gif?size=48&animated=true&name=luh) - luh - Luh energy, used in late phases
+[marinFlush](https://cdn.discordapp.com/emojis/1411880272944824351.gif?size=48&animated=true&name=marinFlush) - marinFlush - Marin flush, used in late phases
+[ppParty](https://cdn.discordapp.com/emojis/1411880372882640936.gif?size=48&animated=true&name=ppParty) - ppParty - PP party, used in late phases
+[retardJAM](https://cdn.discordapp.com/emojis/1411880379081556018.gif?size=48&animated=true&name=retardJAM) - retardJAM - Retard jam, used in late phases
+[thatsCrazy](https://cdn.discordapp.com/emojis/1411880503941791805.gif?size=48&animated=true&name=thatsCrazy) - thatsCrazy - That's crazy, used in late phases
+[where](https://cdn.discordapp.com/emojis/1411880522963091487.gif?size=48&animated=true&name=where) - where - Where energy, used in early phases for confusion
