@@ -55,7 +55,7 @@ npm start
 ```
 
 ## Monitor:
-> Make script executable
+> Make monitor script executable
 ```bash
 chmod +x monitor-bot.sh
 ```
