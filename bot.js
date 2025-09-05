@@ -355,25 +355,24 @@ async function createCountdownEmbed() {
     const daysRemaining = getDaysRemaining(releaseDate);
     
     const embed = new EmbedBuilder()
-        .setTitle('🎮 Arc Raiders Countdown')
-        .setDescription(`**${daysRemaining} days** until Arc Raiders launches!`)
+        .setTitle(`🎮 **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setDescription(`**Arc Raiders launches on October 30, 2025**`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
-        .addFields(
-            { name: 'Release Date', value: 'October 30, 2025', inline: true },
-            { name: 'Status', value: daysRemaining > 0 ? 'Coming Soon' : 'Released!', inline: true }
-        )
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
 
     if (daysRemaining === 0) {
-        embed.setDescription('🎉 **Arc Raiders is now LIVE!** 🎉');
+        embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
+        embed.setDescription('**Arc Raiders has launched on October 30, 2025!**');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
-        embed.setDescription('🚀 **Arc Raiders launches TOMORROW!** 🚀');
+        embed.setTitle('🚀 **1 DAY** until Arc Raiders!');
+        embed.setDescription('**Arc Raiders launches TOMORROW - October 30, 2025!**');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
-        embed.setDescription(`🔥 **Only ${daysRemaining} days left!** 🔥`);
+        embed.setTitle(`🔥 **${daysRemaining} DAYS** until Arc Raiders!`);
+        embed.setDescription(`**Only ${daysRemaining} days left until October 30, 2025!**`);
         embed.setColor(0xff4500);
     }
 
@@ -381,8 +380,8 @@ async function createCountdownEmbed() {
     const redditPost = await getTopArcRaidersPostWithImage();
     if (redditPost) {
         embed.addFields({
-            name: '🔥 Top r/arcraiders Post Today',
-            value: `[${redditPost.title}](${redditPost.url})\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
+            name: '🔥 **Top r/arcraiders Post Today**',
+            value: `**[${redditPost.title}](${redditPost.url})**\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
         
