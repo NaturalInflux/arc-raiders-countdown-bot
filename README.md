@@ -54,21 +54,7 @@ chmod +x deploy.sh
 npm start
 ```
 
-## Monitor:
-> Make monitor script executable
-```bash
-chmod +x monitor.sh
-```
-> Run monitor script to watch live logs and server joins
-```bash
-./monitor.sh
-```
-> Check if running
-```bash
-pm2 status
-```
-
-### Update:
+## Update:
 > Pull latest changes
 ```bash
 git pull origin main
@@ -78,7 +64,7 @@ git pull origin main
 pm2 restart arc-raiders-countdown-bot
 ```
 
-### Monitoring System
+## Monitoring
 
 The bot includes an integrated monitoring system that automatically starts when the bot starts:
 
