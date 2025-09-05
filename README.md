@@ -1,8 +1,6 @@
-# Arc Raiders Countdown Bot [Discord]
-
 Daily countdown post in Discord channel till Arc Raiders release (October 30, 2025) with the top daily Reddit post from r/arcraiders.
 
-## Quick Add
+# Quick Add
 
 [**Add bot to your server**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
 
@@ -19,11 +17,11 @@ Want a different time?
 
 ---
 
-## Self-Hosting
+# Self-Hosting
 
 Want to run on your own server?
 
-### Deploy:
+## Deploy:
 > Clone the repository
 ```bash
 git clone https://github.com/NaturalInflux/arc-raiders-countdown-bot.git
@@ -56,7 +54,7 @@ chmod +x deploy.sh
 npm start
 ```
 
-### Monitor:
+## Monitor:
 > Make script executable
 ```bash
 chmod +x monitor-bot.sh
