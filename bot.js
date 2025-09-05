@@ -828,6 +828,36 @@ function getCustomEmoji(daysRemaining) {
     return selectedEmojis.join(' ');
 }
 
+// Function to get emojis for different parts of the message
+function getEmojiPlacement(daysRemaining) {
+    const emojis = getCustomEmoji(daysRemaining).split(' ');
+    const placement = {
+        title: '',
+        description: '',
+        footer: ''
+    };
+    
+    if (emojis.length === 1) {
+        // Single emoji - put in title
+        placement.title = emojis[0];
+    } else if (emojis.length === 2) {
+        // Two emojis - title and description
+        placement.title = emojis[0];
+        placement.description = emojis[1];
+    } else if (emojis.length === 3) {
+        // Three emojis - title, description, footer
+        placement.title = emojis[0];
+        placement.description = emojis[1];
+        placement.footer = emojis[2];
+    } else if (emojis.length >= 4) {
+        // Four or more emojis - distribute them
+        placement.title = emojis.slice(0, Math.ceil(emojis.length / 2)).join(' ');
+        placement.description = emojis.slice(Math.ceil(emojis.length / 2)).join(' ');
+    }
+    
+    return placement;
+}
+
 // Function to create countdown embed with Arc Raiders Reddit post (for testing)
 async function createCountdownEmbedTest(testPhase = null) {
     const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
@@ -858,11 +888,11 @@ async function createCountdownEmbedTest(testPhase = null) {
         }
     }
     
-    customEmoji = getCustomEmoji(daysRemaining);
+    const emojiPlacement = getEmojiPlacement(daysRemaining);
     
     const embed = new EmbedBuilder()
-        .setTitle(`${customEmoji} **${daysRemaining} DAYS** until Arc Raiders!`)
-        .setDescription(`Arc Raiders launches on October 30, 2025`)
+        .setTitle(`${emojiPlacement.title} **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setDescription(`${emojiPlacement.description ? emojiPlacement.description + ' ' : ''}Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
@@ -902,11 +932,11 @@ async function createCountdownEmbedTest(testPhase = null) {
 async function createCountdownEmbed() {
     const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
     const daysRemaining = getDaysRemaining(releaseDate);
-    const customEmoji = getCustomEmoji(daysRemaining);
+    const emojiPlacement = getEmojiPlacement(daysRemaining);
     
     const embed = new EmbedBuilder()
-        .setTitle(`${customEmoji} **${daysRemaining} DAYS** until Arc Raiders!`)
-        .setDescription(`Arc Raiders launches on October 30, 2025`)
+        .setTitle(`${emojiPlacement.title} **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setDescription(`${emojiPlacement.description ? emojiPlacement.description + ' ' : ''}Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
@@ -992,17 +1022,8 @@ async function postTestCountdownMessage(guildId, testPhase = null) {
             throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
         }
 
-        // Determine number of messages based on test phase
+        // For testing, always send only 1 message
         let messageCount = 1;
-        if (testPhase === 'final_days' || daysRemaining <= 6) {
-            messageCount = 6; // Final day: 6 messages
-        } else if (testPhase === 'final_week' || (daysRemaining <= 2 && daysRemaining > 1)) {
-            messageCount = 4; // 2-3 days: 4 messages
-        } else if (daysRemaining <= 4) {
-            messageCount = 3; // 3-4 days: 3 messages
-        } else if (daysRemaining <= 6) {
-            messageCount = 2; // 5-6 days: 2 messages
-        }
 
         // Post test messages
         for (let i = 0; i < messageCount; i++) {
@@ -1055,27 +1076,60 @@ async function postCountdownMessage(guildId) {
             throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
         }
 
-        // Determine number of messages based on days remaining
+        // Determine number of messages based on days remaining (for final week only)
         let messageCount = 1;
-        if (daysRemaining <= 6) {
+        if (daysRemaining === 1) {
             messageCount = 6; // Final day: 6 messages
-        } else if (daysRemaining <= 2) {
-            messageCount = 4; // 2-3 days: 4 messages
-        } else if (daysRemaining <= 4) {
-            messageCount = 3; // 3-4 days: 3 messages
-        } else if (daysRemaining <= 6) {
-            messageCount = 2; // 5-6 days: 2 messages
+        } else if (daysRemaining === 2) {
+            messageCount = 4; // 2 days: 4 messages
+        } else if (daysRemaining === 3) {
+            messageCount = 3; // 3 days: 3 messages
+        } else if (daysRemaining >= 4 && daysRemaining <= 6) {
+            messageCount = 2; // 4-6 days: 2 messages
+        } else if (daysRemaining >= 7 && daysRemaining <= 14) {
+            messageCount = 2; // Final week: 2 messages
         }
 
-        // Post multiple messages for final week
-        for (let i = 0; i < messageCount; i++) {
+        // Post multiple messages for final week with proper spacing
+        if (messageCount > 1) {
+            // Calculate time intervals based on scheduled time
+            const scheduledTime = serverConfig.postTime || '12:00';
+            const [hours, minutes] = scheduledTime.split(':').map(Number);
+            const baseTime = new Date();
+            baseTime.setHours(hours, minutes, 0, 0);
+            
+            // Calculate intervals to spread messages throughout the day
+            const intervals = [];
+            if (messageCount === 2) {
+                // 2 messages: morning and evening
+                intervals.push(0, 8 * 60 * 60 * 1000); // 0 hours, 8 hours
+            } else if (messageCount === 3) {
+                // 3 messages: morning, afternoon, evening
+                intervals.push(0, 4 * 60 * 60 * 1000, 8 * 60 * 60 * 1000); // 0, 4, 8 hours
+            } else if (messageCount === 4) {
+                // 4 messages: every 6 hours
+                intervals.push(0, 6 * 60 * 60 * 1000, 12 * 60 * 60 * 1000, 18 * 60 * 60 * 1000);
+            } else if (messageCount === 6) {
+                // 6 messages: every 4 hours
+                intervals.push(0, 4 * 60 * 60 * 1000, 8 * 60 * 60 * 1000, 12 * 60 * 60 * 1000, 16 * 60 * 60 * 1000, 20 * 60 * 60 * 1000);
+            }
+            
+            // Post messages at calculated intervals
+            for (let i = 0; i < messageCount; i++) {
+                const embed = await createCountdownEmbed();
+                await channel.send({ embeds: [embed] });
+                
+                // Wait for the next interval (except for the last message)
+                if (i < messageCount - 1) {
+                    const delay = intervals[i + 1] - intervals[i];
+                    console.log(`⏰ Waiting ${delay / (60 * 60 * 1000)} hours until next message...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        } else {
+            // Single message
             const embed = await createCountdownEmbed();
             await channel.send({ embeds: [embed] });
-            
-            // Add delay between messages to avoid rate limiting
-            if (i < messageCount - 1) {
-                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
-            }
         }
         
         console.log(`✅ ${messageCount} countdown message(s) posted successfully! Days remaining: ${daysRemaining}`);
