@@ -348,7 +348,7 @@ async function createCountdownEmbed() {
     const daysRemaining = getDaysRemaining(releaseDate);
     
     const embed = new EmbedBuilder()
-        .setTitle(`⚙️ **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setTitle(`**${daysRemaining} DAYS** until Arc Raiders!`)
         .setDescription(`Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
@@ -360,7 +360,7 @@ async function createCountdownEmbed() {
         embed.setDescription('Arc Raiders has launched on October 30, 2025!');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
-        embed.setTitle('🛠️ **1 DAY** until Arc Raiders!');
+        embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
         embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
