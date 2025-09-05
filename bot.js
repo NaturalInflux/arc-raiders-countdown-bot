@@ -838,19 +838,19 @@ function getEmojiPlacement(daysRemaining) {
     };
     
     if (emojis.length === 1) {
-        // Single emoji - put in title
+        // Single emoji - put after title
         placement.title = emojis[0];
     } else if (emojis.length === 2) {
-        // Two emojis - title and description
+        // Two emojis - after title and after description
         placement.title = emojis[0];
         placement.description = emojis[1];
     } else if (emojis.length === 3) {
-        // Three emojis - title, description, footer
+        // Three emojis - after title, after description, in footer
         placement.title = emojis[0];
         placement.description = emojis[1];
         placement.footer = emojis[2];
     } else if (emojis.length >= 4) {
-        // Four or more emojis - distribute them
+        // Four or more emojis - distribute them after text
         placement.title = emojis.slice(0, Math.ceil(emojis.length / 2)).join(' ');
         placement.description = emojis.slice(Math.ceil(emojis.length / 2)).join(' ');
     }
@@ -891,11 +891,11 @@ async function createCountdownEmbedTest(testPhase = null) {
     const emojiPlacement = getEmojiPlacement(daysRemaining);
     
     const embed = new EmbedBuilder()
-        .setTitle(`${emojiPlacement.title} **${daysRemaining} DAYS** until Arc Raiders!`)
-        .setDescription(`${emojiPlacement.description ? emojiPlacement.description + ' ' : ''}Arc Raiders launches on October 30, 2025`)
+        .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
+        .setDescription(`Arc Raiders launches on October 30, 2025${emojiPlacement.description ? '\n' + emojiPlacement.description : ''}`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
-        .setFooter({ text: 'Arc Raiders - Embark Studios' })
+        .setFooter({ text: `Arc Raiders - Embark Studios${emojiPlacement.footer ? ' ' + emojiPlacement.footer : ''}` })
         .setTimestamp();
 
     if (daysRemaining === 0) {
@@ -935,11 +935,11 @@ async function createCountdownEmbed() {
     const emojiPlacement = getEmojiPlacement(daysRemaining);
     
     const embed = new EmbedBuilder()
-        .setTitle(`${emojiPlacement.title} **${daysRemaining} DAYS** until Arc Raiders!`)
-        .setDescription(`${emojiPlacement.description ? emojiPlacement.description + ' ' : ''}Arc Raiders launches on October 30, 2025`)
+        .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
+        .setDescription(`Arc Raiders launches on October 30, 2025${emojiPlacement.description ? '\n' + emojiPlacement.description : ''}`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
-        .setFooter({ text: 'Arc Raiders - Embark Studios' })
+        .setFooter({ text: `Arc Raiders - Embark Studios${emojiPlacement.footer ? ' ' + emojiPlacement.footer : ''}` })
         .setTimestamp();
 
     if (daysRemaining === 0) {
