@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Arc Raiders Countdown Bot Monitor
+# Simple command to view monitoring data
+
+MONITOR_DIR="$HOME/.arc-raiders-monitor"
+LOG_FILE="$MONITOR_DIR/monitor.log"
+DATA_FILE="$MONITOR_DIR/monitor-data.json"
+
+echo "🔍 Arc Raiders Countdown Bot Monitor"
+echo "=================================="
+echo ""
+
+# Check if monitoring data exists
+if [ ! -f "$DATA_FILE" ]; then
+    echo "❌ No monitoring data found"
+    echo "Make sure the bot is running and monitoring is active"
+    exit 1
+fi
+
+# Check if bot is running
+if ! pm2 list | grep -q "arc-raiders-countdown-bot"; then
+    echo "❌ Bot is not running"
+    echo "Start it with: pm2 start arc-raiders-countdown-bot"
+    exit 1
+fi
+
+echo "✅ Bot is running"
+echo ""
+
+# Read and display monitoring data
+if command -v jq >/dev/null 2>&1; then
+    # Use jq if available
+    baseline=$(jq -r '.baseline_servers // "Unknown"' "$DATA_FILE")
+    current=$(jq -r '.current_servers // "Unknown"' "$DATA_FILE")
+    difference=$(jq -r '.server_difference // 0' "$DATA_FILE")
+    last_updated=$(jq -r '.last_updated // "Unknown"' "$DATA_FILE")
+else
+    # Fallback without jq
+    baseline=$(grep -o '"baseline_servers": [0-9]*' "$DATA_FILE" | grep -o '[0-9]*' || echo "Unknown")
+    current=$(grep -o '"current_servers": [0-9]*' "$DATA_FILE" | grep -o '[0-9]*' || echo "Unknown")
+    difference=$(grep -o '"server_difference": [0-9-]*' "$DATA_FILE" | grep -o '[0-9-]*' || echo "0")
+    last_updated=$(grep -o '"last_updated": "[^"]*"' "$DATA_FILE" | cut -d'"' -f4 || echo "Unknown")
+fi
+
+# Display server statistics
+echo "📊 Server Statistics:"
+echo "  Baseline servers: $baseline"
+echo "  Current servers: $current"
+echo "  Net change: $difference"
+echo "  Last updated: $last_updated"
+echo ""
+
+# Show recent guild events
+echo "🔔 Recent Server Events (last 10):"
+if [ -f "$LOG_FILE" ]; then
+    grep "GUILD_EVENT" "$LOG_FILE" | tail -10 || echo "No recent events"
+else
+    echo "No log file found"
+fi
+echo ""
+
+# Show recent logs
+echo "📝 Recent Logs (last 20):"
+if [ -f "$LOG_FILE" ]; then
+    tail -20 "$LOG_FILE"
+else
+    echo "No log file found"
+fi

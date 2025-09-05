@@ -79,33 +79,21 @@ git pull origin main
 pm2 restart arc-raiders-countdown-bot
 ```
 
-### Smart Monitoring System
+### Monitoring System
 
-The bot now includes a smart monitoring system that runs in the background and tracks server statistics:
+The bot includes an integrated monitoring system that automatically starts when the bot starts:
 
 ```bash
-# Start smart monitor (runs in background)
-./smart-monitor.sh start
-
-# View current status and recent logs
-./smart-monitor.sh status
-
-# View live logs (tail -f)
-./smart-monitor.sh live
-
-# Stop smart monitor
-./smart-monitor.sh stop
-
-# Restart smart monitor
-./smart-monitor.sh restart
+# View monitoring data (one simple command)
+./monitor
 ```
 
-The smart monitor:
-- Tracks baseline server count and calculates net changes
-- Logs all guild join/leave events persistently
-- Monitors for errors and important events
-- Stores data in `~/.arc-raiders-monitor/`
-- Runs continuously in the background
-- Survives server restarts
+The monitoring system:
+- **Automatically starts** when the bot starts
+- **Tracks baseline server count** and calculates net changes
+- **Logs all guild join/leave events** persistently
+- **Stores data in** `~/.arc-raiders-monitor/`
+- **Runs continuously** in the background
+- **Survives server restarts**
 
-You can also view monitoring data in Discord using `/countdown-monitor` (requires Administrator permissions).
+No setup required - just run `./monitor` to view the data!
