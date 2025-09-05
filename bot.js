@@ -13,7 +13,7 @@ const config = {
     POST_SCHEDULE: process.env.POST_SCHEDULE || '0 9 * * *',
     POST_TIMEZONE: process.env.POST_TIMEZONE || 'UTC',
     REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || 'arcraiders',
-    REDDIT_POST_LIMIT: parseInt(process.env.REDDIT_POST_LIMIT) || 25,
+    REDDIT_POST_LIMIT: parseInt(process.env.REDDIT_POST_LIMIT) || 1,
     REDDIT_MAX_TEXT_LENGTH: parseInt(process.env.REDDIT_MAX_TEXT_LENGTH) || 500,
     REDDIT_MIN_TITLE_LENGTH: parseInt(process.env.REDDIT_MIN_TITLE_LENGTH) || 10,
     REDDIT_USER_AGENT: process.env.REDDIT_USER_AGENT || 'ArcRaidersCountdownBot/1.0.0',
@@ -67,12 +67,12 @@ function getDaysRemaining() {
     return Math.max(0, daysRemaining);
 }
 
-// Function to fetch random Arc Raiders Reddit post with retry logic
-async function getRandomArcRaidersPost(retries = config.API_RETRY_ATTEMPTS) {
+// Function to fetch top Arc Raiders Reddit post with image
+async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS) {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-            // Fetch top posts from configured subreddit
-            const response = await axios.get(`https://www.reddit.com/r/${config.REDDIT_SUBREDDIT}/top.json?limit=${config.REDDIT_POST_LIMIT}&t=week`, {
+            // Fetch top post of the day from configured subreddit
+            const response = await axios.get(`https://www.reddit.com/r/${config.REDDIT_SUBREDDIT}/top.json?limit=1&t=day`, {
                 timeout: config.API_TIMEOUT,
                 headers: {
                     'User-Agent': config.REDDIT_USER_AGENT
@@ -86,36 +86,39 @@ async function getRandomArcRaidersPost(retries = config.API_RETRY_ATTEMPTS) {
                 return null;
             }
             
-            // Filter posts and try to find a suitable one
-            const suitablePosts = posts.filter(post => {
-                const postData = post.data;
-                
-                // Filter out posts that are too long
-                if (postData.selftext && postData.selftext.length > config.REDDIT_MAX_TEXT_LENGTH) {
-                    return false;
-                }
-                
-                // Filter out NSFW or inappropriate content
-                if (postData.over_18 || postData.spoiler) {
-                    return false;
-                }
-                
-                // Filter out posts with no title or very short titles
-                if (!postData.title || postData.title.length < config.REDDIT_MIN_TITLE_LENGTH) {
-                    return false;
-                }
-                
-                return true;
-            });
+            const postData = posts[0].data;
             
-            if (suitablePosts.length === 0) {
-                console.log('No suitable posts found after filtering');
+            // Check if post has an image
+            const hasImage = postData.preview && 
+                           postData.preview.images && 
+                           postData.preview.images.length > 0 &&
+                           postData.preview.images[0].source &&
+                           postData.preview.images[0].source.url;
+            
+            if (!hasImage) {
+                console.log('Top post of the day does not have an image, skipping Reddit post');
                 return null;
             }
             
-            // Pick a random post from the suitable ones
-            const randomPost = suitablePosts[Math.floor(Math.random() * suitablePosts.length)];
-            const postData = randomPost.data;
+            // Filter out NSFW or inappropriate content
+            if (postData.over_18 || postData.spoiler) {
+                console.log('Top post of the day is NSFW or spoiler, skipping Reddit post');
+                return null;
+            }
+            
+            // Filter out posts with no title or very short titles
+            if (!postData.title || postData.title.length < config.REDDIT_MIN_TITLE_LENGTH) {
+                console.log('Top post of the day has invalid title, skipping Reddit post');
+                return null;
+            }
+            
+            // Get the image URL (un-escape Reddit's HTML entities)
+            const imageUrl = postData.preview.images[0].source.url
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#x27;/g, "'");
             
             return {
                 title: postData.title,
@@ -124,7 +127,7 @@ async function getRandomArcRaidersPost(retries = config.API_RETRY_ATTEMPTS) {
                 author: postData.author,
                 score: postData.score,
                 comments: postData.num_comments,
-                thumbnail: postData.thumbnail && postData.thumbnail !== 'self' && postData.thumbnail !== 'default' ? postData.thumbnail : null
+                imageUrl: imageUrl
             };
         } catch (error) {
             console.error(`Reddit API attempt ${attempt}/${retries} failed:`, error.message);
@@ -169,18 +172,17 @@ async function createCountdownEmbed() {
         embed.setColor(0xff4500);
     }
 
-    // Try to fetch a random Reddit post
-    const redditPost = await getRandomArcRaidersPost();
+    // Try to fetch the top Reddit post with image
+    const redditPost = await getTopArcRaidersPostWithImage();
     if (redditPost) {
         embed.addFields({
-            name: `🔥 Hot r/${config.REDDIT_SUBREDDIT} Post`,
+            name: `🔥 Top r/${config.REDDIT_SUBREDDIT} Post Today`,
             value: `[${redditPost.title}](${redditPost.url})\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
         
-        if (redditPost.thumbnail) {
-            embed.setImage(redditPost.thumbnail);
-        }
+        // Use the Reddit post image as the main embed image
+        embed.setImage(redditPost.imageUrl);
     }
 
     return embed;
