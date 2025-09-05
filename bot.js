@@ -374,7 +374,7 @@ async function createCountdownEmbed() {
     if (redditPost) {
         embed.addFields({
             name: 'Top r/arcraiders Post Today',
-            value: `**[${redditPost.title}](${redditPost.url})**\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
+            value: `[${redditPost.title}](${redditPost.url})\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
             inline: false
         });
         
