@@ -37,6 +37,9 @@ npm install
 cp env.example .env
 ```
 ```bash
+chmod +x deploy.sh
+```
+```bash
 ./deploy.sh
 ```
 ```bash
@@ -47,6 +50,9 @@ npm start
 > Edit .env with your Discord bot token (and Reddit credentials)
 
 **Monitor:**
+```bash
+chmod +x monitor-bot.sh
+```
 ```bash
 ./monitor-bot.sh
 ```
