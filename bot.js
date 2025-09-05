@@ -141,6 +141,80 @@ const client = new Client({
     ]
 });
 
+// Monitoring system - integrated into bot
+const os = require('os');
+
+const MONITOR_DIR = path.join(os.homedir(), '.arc-raiders-monitor');
+const MONITOR_LOG_FILE = path.join(MONITOR_DIR, 'monitor.log');
+const MONITOR_DATA_FILE = path.join(MONITOR_DIR, 'monitor-data.json');
+
+// Create monitor directory if it doesn't exist
+if (!fs.existsSync(MONITOR_DIR)) {
+    fs.mkdirSync(MONITOR_DIR, { recursive: true });
+}
+
+// Initialize monitoring data
+let monitorData = {
+    baseline_servers: 0,
+    current_servers: 0,
+    server_difference: 0,
+    last_updated: new Date().toISOString()
+};
+
+// Load existing monitor data
+if (fs.existsSync(MONITOR_DATA_FILE)) {
+    try {
+        monitorData = JSON.parse(fs.readFileSync(MONITOR_DATA_FILE, 'utf8'));
+    } catch (e) {
+        console.error('Error loading monitor data:', e);
+    }
+}
+
+// Function to log with timestamp
+function logMonitor(message) {
+    const timestamp = new Date().toISOString();
+    const logEntry = `[${timestamp}] ${message}`;
+    console.log(logEntry);
+    fs.appendFileSync(MONITOR_LOG_FILE, logEntry + '\n');
+}
+
+// Function to update monitor data
+function updateMonitorData(key, value) {
+    monitorData[key] = value;
+    monitorData.last_updated = new Date().toISOString();
+    fs.writeFileSync(MONITOR_DATA_FILE, JSON.stringify(monitorData, null, 2));
+}
+
+// Function to start monitoring
+function startMonitoring() {
+    // Set baseline server count if not already set
+    if (monitorData.baseline_servers === 0) {
+        monitorData.baseline_servers = client.guilds.cache.size;
+        updateMonitorData('baseline_servers', monitorData.baseline_servers);
+        logMonitor(`Baseline server count set to: ${monitorData.baseline_servers}`);
+    }
+    
+    // Update current server count
+    monitorData.current_servers = client.guilds.cache.size;
+    monitorData.server_difference = monitorData.current_servers - monitorData.baseline_servers;
+    updateMonitorData('current_servers', monitorData.current_servers);
+    updateMonitorData('server_difference', monitorData.server_difference);
+    
+    logMonitor(`Monitoring started - Servers: ${monitorData.current_servers} (${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
+    
+    // Start monitoring loop (every 30 seconds)
+    setInterval(() => {
+        const currentCount = client.guilds.cache.size;
+        if (currentCount !== monitorData.current_servers) {
+            monitorData.current_servers = currentCount;
+            monitorData.server_difference = currentCount - monitorData.baseline_servers;
+            updateMonitorData('current_servers', currentCount);
+            updateMonitorData('server_difference', monitorData.server_difference);
+            logMonitor(`Server count changed: ${currentCount} (difference: ${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
+        }
+    }, 30000);
+}
+
 // Define slash commands
 const commands = [
     new SlashCommandBuilder()
@@ -1018,81 +1092,6 @@ async function postCountdownMessage(guildId) {
     }
 }
 
-// Monitoring system - integrated into bot
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-
-const MONITOR_DIR = path.join(os.homedir(), '.arc-raiders-monitor');
-const MONITOR_LOG_FILE = path.join(MONITOR_DIR, 'monitor.log');
-const MONITOR_DATA_FILE = path.join(MONITOR_DIR, 'monitor-data.json');
-
-// Create monitor directory if it doesn't exist
-if (!fs.existsSync(MONITOR_DIR)) {
-    fs.mkdirSync(MONITOR_DIR, { recursive: true });
-}
-
-// Initialize monitoring data
-let monitorData = {
-    baseline_servers: 0,
-    current_servers: 0,
-    server_difference: 0,
-    last_updated: new Date().toISOString()
-};
-
-// Load existing monitor data
-if (fs.existsSync(MONITOR_DATA_FILE)) {
-    try {
-        monitorData = JSON.parse(fs.readFileSync(MONITOR_DATA_FILE, 'utf8'));
-    } catch (e) {
-        console.error('Error loading monitor data:', e);
-    }
-}
-
-// Function to log with timestamp
-function logMonitor(message) {
-    const timestamp = new Date().toISOString();
-    const logEntry = `[${timestamp}] ${message}`;
-    console.log(logEntry);
-    fs.appendFileSync(MONITOR_LOG_FILE, logEntry + '\n');
-}
-
-// Function to update monitor data
-function updateMonitorData(key, value) {
-    monitorData[key] = value;
-    monitorData.last_updated = new Date().toISOString();
-    fs.writeFileSync(MONITOR_DATA_FILE, JSON.stringify(monitorData, null, 2));
-}
-
-// Function to start monitoring
-function startMonitoring() {
-    // Set baseline server count if not already set
-    if (monitorData.baseline_servers === 0) {
-        monitorData.baseline_servers = client.guilds.cache.size;
-        updateMonitorData('baseline_servers', monitorData.baseline_servers);
-        logMonitor(`Baseline server count set to: ${monitorData.baseline_servers}`);
-    }
-    
-    // Update current server count
-    monitorData.current_servers = client.guilds.cache.size;
-    monitorData.server_difference = monitorData.current_servers - monitorData.baseline_servers;
-    updateMonitorData('current_servers', monitorData.current_servers);
-    updateMonitorData('server_difference', monitorData.server_difference);
-    
-    logMonitor(`Monitoring started - Servers: ${monitorData.current_servers} (${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
-    
-    // Start monitoring loop (every 30 seconds)
-    setInterval(() => {
-        const currentCount = client.guilds.cache.size;
-        if (currentCount !== monitorData.current_servers) {
-            monitorData.current_servers = currentCount;
-            monitorData.server_difference = currentCount - monitorData.baseline_servers;
-            updateMonitorData('current_servers', currentCount);
-            updateMonitorData('server_difference', monitorData.server_difference);
-            logMonitor(`Server count changed: ${currentCount} (difference: ${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
-        }
-    }, 30000);
-}
 
 // Monitor bot joins and leaves
 function logGuildEvent(event, guild) {
@@ -1116,7 +1115,9 @@ function logGuildEvent(event, guild) {
     console.log('─'.repeat(50));
     
     // Log to monitor file
-    logMonitor(`GUILD_EVENT: ${event} - ${guildInfo.name} (${guildInfo.id}) - ${guildInfo.memberCount} members`);
+    if (typeof logMonitor === 'function') {
+        logMonitor(`GUILD_EVENT: ${event} - ${guildInfo.name} (${guildInfo.id}) - ${guildInfo.memberCount} members`);
+    }
 }
 
 // When the client is ready, run this code
