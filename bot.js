@@ -168,6 +168,18 @@ const commands = [
     new SlashCommandBuilder()
         .setName('countdown-test')
         .setDescription('Test the countdown bot by posting a message now')
+        .addStringOption(option =>
+            option.setName('phase')
+                .setDescription('Which emoji phase to test')
+                .setRequired(false)
+                .addChoices(
+                    { name: 'Current Phase (Real Days)', value: 'current' },
+                    { name: 'Phase 1: Early Days (55+ days)', value: 'early' },
+                    { name: 'Phase 2: Mid Countdown (30-54 days)', value: 'mid' },
+                    { name: 'Phase 3: Final Month (15-29 days)', value: 'final_month' },
+                    { name: 'Phase 4: Final Week (7-14 days)', value: 'final_week' },
+                    { name: 'Phase 5: Final Days (1-6 days)', value: 'final_days' }
+                ))
 ];
 
 // Register slash commands
@@ -660,6 +672,76 @@ function getCustomEmoji(daysRemaining) {
     return selectedEmoji;
 }
 
+// Function to create countdown embed with Arc Raiders Reddit post (for testing)
+async function createCountdownEmbedTest(testPhase = null) {
+    const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
+    let daysRemaining = getDaysRemaining(releaseDate);
+    let customEmoji;
+    
+    // Override days remaining for testing specific phases
+    if (testPhase) {
+        switch (testPhase) {
+            case 'early':
+                daysRemaining = 60; // Early days
+                break;
+            case 'mid':
+                daysRemaining = 40; // Mid countdown
+                break;
+            case 'final_month':
+                daysRemaining = 20; // Final month
+                break;
+            case 'final_week':
+                daysRemaining = 10; // Final week
+                break;
+            case 'final_days':
+                daysRemaining = 3; // Final days
+                break;
+            default:
+                // Use real days remaining
+                break;
+        }
+    }
+    
+    customEmoji = getCustomEmoji(daysRemaining);
+    
+    const embed = new EmbedBuilder()
+        .setTitle(`${customEmoji} **${daysRemaining} DAYS** until Arc Raiders!`)
+        .setDescription(`Arc Raiders launches on October 30, 2025`)
+        .setColor(0x00ff00)
+        .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
+        .setFooter({ text: 'Arc Raiders - Embark Studios' })
+        .setTimestamp();
+
+    if (daysRemaining === 0) {
+        embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
+        embed.setDescription('Arc Raiders has launched on October 30, 2025!');
+        embed.setColor(0xff0000);
+    } else if (daysRemaining === 1) {
+        embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
+        embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
+        embed.setColor(0xffa500);
+    } else if (daysRemaining <= 7) {
+        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders!`);
+        embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
+        embed.setColor(0xff4500);
+    }
+
+    // Try to fetch the top Reddit post with image
+    const redditPost = await getTopArcRaidersPostWithImage();
+    if (redditPost) {
+        embed.addFields({
+            name: 'Top r/arcraiders Post Today',
+            value: `[${redditPost.title}](${redditPost.url})\n⬆️ ${redditPost.score} upvotes • 💬 ${redditPost.comments} comments`,
+            inline: false
+        });
+        
+        // Use the Reddit post image as the main embed image
+        embed.setImage(redditPost.imageUrl);
+    }
+
+    return embed;
+}
+
 // Function to create countdown embed with Arc Raiders Reddit post
 async function createCountdownEmbed() {
     const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
@@ -702,6 +784,93 @@ async function createCountdownEmbed() {
     }
 
     return embed;
+}
+
+// Function to post test countdown message
+async function postTestCountdownMessage(guildId, testPhase = null) {
+    try {
+        const serverConfig = getServerConfig(guildId);
+        const channelId = serverConfig.channelId;
+        
+        if (!channelId) {
+            console.log(`No channel configured for guild ${guildId}, skipping test countdown message`);
+            return;
+        }
+        
+        const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
+        let daysRemaining = getDaysRemaining(releaseDate);
+        
+        // Override days remaining for testing specific phases
+        if (testPhase) {
+            switch (testPhase) {
+                case 'early':
+                    daysRemaining = 60; // Early days
+                    break;
+                case 'mid':
+                    daysRemaining = 40; // Mid countdown
+                    break;
+                case 'final_month':
+                    daysRemaining = 20; // Final month
+                    break;
+                case 'final_week':
+                    daysRemaining = 10; // Final week
+                    break;
+                case 'final_days':
+                    daysRemaining = 3; // Final days
+                    break;
+                default:
+                    // Use real days remaining
+                    break;
+            }
+        }
+        
+        console.log(`🧪 Testing countdown message (${daysRemaining} days remaining, phase: ${testPhase || 'current'})...`);
+
+        const channel = await client.channels.fetch(channelId);
+        if (!channel) {
+            throw new Error(`Channel with ID ${channelId} not found or bot doesn't have access`);
+        }
+
+        // Check if bot has permission to send messages in this channel
+        if (!channel.permissionsFor(client.user).has('SendMessages')) {
+            throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
+        }
+
+        // Determine number of messages based on test phase
+        let messageCount = 1;
+        if (testPhase === 'final_days' || daysRemaining <= 6) {
+            messageCount = 6; // Final day: 6 messages
+        } else if (testPhase === 'final_week' || (daysRemaining <= 2 && daysRemaining > 1)) {
+            messageCount = 4; // 2-3 days: 4 messages
+        } else if (daysRemaining <= 4) {
+            messageCount = 3; // 3-4 days: 3 messages
+        } else if (daysRemaining <= 6) {
+            messageCount = 2; // 5-6 days: 2 messages
+        }
+
+        // Post test messages
+        for (let i = 0; i < messageCount; i++) {
+            const embed = await createCountdownEmbedTest(testPhase);
+            await channel.send({ embeds: [embed] });
+            
+            // Add delay between messages to avoid rate limiting
+            if (i < messageCount - 1) {
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay for testing
+            }
+        }
+        
+        console.log(`✅ ${messageCount} test countdown message(s) posted successfully! Days remaining: ${daysRemaining}, Phase: ${testPhase || 'current'}`);
+    } catch (error) {
+        console.error('❌ Error posting test countdown message:', error.message);
+        
+        // Log additional context for debugging
+        if (error.code) {
+            console.error(`Discord API Error Code: ${error.code}`);
+        }
+        
+        // Don't crash the bot for posting errors, just log them
+        console.error('Bot will continue running');
+    }
 }
 
 // Function to post countdown message
@@ -941,6 +1110,7 @@ client.on('interactionCreate', async interaction => {
             
             case 'countdown-test': {
                 const serverConfig = getServerConfig(guildId);
+                const testPhase = interaction.options.getString('phase') || 'current';
                 
                 if (!serverConfig.channelId) {
                     return interaction.reply({
@@ -949,12 +1119,37 @@ client.on('interactionCreate', async interaction => {
                     });
                 }
                 
+                // Get phase description for response
+                let phaseDescription;
+                switch (testPhase) {
+                    case 'current':
+                        phaseDescription = 'Current Phase (Real Days)';
+                        break;
+                    case 'early':
+                        phaseDescription = 'Phase 1: Early Days (60 days)';
+                        break;
+                    case 'mid':
+                        phaseDescription = 'Phase 2: Mid Countdown (40 days)';
+                        break;
+                    case 'final_month':
+                        phaseDescription = 'Phase 3: Final Month (20 days)';
+                        break;
+                    case 'final_week':
+                        phaseDescription = 'Phase 4: Final Week (10 days)';
+                        break;
+                    case 'final_days':
+                        phaseDescription = 'Phase 5: Final Days (3 days)';
+                        break;
+                    default:
+                        phaseDescription = 'Current Phase';
+                }
+                
                 await interaction.reply({
-                    content: '🧪 Testing countdown message...',
+                    content: `🧪 Testing countdown message for **${phaseDescription}**...`,
                     ephemeral: true
                 });
                 
-                await postCountdownMessage(guildId);
+                await postTestCountdownMessage(guildId, testPhase);
                 break;
             }
         }
