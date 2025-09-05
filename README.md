@@ -1,4 +1,4 @@
-# Arc Raiders Discord Countdown Bot
+# Arc Raiders Countdown Bot [Discord]
 
 Daily countdown post in Discord channel to Arc Raiders release (October 30, 2025) with the top daily Reddit post from r/arcraiders.
 
