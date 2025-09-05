@@ -83,9 +83,6 @@ async function getRedditAccessToken() {
 
     try {
         console.log('Getting Reddit OAuth access token...');
-        console.log('Client ID length:', config.REDDIT_CLIENT_ID ? config.REDDIT_CLIENT_ID.length : 'null');
-        console.log('Client Secret length:', config.REDDIT_CLIENT_SECRET ? config.REDDIT_CLIENT_SECRET.length : 'null');
-        console.log('Username:', config.REDDIT_USERNAME ? config.REDDIT_USERNAME : 'null');
         
         const auth = Buffer.from(`${config.REDDIT_CLIENT_ID}:${config.REDDIT_CLIENT_SECRET}`).toString('base64');
         
@@ -102,16 +99,20 @@ async function getRedditAccessToken() {
             }
         );
 
-        console.log('Reddit OAuth response status:', response.status);
-        console.log('Reddit OAuth response data:', JSON.stringify(response.data, null, 2));
+        // Check for errors in the response
+        if (response.data.error) {
+            console.error('❌ Reddit OAuth error:', response.data.error);
+            if (response.data.error_description) {
+                console.error('Error description:', response.data.error_description);
+            }
+            return null;
+        }
         
         redditAccessToken = response.data.access_token;
         // Set expiry to 45 minutes (tokens last 1 hour, but we refresh early)
         tokenExpiry = Date.now() + (45 * 60 * 1000);
         
         console.log('✅ Reddit OAuth access token obtained successfully');
-        console.log('Token length:', redditAccessToken ? redditAccessToken.length : 'null');
-        console.log('Token preview:', redditAccessToken ? redditAccessToken.substring(0, 10) + '...' : 'null');
         return redditAccessToken;
     } catch (error) {
         console.error('❌ Failed to get Reddit OAuth access token:', error.response?.data || error.message);
@@ -131,10 +132,6 @@ function getDaysRemaining() {
 async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS) {
     // Get OAuth access token
     const accessToken = await getRedditAccessToken();
-    console.log('Access token received:', accessToken ? 'YES' : 'NO');
-    if (accessToken) {
-        console.log('Token length:', accessToken.length);
-    }
     if (!accessToken) {
         console.log('No Reddit access token available, skipping Reddit post');
         return null;
@@ -314,11 +311,6 @@ client.once('ready', () => {
     });
     
     console.log(`📅 Scheduled to post daily at ${schedule} (${timezone})`);
-    
-    // Post initial countdown message
-    setTimeout(() => {
-        postCountdownMessage();
-    }, 2000); // Wait 2 seconds after bot is ready
 });
 
 // Graceful shutdown handling
