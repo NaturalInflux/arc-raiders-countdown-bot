@@ -1,4 +1,5 @@
-Daily countdown post in Discord channel till Arc Raiders release (October 30, 2025) with the top daily Reddit post from r/arcraiders.
+Daily countdown post in Discord channel till Arc Raiders release (October 30, 2025).
+With the top daily Reddit post from r/arcraiders.
 
 # Quick Add
 
