@@ -167,7 +167,7 @@ For production deployment on a VPS:
 
 2. **Clone and setup the bot:**
    ```bash
-   git clone https://github.com/yourusername/arc-raiders-countdown-bot.git
+   git clone https://github.com/NaturalInflux/arc-raiders-countdown-bot.git
    cd arc-raiders-countdown-bot
    npm install
    ```
