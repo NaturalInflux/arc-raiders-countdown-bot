@@ -1,18 +1,57 @@
 # Arc Raiders Countdown Bot
 
-A Discord bot that posts daily countdown messages for the release of Arc Raiders, launching on October 30, 2025. Each message includes a random Reddit post from r/ArcRaiders to keep the community engaged!
+A Discord bot that posts daily countdown messages for the release of Arc Raiders, launching on October 30, 2025. Each message includes the top Reddit post of the day from r/arcraiders to keep the community engaged!
+
+## 📋 Choose Your Option
+
+**🎮 Just want to use the bot?** → Go to [Quick Start](#-quick-start-using-the-bot) (No technical knowledge needed!)
+
+**🛠️ Want to run your own instance?** → Go to [Self-Hosting](#️-self-hosting-for-developers) (For developers)
+
+---
+
+## 🚀 Quick Start (Using the Bot)
+
+**Want to add this bot to your Discord server? It's super easy!**
+
+### Step 1: Add the Bot
+[**Click here to add the bot to your server**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
+
+### Step 2: Set Up the Bot
+1. In your Discord server, type: `/countdown-setup channel:general`
+   - Replace "general" with whatever channel you want the bot to post in
+2. (Optional) Set a custom time: `/countdown-time time:3pm`
+   - You can use formats like "3am", "15:00", "3:30pm"
+
+### Step 3: Done! 
+The bot will now post daily countdown messages with the top Reddit post from r/arcraiders!
+
+**That's it! No technical knowledge required.** 🎉
+
+### Need Help?
+- **Bot not responding?** Make sure you have "Manage Server" permission
+- **Wrong channel?** Use `/countdown-setup channel:your-channel-name` again
+- **Want to test?** Use `/countdown-test` to see a message right now
+- **Check settings?** Use `/countdown-status` to see your current configuration
+
+---
+
+## 🛠️ Self-Hosting (For Developers)
+
+Want to run your own instance of this bot? Follow the setup instructions below.
 
 ## Features
 
-- 🎮 Daily countdown messages posted automatically at 12:00 PM UTC (optimal for EU/NA timezones)
+- 🎮 Daily countdown messages posted automatically at your specified time (UTC timezone)
 - 📅 Beautiful embed messages with game artwork and Steam header image
-- 🔥 Top Reddit post of the day from r/ArcRaiders (with image) included in each message
+- 🔥 Top Reddit post of the day from r/arcraiders (with image) included in each message
 - 🚀 Special messages for the final week and release day
 - 🛡️ Robust error handling with retry logic for Reddit API calls
 - 🎯 Simple setup and configuration
 - 🔒 Input validation and graceful error handling
+- 🌐 Multi-server support with per-server configuration
 
-## Setup Instructions
+## Self-Hosting Setup Instructions
 
 ### 1. Install Node.js
 
@@ -96,18 +135,7 @@ To enable Reddit integration, you need to create a Reddit API application:
 npm start
 ```
 
-## Usage
-
-### Quick Setup
-1. **Add the bot to your server** using the invite link above
-2. **Set up the bot:**
-   ```
-   /countdown-setup channel:general
-   ```
-3. **Set the posting time (optional):**
-   ```
-   /countdown-time time:3pm
-   ```
+## Self-Hosting Usage
 
 ### Commands
 - **`/countdown-setup channel`** - Set which channel to post in (defaults to 12:00 UTC)
