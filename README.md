@@ -41,11 +41,11 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 
 ---
 
-# Self-Hosting (for developers)
+## Self-Hosting (for developers)
 
 Want to host the bot yourself? Instructions for Ubuntu Server below.
 
-## Deploy:
+### Deploy:
 > Clone the repository
 ```bash
 git clone https://github.com/NaturalInflux/arc-raiders-countdown-bot.git
@@ -78,7 +78,7 @@ chmod +x deploy.sh
 npm start
 ```
 
-## Update:
+### Update:
 > Pull latest changes
 ```bash
 git pull origin main
@@ -88,7 +88,7 @@ git pull origin main
 pm2 restart arc-raiders-countdown-bot
 ```
 
-## Monitoring
+### Monitor
 
 The bot includes an integrated monitoring system that automatically starts when the bot starts:
 
