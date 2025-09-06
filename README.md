@@ -4,7 +4,7 @@
   <img width="300" alt="Arc Raiders Bot Logo" src="https://github.com/user-attachments/assets/ca044333-7efb-4718-88cb-57d2aedaa8be" />
 </td>
 <td>
-  <strong>Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.</strong>
+  <strong>Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders and randomized Twitch emotes that increase in amount and intensity the closer we get to the launch :D</strong>
 </td>
 </tr>
 </table>
