@@ -7,13 +7,13 @@
   <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity over time</strong>
   <br><br>
   <img width="50" alt="catPls" src="https://github.com/user-attachments/assets/e9709481-ff34-4506-ad0d-69c8232faf9f" />
-  <img width="50" alt="LETSGOOO" src="https://cdn.discordapp.com/emojis/1081971175133024377.gif?size=48&animated=true&name=LETSGOOO" />
   <img width="50" alt="NODDERS" src="https://cdn.discordapp.com/emojis/1081963012405071953.gif?size=48&animated=true&name=NODDERS" />
-  <img width="50" alt="catJam" src="https://cdn.discordapp.com/emojis/1229853092766547998.gif?size=48&animated=true&name=catJam" />
-  <img width="50" alt="danse" src="https://cdn.discordapp.com/emojis/1411879380380024953.gif?size=48&animated=true&name=danse" />
-  <img width="50" alt="AYOOO" src="https://cdn.discordapp.com/emojis/1411877554771722342.gif?size=48&animated=true&name=AYOOO" />
+  <img width="50" alt="veryCat" src="https://cdn.discordapp.com/emojis/1229852881465905212.gif?size=48&animated=true&name=veryCat" />
+  <img width="50" alt="catBop" src="https://cdn.discordapp.com/emojis/1411848568100098048.gif?size=48&animated=true&name=catBop" />
+  <img width="50" alt="HYPERS" src="https://cdn.discordapp.com/emojis/1081947121009295401.webp?size=48&name=HYPERS" />
+  <img width="50" alt="OkayChamp" src="https://cdn.discordapp.com/emojis/1081948107853529108.webp?size=48&name=OkayChamp" />
   <img width="50" alt="PartyKirby" src="https://cdn.discordapp.com/emojis/1411880282226819243.gif?size=48&animated=true&name=PartyKirby" />
-  <img width="50" alt="WOW" src="https://cdn.discordapp.com/emojis/1411880525836320779.gif?size=48&animated=true&name=WOW" />
+  <img width="50" alt="veiNODDERS" src="https://cdn.discordapp.com/emojis/1411880514104725644.gif?size=48&animated=true&name=veiNODDERS" />
 </td>
 </tr>
 </table>

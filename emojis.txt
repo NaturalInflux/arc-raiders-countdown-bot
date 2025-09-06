@@ -1,15 +1,15 @@
 # Arc Raiders Countdown Bot - Custom Emoji Usage
 # Each emoji is categorized by intensity level and usage phase
 
-<:EZ:1081947114663321620> - EZ - Used in final phases for "easy win" energy
-<:HYPERS:1081947121009295401> - HYPERS - Hyper energy, used in mid-to-late phases
+[EZ](https://cdn.discordapp.com/emojis/1081947114663321620.webp?size=48&name=EZ) - EZ - Used in final phases for "easy win" energy
+[HYPERS](https://cdn.discordapp.com/emojis/1081947121009295401.webp?size=48&name=HYPERS) - HYPERS - Hyper energy, used in mid-to-late phases
 [LETSGOOO](https://cdn.discordapp.com/emojis/1081971175133024377.gif?size=48&animated=true&name=LETSGOOO) - LETSGOOO - Let's go energy, used in mid-to-late phases
 [NODDERS](https://cdn.discordapp.com/emojis/1081963012405071953.gif?size=48&animated=true&name=NODDERS) - NODDERS - Nodding approval, used in mid-to-late phases
-<:PauseChamp:1081947249493418028> - PauseChamp - Pause champ energy, used in mid-to-late phases
-<:OkayChamp:1081948107853529108> - OkayChamp - Okay champ vibes, used in mid-to-late phases
-<:PagMan:1081948129693290546> - PagMan - Pag energy, used in mid-to-late phases
-<:PogU:1081948140392939592> - PogU - Pog energy, used in mid-to-late phases
-<:TrollDespair:1081962916615553034> - TrollDespair - Troll despair, used in early phases for sadness
+[PauseChamp](https://cdn.discordapp.com/emojis/1081947249493418028.webp?size=48&name=PauseChamp) - PauseChamp - Pause champ energy, used in mid-to-late phases
+[OkayChamp](https://cdn.discordapp.com/emojis/1081948107853529108.webp?size=48&name=OkayChamp) - OkayChamp - Okay champ vibes, used in mid-to-late phases
+[PagMan](https://cdn.discordapp.com/emojis/1081948129693290546.webp?size=48&name=PagMan) - PagMan - Pag energy, used in mid-to-late phases
+[PogU](https://cdn.discordapp.com/emojis/1081948140392939592.webp?size=48&name=PogU) - PogU - Pog energy, used in mid-to-late phases
+[TrollDespair](https://cdn.discordapp.com/emojis/1081962916615553034.webp?size=48&name=TrollDespair) - TrollDespair - Troll despair, used in early phases for sadness
 [modCheck](https://cdn.discordapp.com/emojis/1081971177246965871.gif?size=48&animated=true&name=modCheck) - modCheck - Mod check, used in mid phases
 [HYPERNODDERS](https://cdn.discordapp.com/emojis/1229852036288217118.gif?size=48&animated=true&name=HYPERNODDERS) - HYPERNODDERS - Hyper nodding, used in late phases
 [Loading](https://cdn.discordapp.com/emojis/1229852033981612102.gif?size=48&animated=true&name=Loading) - Loading - Loading animation, used in early phases for waiting
@@ -21,7 +21,7 @@
 [PepeCringe](https://cdn.discordapp.com/emojis/1229843734557098036.webp?size=48&name=PepeCringe) - PepeCringe - Pepe cringe, used in early phases for cringe
 [Sodge](https://cdn.discordapp.com/emojis/1263626742317453386.webp?size=48&name=Sodge) - Sodge - Sodge energy, used in mid phases
 [pepeSmoke](https://cdn.discordapp.com/emojis/1081963039881961572.gif?size=48&animated=true&name=pepeSmoke) - pepeSmoke - Pepe smoke, used in early phases for despair
-<:pepeW:1081947385560829973> - pepeW - Pepe W, used in mid phases
+[pepeW](https://cdn.discordapp.com/emojis/1081947385560829973.webp?size=48&name=pepeW) - pepeW - Pepe W, used in mid phases
 [sumSmash](https://cdn.discordapp.com/emojis/1081971182976381118.gif?size=48&animated=true&name=sumSmash) - sumSmash - Sum smash, used in late phases
 [ppHop](https://cdn.discordapp.com/emojis/1081971100193403000.gif?size=48&animated=true&name=ppHop) - ppHop - PP hop, used in late phases
 [pepeMeltdown](https://cdn.discordapp.com/emojis/1081967381460557824.gif?size=48&animated=true&name=pepeMeltdown) - pepeMeltdown - Pepe meltdown, used in early phases for meltdown
