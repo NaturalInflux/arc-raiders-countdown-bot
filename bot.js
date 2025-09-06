@@ -1289,8 +1289,8 @@ client.on('interactionCreate', async interaction => {
             
             case 'countdown-donate': {
                 const embed = new EmbedBuilder()
-                    .setTitle('💖 Support Me')
-                    .setDescription('Help keep this bot running and cover server costs! Planning some cool features when Arc Raiders launches - maybe connect your game stats to Discord? 👀')
+                    .setTitle('💜 Support the development')
+                    .setDescription('Help cover server costs. Planning some cool features for when the game is out.. 👀')
                     .setColor(0xff6b6b)
                     .addFields(
                         {
@@ -1309,7 +1309,7 @@ client.on('interactionCreate', async interaction => {
                             inline: true
                         }
                     )
-                    .setFooter({ text: 'Thanks! 🙏' })
+                    .setFooter({ text: 'Much appreciated! 🙏' })
                     .setTimestamp();
                 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
