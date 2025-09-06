@@ -1270,7 +1270,7 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                 break;
             }
             
-            case 'countdown-donate': {
+            case 'countdown-love': {
                 const embed = new EmbedBuilder()
                     .setTitle('💜 Help cover server costs')
                     .setDescription('Working on some cool new features for when the game is out <a:NODDERS:1081963012405071953>')
