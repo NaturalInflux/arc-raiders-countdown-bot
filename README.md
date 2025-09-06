@@ -1,4 +1,5 @@
-![i](https://github.com/user-attachments/assets/21a9982d-b5b5-4637-b2a5-669fb87a69c2)
+![arc-raiders-countdown-teaser-no-shadow-drop-apology](https://github.com/user-attachments/assets/904d508e-1f34-4fab-8313-e7697d19f8d3)
+
 Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.
 
 # Quick Add
