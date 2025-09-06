@@ -13,6 +13,7 @@
   <img width="50" alt="danse" src="https://cdn.discordapp.com/emojis/1411879380380024953.gif?size=48&animated=true&name=danse" />
   <img width="50" alt="AYOOO" src="https://cdn.discordapp.com/emojis/1411877554771722342.gif?size=48&animated=true&name=AYOOO" />
   <img width="50" alt="PartyKirby" src="https://cdn.discordapp.com/emojis/1411880282226819243.gif?size=48&animated=true&name=PartyKirby" />
+  <img width="50" alt="WOW" src="https://cdn.discordapp.com/emojis/1411880525836320779.gif?size=48&animated=true&name=WOW" />
 </td>
 </tr>
 </table>
