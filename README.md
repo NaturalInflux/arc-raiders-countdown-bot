@@ -6,14 +6,14 @@
 <td>
   <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity.</strong>
   <br><br>
-  <img width="50" alt="NODDERS" src="https://cdn.discordapp.com/emojis/1081963012405071953.gif?size=48&animated=true&name=NODDERS" />
+  <img width="50" alt="PogChamping" src="https://cdn.discordapp.com/emojis/1229857218380304505.gif?size=48&animated=true&name=PogChamping" />
   <img width="50" alt="catPls" src="https://github.com/user-attachments/assets/e9709481-ff34-4506-ad0d-69c8232faf9f" />
-  <img width="50" alt="MONKE" src="https://cdn.discordapp.com/emojis/1229857286751518822.gif?size=48&animated=true&name=MONKE" />
   <img width="50" alt="agaCheck" src="https://cdn.discordapp.com/emojis/1411849176798462042.gif?size=48&animated=true&name=agaCheck" />
+  <img width="50" alt="MONKE" src="https://cdn.discordapp.com/emojis/1229857286751518822.gif?size=48&animated=true&name=MONKE" />
+  <img width="50" alt="borpaFast" src="https://cdn.discordapp.com/emojis/1411849800168505507.gif?size=48&animated=true&name=borpafast" />
   <img width="50" alt="veryCat" src="https://cdn.discordapp.com/emojis/1229852881465905212.gif?size=48&animated=true&name=veryCat" />
-  <img width="50" alt="goosePls" src="https://cdn.discordapp.com/emojis/1411878995716345867.gif?size=48&animated=true&name=goosePls4x" />
-  <img width="50" alt="borpaCheck" src="https://cdn.discordapp.com/emojis/1411849941780926495.gif?size=48&animated=true&name=borpaCheck" />
   <img width="50" alt="omgBruh" src="https://cdn.discordapp.com/emojis/1411863929117741218.gif?size=48&animated=true&name=omgBruh" />
+  <img width="50" alt="pepeMeltdown" src="https://cdn.discordapp.com/emojis/1081967381460557824.gif?size=48&animated=true&name=pepeMeltdown" />
   <img width="50" alt="veiNODDERS" src="https://cdn.discordapp.com/emojis/1411880514104725644.gif?size=48&animated=true&name=veiNODDERS" />
 </td>
 </tr>
