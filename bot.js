@@ -1289,27 +1289,27 @@ client.on('interactionCreate', async interaction => {
             
             case 'countdown-donate': {
                 const embed = new EmbedBuilder()
-                    .setTitle('💖 Support the Bot Developer')
-                    .setDescription('Help keep this bot running and support future development!')
+                    .setTitle('💖 Support Me')
+                    .setDescription('Help keep this bot running and cover server costs! Planning some cool features when Arc Raiders launches - maybe connect your game stats to Discord? 👀')
                     .setColor(0xff6b6b)
                     .addFields(
                         {
                             name: '₿ Bitcoin (BTC)',
-                            value: '`bc1q3wksadftgyn5f6y36pvprpmd54ny5jj8x8pxeu`\n*Click to copy*',
+                            value: '```\nbc1q3wksadftgyn5f6y36pvprpmd54ny5jj8x8pxeu\n```\n*Click to copy*',
                             inline: true
                         },
                         {
                             name: 'Ξ Ethereum (ETH)',
-                            value: '`0x9c0d097ef971674D9133e88Eff5a256187d2C09d`\n*Click to copy*',
+                            value: '```\n0x9c0d097ef971674D9133e88Eff5a256187d2C09d\n```\n*Click to copy*',
                             inline: true
                         },
                         {
                             name: 'ɱ Monero (XMR)',
-                            value: '`88tVVqExo9EPmRB4CwLV7qFgDHrbfLyXrLFsYcFb6KCS1T8RiimThkBgMQzRewTTAKcfKzMs1rJ3qFC2Mm3HTNVcVi2wSVT`\n*Click to copy*',
+                            value: '```\n88tVVqExo9EPmRB4CwLV7qFgDHrbfLyXrLFsYcFb6KCS1T8RiimThkBgMQzRewTTAKcfKzMs1rJ3qFC2Mm3HTNVcVi2wSVT\n```\n*Click to copy*',
                             inline: true
                         }
                     )
-                    .setFooter({ text: 'Thank you for your support! 🙏' })
+                    .setFooter({ text: 'Thanks! 🙏' })
                     .setTimestamp();
                 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
