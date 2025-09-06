@@ -1290,7 +1290,7 @@ client.on('interactionCreate', async interaction => {
             case 'countdown-donate': {
                 const embed = new EmbedBuilder()
                     .setTitle('💜 Help cover server costs')
-                    .setDescription('Working on some cool new things for when the game is out.. 👀')
+                    .setDescription('Working on some cool new features for when the game is out.. 👀')
                     .setColor(0xff6b6b)
                     .addFields(
                         {
