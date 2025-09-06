@@ -38,7 +38,8 @@ arc-raiders-countdown-bot/
 ### 2. Reddit Integration
 - **OAuth Authentication**: Uses Reddit API with proper authentication
 - **Top Post Fetching**: Gets the #1 top-voted post from r/arcraiders daily
-- **Image Support**: Automatically uses Reddit post images as embed images
+- **Media Support**: Automatically uses Reddit post images or videos as embed media
+- **Video Priority**: Prefers video posts over image posts when available
 - **Graceful Degradation**: Bot continues working even if Reddit API fails
 
 ### 3. Dynamic Emoji System
@@ -104,9 +105,14 @@ NODE_ENV=production
    - Displays channel and posting time
 
 4. **`/countdown-test`**
-   - Tests all emoji phases at once
-   - Posts example messages for each phase
-   - Useful for previewing emoji progression
+   - Tests current emoji phase
+   - Posts example message for current phase
+   - Useful for previewing current emoji intensity
+
+5. **`/countdown-donate`**
+   - Shows donation links to support the bot developer
+   - Includes PayPal, Ko-fi, Patreon, and GitHub Sponsors
+   - Ephemeral response for privacy
 
 ## Core Functions
 
@@ -130,8 +136,8 @@ function updateServerConfig(guildId, updates)
 // Get Reddit OAuth access token
 async function getRedditAccessToken()
 
-// Fetch top Arc Raiders post with image
-async function getTopArcRaidersPostWithImage()
+// Fetch top Arc Raiders post with media (image or video)
+async function getTopArcRaidersPostWithMedia()
 ```
 
 ### Emoji System
@@ -197,7 +203,8 @@ async function postTestCountdownMessage(guildId, testPhase)
 - **Parameters**: `limit=1`, `t=day`, `raw_json=1`
 
 ### Post Filtering
-- **Image Requirement**: Only posts with images are selected
+- **Media Requirement**: Only posts with images or videos are selected
+- **Video Priority**: Prefers video posts over image posts when available
 - **Score Filtering**: Gets the top-voted post of the day
 - **Content Validation**: Ensures post has valid title and URL
 

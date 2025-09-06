@@ -239,9 +239,13 @@ const commands = [
         .setName('countdown-status')
         .setDescription('View current countdown bot configuration'),
     
-    new SlashCommandBuilder()
-        .setName('countdown-test')
-        .setDescription('Test countdown message - shows all emoji phases at once'),
+        new SlashCommandBuilder()
+            .setName('countdown-test')
+            .setDescription('Test countdown message - shows current phase'),
+    
+        new SlashCommandBuilder()
+            .setName('countdown-donate')
+            .setDescription('Support the bot developer with donations'),
     
 ];
 
@@ -332,7 +336,7 @@ function getDaysRemaining(releaseDate) {
 }
 
 // Function to fetch top Arc Raiders Reddit post with image
-async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS) {
+async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS) {
     // Get OAuth access token
     const accessToken = await getRedditAccessToken();
     if (!accessToken) {
@@ -360,15 +364,19 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
             
             const postData = posts[0].data;
             
-            // Check if post has an image
+            // Check if post has media (image or video)
             const hasImage = postData.preview && 
                            postData.preview.images && 
                            postData.preview.images.length > 0 &&
                            postData.preview.images[0].source &&
                            postData.preview.images[0].source.url;
             
-            if (!hasImage) {
-                console.log('Top post of the day does not have an image, skipping Reddit post');
+            const hasVideo = postData.media && 
+                           postData.media.reddit_video && 
+                           postData.media.reddit_video.fallback_url;
+            
+            if (!hasImage && !hasVideo) {
+                console.log('Top post of the day does not have media (image or video), skipping Reddit post');
                 return null;
             }
             
@@ -384,13 +392,24 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
                 return null;
             }
             
-            // Get the image URL (un-escape Reddit's HTML entities)
-            const imageUrl = postData.preview.images[0].source.url
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#x27;/g, "'");
+            // Get media URL (image or video)
+            let mediaUrl = null;
+            let mediaType = null;
+            
+            if (hasVideo) {
+                // Prefer video if available
+                mediaUrl = postData.media.reddit_video.fallback_url;
+                mediaType = 'video';
+            } else if (hasImage) {
+                // Use image as fallback
+                mediaUrl = postData.preview.images[0].source.url
+                    .replace(/&amp;/g, '&')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#x27;/g, "'");
+                mediaType = 'image';
+            }
             
             return {
                 title: postData.title,
@@ -399,7 +418,8 @@ async function getTopArcRaidersPostWithImage(retries = config.API_RETRY_ATTEMPTS
                 author: postData.author,
                 score: postData.score,
                 comments: postData.num_comments,
-                imageUrl: imageUrl
+                mediaUrl: mediaUrl,
+                mediaType: mediaType
             };
         } catch (error) {
             console.error(`Reddit API attempt ${attempt}/${retries} failed:`, error.message);
@@ -843,7 +863,7 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     }
 
     // Try to fetch the top Reddit post with image
-    const redditPost = await getTopArcRaidersPostWithImage();
+    const redditPost = await getTopArcRaidersPostWithMedia();
     if (redditPost) {
         embed.addFields({
             name: 'Top r/arcraiders Post Today',
@@ -851,8 +871,12 @@ async function createCountdownEmbedTest(daysRemaining = null) {
             inline: false
         });
         
-        // Use the Reddit post image as the main embed image
-        embed.setImage(redditPost.imageUrl);
+        // Use the Reddit post media (image or video) as the main embed media
+        if (redditPost.mediaType === 'video') {
+            embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
+        } else {
+            embed.setImage(redditPost.mediaUrl);
+        }
     }
 
     return embed;
@@ -887,7 +911,7 @@ async function createCountdownEmbed() {
     }
 
     // Try to fetch the top Reddit post with image
-    const redditPost = await getTopArcRaidersPostWithImage();
+    const redditPost = await getTopArcRaidersPostWithMedia();
     if (redditPost) {
         embed.addFields({
             name: 'Top r/arcraiders Post Today',
@@ -895,88 +919,17 @@ async function createCountdownEmbed() {
             inline: false
         });
         
-        // Use the Reddit post image as the main embed image
-        embed.setImage(redditPost.imageUrl);
+        // Use the Reddit post media (image or video) as the main embed media
+        if (redditPost.mediaType === 'video') {
+            embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
+        } else {
+            embed.setImage(redditPost.mediaUrl);
+        }
     }
 
     return embed;
 }
 
-// Function to post all test phases at once
-async function postAllTestPhases(guildId) {
-    try {
-        const serverConfig = getServerConfig(guildId);
-        const channelId = serverConfig.channelId;
-        
-        if (!channelId) {
-            console.log(`No channel configured for guild ${guildId}, skipping test countdown messages`);
-            return;
-        }
-        
-        console.log(`🧪 Testing all emoji phases for guild ${guildId}...`);
-
-        const channel = await client.channels.fetch(channelId);
-        if (!channel) {
-            throw new Error(`Channel with ID ${channelId} not found or bot doesn't have access`);
-        }
-
-        // Check if bot has permission to send messages in this channel
-        if (!channel.permissionsFor(client.user).has('SendMessages')) {
-            throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
-        }
-
-        // Test all phases
-        const phases = [
-            { name: 'Phase 1: Early Days (60 days)', days: 60 },
-            { name: 'Phase 2: Mid Countdown (40 days)', days: 40 },
-            { name: 'Phase 3: Final Month (20 days)', days: 20 },
-            { name: 'Phase 4: Final Week (10 days)', days: 10 },
-            { name: 'Phase 5: Final Days (3 days)', days: 3 }
-        ];
-
-        for (const phase of phases) {
-            console.log(`🧪 Testing phase: ${phase.name} (${phase.days} days)`);
-            try {
-                const embed = await createCountdownEmbedTest(phase.days);
-                
-                // Check embed content length
-                const embedJson = JSON.stringify(embed.data);
-                if (embedJson.length > 6000) {
-                    console.warn(`⚠️ Embed content is very long (${embedJson.length} chars) for ${phase.name}`);
-                }
-                
-                await channel.send({ 
-                    content: `**${phase.name}**`,
-                    embeds: [embed] 
-                });
-                console.log(`✅ Successfully posted ${phase.name}`);
-            } catch (error) {
-                console.error(`❌ Error posting ${phase.name}:`, error.message);
-                if (error.code) {
-                    console.error(`Discord API Error Code: ${error.code}`);
-                }
-                if (error.errors) {
-                    console.error(`Discord API Errors:`, JSON.stringify(error.errors, null, 2));
-                }
-            }
-            
-            // Add delay between messages to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 2000));
-        }
-        
-        console.log(`✅ All test phases posted successfully!`);
-    } catch (error) {
-        console.error('❌ Error posting test phases:', error.message);
-        
-        // Log additional context for debugging
-        if (error.code) {
-            console.error(`Discord API Error Code: ${error.code}`);
-        }
-        
-        // Don't crash the bot for posting errors, just log them
-        console.error('Bot will continue running');
-    }
-}
 
 // Function to post test countdown message (legacy - keeping for compatibility)
 async function postTestCountdownMessage(guildId, testPhase = null) {
@@ -1282,19 +1235,53 @@ client.on('interactionCreate', async interaction => {
                 }
                 
                 await interaction.reply({
-                    content: '🧪 Testing all emoji phases - posting examples for each phase...',
+                    content: '🧪 Testing current phase...',
                     ephemeral: true
                 });
                 
                 try {
-                    await postAllTestPhases(guildId);
+                    await postTestCountdownMessage(guildId);
                 } catch (error) {
                     console.error('Error in test command:', error);
                     await interaction.followUp({
-                        content: `❌ Error testing countdown messages: ${error.message}`,
+                        content: `❌ Error testing countdown message: ${error.message}`,
                         ephemeral: true
                     });
                 }
+                break;
+            }
+            
+            case 'countdown-donate': {
+                const embed = new EmbedBuilder()
+                    .setTitle('💖 Support the Bot Developer')
+                    .setDescription('Help keep this bot running and support future development!')
+                    .setColor(0xff6b6b)
+                    .addFields(
+                        {
+                            name: '💳 PayPal',
+                            value: '[Donate via PayPal](https://paypal.me/yourusername)',
+                            inline: true
+                        },
+                        {
+                            name: '☕ Ko-fi',
+                            value: '[Buy me a coffee](https://ko-fi.com/yourusername)',
+                            inline: true
+                        },
+                        {
+                            name: '🎮 Patreon',
+                            value: '[Support on Patreon](https://patreon.com/yourusername)',
+                            inline: true
+                        },
+                        {
+                            name: '💎 GitHub Sponsors',
+                            value: '[Sponsor on GitHub](https://github.com/sponsors/yourusername)',
+                            inline: true
+                        }
+                    )
+                    .setFooter({ text: 'Thank you for your support! 🙏' })
+                    .setTimestamp();
+                
+                await interaction.reply({ embeds: [embed], ephemeral: true });
                 break;
             }
             
