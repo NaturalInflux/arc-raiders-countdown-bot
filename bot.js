@@ -251,7 +251,7 @@ function startMonitoring() {
 const commands = [
     new SlashCommandBuilder()
         .setName('countdown-setup')
-        .setDescription('Setup the Arc Raiders countdown bot for this server')
+        .setDescription('Set countdown channel')
         .addStringOption(option =>
             option.setName('channel')
                 .setDescription('Channel name to post countdown messages (e.g., "general")')
@@ -260,7 +260,7 @@ const commands = [
     
     new SlashCommandBuilder()
         .setName('countdown-time')
-        .setDescription('Set the time to post daily countdown messages (in UTC)')
+        .setDescription('Set countdown post time in UTC')
         .addStringOption(option =>
             option.setName('time')
                 .setDescription('Time to post daily in UTC (e.g., "3am", "15:00", "3:30pm")')
@@ -269,11 +269,11 @@ const commands = [
     
     new SlashCommandBuilder()
         .setName('countdown-status')
-        .setDescription('View current countdown bot configuration'),
+        .setDescription('View current config'),
     
         new SlashCommandBuilder()
             .setName('countdown-test')
-            .setDescription('Test countdown message - shows current phase'),
+            .setDescription('Test countdown message'),
     
         new SlashCommandBuilder()
             .setName('countdown-love')
