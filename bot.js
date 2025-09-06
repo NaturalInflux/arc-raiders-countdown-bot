@@ -722,8 +722,8 @@ function getCustomEmoji(daysRemaining) {
     let emojiCount = 1;
     
     if (daysRemaining >= 55) {
-        // Phase 1: Early Days - 2-3 emojis (depressed but more intense)
-        emojiCount = Math.floor(Math.random() * 2) + 2; // 2-3 emojis
+        // Phase 1: Early Days - 1 emoji (depressed)
+        emojiCount = 1; // 1 emoji
         let attempts = 0;
         while (selectedEmojis.length < emojiCount && attempts < 100) {
             const randomEmoji = earlyEmojis[Math.floor(Math.random() * earlyEmojis.length)];
@@ -733,8 +733,8 @@ function getCustomEmoji(daysRemaining) {
             attempts++;
         }
     } else if (daysRemaining >= 30) {
-        // Phase 2: Mid Countdown - 3-4 emojis (hopeful and excited)
-        emojiCount = Math.floor(Math.random() * 2) + 3; // 3-4 emojis
+        // Phase 2: Mid Countdown - 2 emojis (hopeful)
+        emojiCount = 2; // 2 emojis
         let attempts = 0;
         while (selectedEmojis.length < emojiCount && attempts < 100) {
             const randomEmoji = midEmojis[Math.floor(Math.random() * midEmojis.length)];
@@ -744,21 +744,8 @@ function getCustomEmoji(daysRemaining) {
             attempts++;
         }
     } else if (daysRemaining >= 15) {
-        // Phase 3: Final Month - 4-6 emojis (hype building)
-        if (daysRemaining <= 20) {
-            // Last 5 days of final month - MORE HYPE
-            emojiCount = Math.floor(Math.random() * 3) + 4; // 4-6 emojis
-            // Sometimes start with a hype emoji
-            if (Math.random() < 0.6) {
-                selectedEmojis.push('<a:INSANECAT:1411864653587546226>');
-                emojiCount--;
-            }
-        } else {
-            // Early final month - 4-5 emojis
-            emojiCount = Math.floor(Math.random() * 2) + 4; // 4-5 emojis
-        }
-        
-        // Add remaining emojis to reach the target count
+        // Phase 3: Final Month - 3 emojis (hype building)
+        emojiCount = 3; // 3 emojis
         let attempts = 0;
         while (selectedEmojis.length < emojiCount && attempts < 100) {
             const randomEmoji = finalMonthEmojis[Math.floor(Math.random() * finalMonthEmojis.length)];
@@ -768,81 +755,26 @@ function getCustomEmoji(daysRemaining) {
             attempts++;
         }
     } else if (daysRemaining >= 7) {
-        // Phase 4: Final Week - 6-8 emojis (maximum hype)
-        if (daysRemaining <= 10) {
-            // Last 3 days of final week - EXTRA HYPE
-            emojiCount = Math.floor(Math.random() * 3) + 6; // 6-8 emojis
-            // Start with guaranteed hype emojis
-            selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
-            selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
-            
-            // Add random emojis for the rest
-            let attempts = 0;
-            while (selectedEmojis.length < emojiCount && attempts < 100) {
-                const randomEmoji = finalWeekEmojis[Math.floor(Math.random() * finalWeekEmojis.length)];
-                if (!selectedEmojis.includes(randomEmoji)) {
-                    selectedEmojis.push(randomEmoji);
-                }
-                attempts++;
+        // Phase 4: Final Week - 4 emojis (maximum hype)
+        emojiCount = 4; // 4 emojis
+        let attempts = 0;
+        while (selectedEmojis.length < emojiCount && attempts < 100) {
+            const randomEmoji = finalWeekEmojis[Math.floor(Math.random() * finalWeekEmojis.length)];
+            if (!selectedEmojis.includes(randomEmoji)) {
+                selectedEmojis.push(randomEmoji);
             }
-        } else {
-            // Early final week - 5-6 emojis
-            emojiCount = Math.floor(Math.random() * 2) + 5; // 5-6 emojis
-            let attempts = 0;
-            while (selectedEmojis.length < emojiCount && attempts < 100) {
-                const randomEmoji = finalWeekEmojis[Math.floor(Math.random() * finalWeekEmojis.length)];
-                if (!selectedEmojis.includes(randomEmoji)) {
-                    selectedEmojis.push(randomEmoji);
-                }
-                attempts++;
-            }
+            attempts++;
         }
     } else {
-        // Phase 5: Final Days - 8-12 emojis (INSANE HYPE)
-        if (daysRemaining === 1) {
-            // FINAL DAY - MAXIMUM CHAOS
-            emojiCount = Math.floor(Math.random() * 5) + 8; // 8-12 emojis for final day
-            // Always start with the most hype emojis
-            selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
-            selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
-            selectedEmojis.push('<a:LETSGOOO:1081971175133024377>');
-            
-            // Add random emojis for the rest
-            let attempts = 0;
-            while (selectedEmojis.length < emojiCount && attempts < 100) {
-                const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
-                if (!selectedEmojis.includes(randomEmoji)) {
-                    selectedEmojis.push(randomEmoji);
-                }
-                attempts++;
+        // Phase 5: Final Days - 4 emojis (INSANE HYPE)
+        emojiCount = 4; // 4 emojis (max we can use in title)
+        let attempts = 0;
+        while (selectedEmojis.length < emojiCount && attempts < 100) {
+            const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
+            if (!selectedEmojis.includes(randomEmoji)) {
+                selectedEmojis.push(randomEmoji);
             }
-        } else if (daysRemaining <= 3) {
-            // 2-3 days - EXTREME HYPE
-            emojiCount = Math.floor(Math.random() * 4) + 7; // 7-10 emojis
-            // Start with some guaranteed hype emojis
-            selectedEmojis.push('<a:BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1081971147622596628>');
-            selectedEmojis.push('<a:HYPERNODDERS:1229852036288217118>');
-            
-            // Add random emojis for the rest
-            let attempts = 0;
-            while (selectedEmojis.length < emojiCount && attempts < 100) {
-                const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
-                if (!selectedEmojis.includes(randomEmoji)) {
-                    selectedEmojis.push(randomEmoji);
-                }
-                attempts++;
-            }
-        } else {
-            // 4-6 days - High hype
-            emojiCount = Math.floor(Math.random() * 3) + 6; // 6-8 emojis
-            let attempts = 0;
-            while (selectedEmojis.length < emojiCount && attempts < 100) {
-                const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
-                if (!selectedEmojis.includes(randomEmoji)) {
-                    selectedEmojis.push(randomEmoji);
-                }
-                attempts++;
-            }
+            attempts++;
         }
     }
     
