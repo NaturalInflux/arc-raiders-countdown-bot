@@ -36,7 +36,7 @@ class TimeCommand extends BaseCommand {
    * @param {Date} releaseDate - Release date
    */
   async execute(interaction, services, client, releaseDate) {
-    const { configService, releaseDate } = services;
+    const { configService } = services;
 
     // Check if game has already launched
     if (this.hasGameLaunched(releaseDate)) {
