@@ -21,7 +21,9 @@
   <img width="50" alt="ForsenSingingAtYou" src="https://cdn.discordapp.com/emojis/1411879503982235679.gif?size=48&animated=true&name=ForsenSingingAtYou" />
   <img width="50" alt="zyzzRave" src="https://cdn.discordapp.com/emojis/1229861574152294550.gif?size=48&animated=true&name=zyzzRave" />
   <br><br>
-  [![Add Bot to Your Server](https://img.shields.io/badge/Add%20Bot%20to%20Your%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
+  <a href="https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot">
+    <img src="https://img.shields.io/badge/Add%20Bot%20to%20Your%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Add Bot to Your Server" />
+  </a>
 </td>
 </tr>
 </table>
@@ -30,9 +32,7 @@
 
 Type: `/countdown-setup <channel name>`
 
-Bot posts daily at 12:00 UTC. Want a different time?
-
-Type: `/countdown-time <time in UTC>`
+Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in UTC>`
 
 **Other Commands:**
 - `/countdown-test` - Send a test message
