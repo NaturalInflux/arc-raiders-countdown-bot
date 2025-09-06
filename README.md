@@ -7,14 +7,14 @@
   <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity over time</strong>
   <br><br>
   <img width="50" alt="catPls" src="https://github.com/user-attachments/assets/e9709481-ff34-4506-ad0d-69c8232faf9f" />
-  <img width="50" alt="HYPERS" src="https://cdn.discordapp.com/emojis/1081947121009295401.gif?size=48&animated=true&name=HYPERS" />
-  <img width="50" alt="PogU" src="https://cdn.discordapp.com/emojis/1081948140392939592.gif?size=48&animated=true&name=PogU" />
-  <img width="50" alt="PagMan" src="https://cdn.discordapp.com/emojis/1081948129693290546.gif?size=48&animated=true&name=PagMan" />
-  <img width="50" alt="POGGIES" src="https://cdn.discordapp.com/emojis/1229852070002294785.gif?size=48&animated=true&name=POGGIES" />
+  <img width="50" alt="LETSGOOO" src="https://cdn.discordapp.com/emojis/1081971175133024377.gif?size=48&animated=true&name=LETSGOOO" />
+  <img width="50" alt="NODDERS" src="https://cdn.discordapp.com/emojis/1081963012405071953.gif?size=48&animated=true&name=NODDERS" />
+  <img width="50" alt="OkayChamp" src="https://cdn.discordapp.com/emojis/1081948107853529108.gif?size=48&animated=true&name=OkayChamp" />
+  <img width="50" alt="poggSpin" src="https://cdn.discordapp.com/emojis/1411880370198024292.gif?size=48&animated=true&name=poggSpin" />
   <img width="50" alt="catJam" src="https://cdn.discordapp.com/emojis/1229853092766547998.gif?size=48&animated=true&name=catJam" />
   <img width="50" alt="peepoClap" src="https://cdn.discordapp.com/emojis/1081963018813980804.gif?size=48&animated=true&name=peepoClap" />
-  <img width="50" alt="Dance" src="https://cdn.discordapp.com/emojis/1411864399492415588.gif?size=48&animated=true&name=Dance" />
-  <img width="50" alt="BANGER" src="https://cdn.discordapp.com/emojis/1411864800165888123.gif?size=48&animated=true&name=BANGER" />
+  <img width="50" alt="danse" src="https://cdn.discordapp.com/emojis/1411879380380024953.gif?size=48&animated=true&name=danse" />
+  <img width="50" alt="AYOOO" src="https://cdn.discordapp.com/emojis/1411877554771722342.gif?size=48&animated=true&name=AYOOO" />
   <img width="50" alt="PartyKirby" src="https://cdn.discordapp.com/emojis/1411880282226819243.gif?size=48&animated=true&name=PartyKirby" />
 </td>
 </tr>
