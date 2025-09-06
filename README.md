@@ -1,3 +1,4 @@
+![i](https://github.com/user-attachments/assets/21a9982d-b5b5-4637-b2a5-669fb87a69c2)
 Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.
 
 # Quick Add
