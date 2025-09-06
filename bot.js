@@ -874,7 +874,7 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     
     const embed = new EmbedBuilder()
         .setTitle(title)
-        .setColor(0x303642)
+        .setColor(0x5294E2)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
@@ -890,7 +890,7 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
         embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
-        embed.setColor(0xDC322F);
+        embed.setColor(0xF68B3E);
     }
 
     // Try to fetch the top Reddit post with image
@@ -926,7 +926,7 @@ async function createCountdownEmbed() {
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
         .setDescription(socialMessage || `Arc Raiders launches on October 30, 2025`)
-        .setColor(0x303642)
+        .setColor(0x5294E2)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
@@ -942,7 +942,7 @@ async function createCountdownEmbed() {
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
         embed.setDescription(socialMessage || `Only ${daysRemaining} days left until October 30, 2025!`);
-        embed.setColor(0xDC322F);
+        embed.setColor(0xF68B3E);
     }
 
     // Try to fetch the top Reddit post with image
@@ -1272,7 +1272,7 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
             
             case 'countdown-love': {
                 const embed = new EmbedBuilder()
-                    .setTitle('💜 Help cover server costs')
+                    .setTitle('🩵 Help cover server costs')
                     .setDescription('Working on some cool new features for when the game is out <a:NODDERS:1081963012405071953>')
                     .setColor(0x2AA198)
                     .addFields(
@@ -1292,7 +1292,7 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                             inline: true
                         }
                     )
-                    .setFooter({ text: 'Much appreciated! 🙏' })
+                    .setFooter({ text: 'Much appreciated :)' })
                     .setTimestamp();
                 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
