@@ -3,6 +3,9 @@
  * Modular Discord bot for countdown messages with Reddit integration
  */
 
+// Load environment variables
+require('dotenv').config();
+
 const { Client, GatewayIntentBits, REST, Routes } = require('discord.js');
 const { CONFIG } = require('./config/constants');
 const Logger = require('./utils/logger');
