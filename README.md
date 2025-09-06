@@ -1,10 +1,10 @@
 <table>
 <tr>
 <td width="300">
-  <img width="300" alt="Arc Raiders Bot Logo" src="https://github.com/user-attachments/assets/ca044333-7efb-4718-88cb-57d2aedaa8be" />
+  <img width="400" alt="Bot Message Example" src="https://github.com/user-attachments/assets/bd22cbfc-ee1e-40df-82a2-5cc82fcea017" />
 </td>
 <td>
-  <strong>Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders and randomized Twitch emotes that increase in amount and intensity the closer we get to the launch :D</strong>
+  <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and randomized Twitch emotes that increase in amount and intensity over time.</strong>
 </td>
 </tr>
 </table>
@@ -24,10 +24,6 @@ Want a different time?
 - `/countdown-test` - Send a test message
 - `/countdown-status` - Check your settings
 - `/countdown-love` - Help cover server costs <3
-
-## Example Output
-
-<img width="400" alt="Bot Message Example" src="https://github.com/user-attachments/assets/bd22cbfc-ee1e-40df-82a2-5cc82fcea017" />
 
 ---
 
