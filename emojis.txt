@@ -1,6 +1,7 @@
 # Arc Raiders Countdown Bot - Custom Emoji Usage
 # Each emoji is categorized by intensity level and usage phase
 
+[PogChamping](https://cdn.discordapp.com/emojis/1229857218380304505.gif?size=48&animated=true&name=PogChamping)
 [EZ](https://cdn.discordapp.com/emojis/1081947114663321620.webp?size=48&name=EZ) - EZ - Used in final phases for "easy win" energy
 [HYPERS](https://cdn.discordapp.com/emojis/1081947121009295401.webp?size=48&name=HYPERS) - HYPERS - Hyper energy, used in mid-to-late phases
 [LETSGOOO](https://cdn.discordapp.com/emojis/1081971175133024377.gif?size=48&animated=true&name=LETSGOOO) - LETSGOOO - Let's go energy, used in mid-to-late phases

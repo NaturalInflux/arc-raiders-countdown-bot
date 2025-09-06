@@ -26,7 +26,7 @@
 
 # Quick Add
 
-<a href="https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot" style="display: inline-block; background: linear-gradient(45deg, #5865F2, #7289DA); color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)'">Add Bot to Your Server</a>
+[![Add Bot to Your Server](https://img.shields.io/badge/Add%20Bot%20to%20Your%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
 
 Then type:
 `/countdown-setup <channel name>`
