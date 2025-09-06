@@ -872,9 +872,12 @@ async function createCountdownEmbedTest(daysRemaining = null) {
         console.warn(`⚠️ Title is getting long (${title.length} chars): ${title}`);
     }
     
+    // Get social message for today to use as description
+    const socialMessage = getSocialMessageForToday();
+    
     const embed = new EmbedBuilder()
         .setTitle(title)
-        .setDescription(`Arc Raiders launches on October 30, 2025`)
+        .setDescription(socialMessage || `Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
