@@ -1294,23 +1294,18 @@ client.on('interactionCreate', async interaction => {
                     .setColor(0xff6b6b)
                     .addFields(
                         {
-                            name: '💳 PayPal',
-                            value: '[Donate via PayPal](https://paypal.me/yourusername)',
+                            name: '₿ Bitcoin (BTC)',
+                            value: '`bc1q3wksadftgyn5f6y36pvprpmd54ny5jj8x8pxeu`\n*Click to copy*',
                             inline: true
                         },
                         {
-                            name: '☕ Ko-fi',
-                            value: '[Buy me a coffee](https://ko-fi.com/yourusername)',
+                            name: 'Ξ Ethereum (ETH)',
+                            value: '`0x9c0d097ef971674D9133e88Eff5a256187d2C09d`\n*Click to copy*',
                             inline: true
                         },
                         {
-                            name: '🎮 Patreon',
-                            value: '[Support on Patreon](https://patreon.com/yourusername)',
-                            inline: true
-                        },
-                        {
-                            name: '💎 GitHub Sponsors',
-                            value: '[Sponsor on GitHub](https://github.com/sponsors/yourusername)',
+                            name: 'ɱ Monero (XMR)',
+                            value: '`88tVVqExo9EPmRB4CwLV7qFgDHrbfLyXrLFsYcFb6KCS1T8RiimThkBgMQzRewTTAKcfKzMs1rJ3qFC2Mm3HTNVcVi2wSVT`\n*Click to copy*',
                             inline: true
                         }
                     )
