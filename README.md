@@ -41,7 +41,7 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 
 ---
 
-## Self-Hosting (for developers)
+## Self-Host (for devs)
 
 Want to host the bot yourself? Instructions for Ubuntu Server below.
 
