@@ -859,8 +859,15 @@ function getCustomEmoji(daysRemaining) {
 // Function to get emojis for different parts of the message
 function getEmojiPlacement(daysRemaining) {
     const emojis = getCustomEmoji(daysRemaining).split(' ');
+    
+    // Limit emojis in title to stay under Discord's 256 character limit
+    // Base title: "**X DAYS** until Arc Raiders! " = ~30 chars
+    // Each emoji: ~30-50 chars, so max 4-5 emojis for safety
+    const maxTitleEmojis = Math.min(emojis.length, 4);
+    const titleEmojis = emojis.slice(0, maxTitleEmojis);
+    
     const placement = {
-        title: emojis.join(' ') // All emojis go after the title
+        title: titleEmojis.join(' ') // Limited emojis go after the title
     };
     
     return placement;
@@ -877,8 +884,15 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     
     const emojiPlacement = getEmojiPlacement(daysRemaining);
     
+    const title = `**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`;
+    
+    // Check title length and warn if close to limit
+    if (title.length > 200) {
+        console.warn(`⚠️ Title is getting long (${title.length} chars): ${title}`);
+    }
+    
     const embed = new EmbedBuilder()
-        .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
+        .setTitle(title)
         .setDescription(`Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
