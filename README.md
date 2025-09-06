@@ -1,6 +1,6 @@
-Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.
+<img width="1315" height="1006" alt="ChatGPT Image Sep 6, 2025, 04_59_27 PM" src="https://github.com/user-attachments/assets/aeed6e25-0fe2-465e-aa91-382f41131b99" />
 
-![arc-raiders-countdown-teaser-no-shadow-drop-apology](https://github.com/user-attachments/assets/904d508e-1f34-4fab-8313-e7697d19f8d3)
+**Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.**
 
 # Quick Add
 
