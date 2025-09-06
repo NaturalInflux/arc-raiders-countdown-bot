@@ -56,9 +56,9 @@ class CronHandler {
       
       Logger.info(`Scheduling countdown for guild ${guildId} at ${baseTime} (UTC)`);
       
-      // Destroy existing cron job if it exists
+      // Stop existing cron job if it exists
       if (this.activeCronJobs.has(guildId)) {
-        this.activeCronJobs.get(guildId).destroy();
+        this.activeCronJobs.get(guildId).stop();
       }
       
       // Create new cron job
@@ -101,7 +101,7 @@ class CronHandler {
   stopServerCron(guildId) {
     if (this.activeCronJobs.has(guildId)) {
       const cronJob = this.activeCronJobs.get(guildId);
-      cronJob.destroy();
+      cronJob.stop();
       this.activeCronJobs.delete(guildId);
       Logger.info(`Stopped cron job for guild: ${guildId}`);
     }
@@ -112,7 +112,7 @@ class CronHandler {
    */
   stopAllCronJobs() {
     for (const [guildId, cronJob] of this.activeCronJobs) {
-      cronJob.destroy();
+      cronJob.stop();
       Logger.info(`Stopped cron job for guild: ${guildId}`);
     }
     this.activeCronJobs.clear();
