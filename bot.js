@@ -1165,8 +1165,24 @@ client.once('ready', async () => {
 });
 
 // Monitor when bot joins a server
-client.on('guildCreate', (guild) => {
+client.on('guildCreate', async (guild) => {
     logGuildEvent('JOINED', guild);
+    
+    // Send welcome message to the first available channel
+    try {
+        const channel = guild.channels.cache.find(ch => ch.type === 0 && ch.permissionsFor(guild.members.me).has('SendMessages'));
+        if (channel) {
+            const welcomeEmbed = new EmbedBuilder()
+                .setTitle('⚙️ Arc Raiders Countdown Bot')
+                .setDescription(`Thanks for adding me! Run \`/countdown-setup <channel>\` to get started.\n\n📖 [View documentation on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
+                .setColor(0x00ff00)
+                .setTimestamp();
+            
+            await channel.send({ embeds: [welcomeEmbed] });
+        }
+    } catch (error) {
+        console.error('Error sending welcome message:', error);
+    }
 });
 
 // Monitor when bot leaves a server

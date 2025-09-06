@@ -1,4 +1,4 @@
-Daily countdown message in Discord channel with top daily Reddit post from r/arcraiders.
+Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.
 
 # Quick Add
 
