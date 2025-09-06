@@ -3,7 +3,7 @@
 <td width="400">
   <img width="600" alt="Bot Message Example" src="https://github.com/user-attachments/assets/bd22cbfc-ee1e-40df-82a2-5cc82fcea017" />
 </td>
-<td>
+<td align="center">
   <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity over time.</strong>
   <br><br>
   <img width="50" alt="PogChamping" src="https://cdn.discordapp.com/emojis/1229857218380304505.gif?size=48&animated=true&name=PogChamping" />
@@ -38,9 +38,6 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 - `/countdown-test` - Send a test message
 - `/countdown-status` - Check your settings
 - `/countdown-love` - Help cover server costs <3
-
-**Developer Commands:**
-- `node add-message.js "message"` - Add a custom message for the next post
 
 Planning on adding game integration features.
 
@@ -109,3 +106,13 @@ chmod +x monitor
 ```bash
 ./monitor
 ```
+
+### Developer Commands
+
+**Add Custom Messages:**
+```bash
+node add-message.js "Your custom message here"
+```
+- Adds a custom message for the next countdown post across all servers
+- Message is used once and then deleted
+- Example: `node add-message.js "Just played some Arc Raiders alpha - it's looking incredible!"`
