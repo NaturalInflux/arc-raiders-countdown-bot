@@ -1149,7 +1149,7 @@ client.on('guildCreate', async (guild) => {
         if (channel) {
             const welcomeEmbed = new EmbedBuilder()
                 .setTitle('⚙️ Arc Raiders Countdown Bot')
-                .setDescription(`Thanks for adding me! Run \`/countdown-setup <channel>\` to get started.\n\n📖 [View documentation on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
+                .setDescription(`Thanks for adding me!\nRun \`/countdown-setup <channel>\` to get started.\n\n📖 [View documentation on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
                 .setColor(0x00ff00)
                 .setTimestamp();
             
