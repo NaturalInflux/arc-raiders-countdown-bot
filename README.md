@@ -14,7 +14,7 @@ Want a different time?
 **Other Commands:**
 - `/countdown-test` - Test it right now
 - `/countdown-status` - Check your settings
-- `/countdown-donate` - Help cover server costs
+- `/countdown-love` - Help cover server costs
 
 ---
 
