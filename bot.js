@@ -10,8 +10,8 @@ require('dotenv').config();
 // Server configuration database
 const CONFIG_FILE = path.join(__dirname, 'server-config.json');
 
-// Social messages database
-const SOCIAL_MESSAGES_FILE = path.join(__dirname, 'social-messages.json');
+// Simple social message system
+const SOCIAL_MESSAGE_FILE = path.join(__dirname, 'next-message.txt');
 
 // Load server configurations
 function loadServerConfigs() {
@@ -20,7 +20,7 @@ function loadServerConfigs() {
             return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
         }
     } catch (error) {
-        console.error('Error loading server configs:', error);
+        console.error('Error loading server configs');
     }
     return { servers: {} };
 }
@@ -30,7 +30,7 @@ function saveServerConfigs(configs) {
     try {
         fs.writeFileSync(CONFIG_FILE, JSON.stringify(configs, null, 2));
     } catch (error) {
-        console.error('Error saving server configs:', error);
+        console.error('Error saving server configs');
     }
 }
 
@@ -57,33 +57,30 @@ function updateServerConfig(guildId, updates) {
     saveServerConfigs(configs);
 }
 
-// Load social messages
-function loadSocialMessages() {
+// Get next social message (consumes it after use)
+function getNextSocialMessage() {
     try {
-        if (fs.existsSync(SOCIAL_MESSAGES_FILE)) {
-            return JSON.parse(fs.readFileSync(SOCIAL_MESSAGES_FILE, 'utf8'));
+        if (fs.existsSync(SOCIAL_MESSAGE_FILE)) {
+            const message = fs.readFileSync(SOCIAL_MESSAGE_FILE, 'utf8').trim();
+            // Delete the file after reading (one-time use)
+            fs.unlinkSync(SOCIAL_MESSAGE_FILE);
+            return message;
         }
     } catch (error) {
-        console.error('Error loading social messages:', error);
+        console.error('Error reading social message');
     }
-    return {};
+    return null;
 }
 
-// Save social messages
-function saveSocialMessages(messages) {
+// Add a social message for the next post
+function addSocialMessage(message) {
     try {
-        fs.writeFileSync(SOCIAL_MESSAGES_FILE, JSON.stringify(messages, null, 2));
+        fs.writeFileSync(SOCIAL_MESSAGE_FILE, message);
+        return true;
     } catch (error) {
-        console.error('Error saving social messages:', error);
+        console.error('Error saving social message');
+        return false;
     }
-}
-
-// Get social message for today
-function getSocialMessageForToday() {
-    const messages = loadSocialMessages();
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-    
-    return messages[today] || null;
 }
 
 // Convert simple time input to cron format
@@ -124,24 +121,13 @@ function timeToCron(timeInput) {
 }
 
 
-// Configuration from environment variables with fallbacks
+// Simple configuration
 const config = {
     DISCORD_TOKEN: process.env.DISCORD_TOKEN,
-    RELEASE_DATE: process.env.RELEASE_DATE || '2025-10-30T00:00:00Z',
-    POST_SCHEDULE: process.env.POST_SCHEDULE || '0 9 * * *',
-    POST_TIMEZONE: process.env.POST_TIMEZONE || 'UTC',
-    REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || 'arcraiders',
     REDDIT_CLIENT_ID: process.env.REDDIT_CLIENT_ID,
     REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
     REDDIT_USERNAME: process.env.REDDIT_USERNAME,
-    REDDIT_PASSWORD: process.env.REDDIT_PASSWORD,
-    REDDIT_POST_LIMIT: parseInt(process.env.REDDIT_POST_LIMIT) || 1,
-    REDDIT_MAX_TEXT_LENGTH: parseInt(process.env.REDDIT_MAX_TEXT_LENGTH) || 500,
-    REDDIT_MIN_TITLE_LENGTH: parseInt(process.env.REDDIT_MIN_TITLE_LENGTH) || 10,
-    REDDIT_USER_AGENT: process.env.REDDIT_USER_AGENT || 'ArcRaidersCountdownBot/1.0.0',
-    API_TIMEOUT: parseInt(process.env.API_TIMEOUT) || 10000,
-    API_RETRY_ATTEMPTS: parseInt(process.env.API_RETRY_ATTEMPTS) || 3,
-    LOG_LEVEL: process.env.LOG_LEVEL || 'info'
+    REDDIT_PASSWORD: process.env.REDDIT_PASSWORD
 };
 
 // Validate configuration
@@ -159,7 +145,6 @@ function validateConfig() {
         process.exit(1);
     }
     
-    console.log('✅ Configuration validated successfully');
 }
 
 // Validate config on startup
@@ -173,78 +158,28 @@ const client = new Client({
     ]
 });
 
-// Monitoring system - integrated into bot
-const os = require('os');
+// Simple monitoring system
+const MONITOR_FILE = path.join(__dirname, 'monitor-data.json');
 
-const MONITOR_DIR = path.join(os.homedir(), '.arc-raiders-monitor');
-const MONITOR_LOG_FILE = path.join(MONITOR_DIR, 'monitor.log');
-const MONITOR_DATA_FILE = path.join(MONITOR_DIR, 'monitor-data.json');
-
-// Create monitor directory if it doesn't exist
-if (!fs.existsSync(MONITOR_DIR)) {
-    fs.mkdirSync(MONITOR_DIR, { recursive: true });
-}
-
-// Initialize monitoring data
+// Load monitoring data
 let monitorData = {
-    baseline_servers: 0,
-    current_servers: 0,
-    server_difference: 0,
+    servers: 0,
     last_updated: new Date().toISOString()
 };
 
-// Load existing monitor data
-if (fs.existsSync(MONITOR_DATA_FILE)) {
+if (fs.existsSync(MONITOR_FILE)) {
     try {
-        monitorData = JSON.parse(fs.readFileSync(MONITOR_DATA_FILE, 'utf8'));
+        monitorData = JSON.parse(fs.readFileSync(MONITOR_FILE, 'utf8'));
     } catch (e) {
-        console.error('Error loading monitor data:', e);
+        // Use defaults if file is corrupted
     }
 }
 
-// Function to log with timestamp
-function logMonitor(message) {
-    const timestamp = new Date().toISOString();
-    const logEntry = `[${timestamp}] ${message}`;
-    console.log(logEntry);
-    fs.appendFileSync(MONITOR_LOG_FILE, logEntry + '\n');
-}
-
-// Function to update monitor data
-function updateMonitorData(key, value) {
-    monitorData[key] = value;
+// Update server count
+function updateServerCount() {
+    monitorData.servers = client.guilds.cache.size;
     monitorData.last_updated = new Date().toISOString();
-    fs.writeFileSync(MONITOR_DATA_FILE, JSON.stringify(monitorData, null, 2));
-}
-
-// Function to start monitoring
-function startMonitoring() {
-    // Set baseline server count if not already set
-    if (monitorData.baseline_servers === 0) {
-        monitorData.baseline_servers = client.guilds.cache.size;
-        updateMonitorData('baseline_servers', monitorData.baseline_servers);
-        logMonitor(`Baseline server count set to: ${monitorData.baseline_servers}`);
-    }
-    
-    // Update current server count
-    monitorData.current_servers = client.guilds.cache.size;
-    monitorData.server_difference = monitorData.current_servers - monitorData.baseline_servers;
-    updateMonitorData('current_servers', monitorData.current_servers);
-    updateMonitorData('server_difference', monitorData.server_difference);
-    
-    logMonitor(`Monitoring started - Servers: ${monitorData.current_servers} (${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
-    
-    // Start monitoring loop (every 30 seconds)
-    setInterval(() => {
-        const currentCount = client.guilds.cache.size;
-        if (currentCount !== monitorData.current_servers) {
-            monitorData.current_servers = currentCount;
-            monitorData.server_difference = currentCount - monitorData.baseline_servers;
-            updateMonitorData('current_servers', currentCount);
-            updateMonitorData('server_difference', monitorData.server_difference);
-            logMonitor(`Server count changed: ${currentCount} (difference: ${monitorData.server_difference > 0 ? '+' : ''}${monitorData.server_difference})`);
-        }
-    }, 30000);
+    fs.writeFileSync(MONITOR_FILE, JSON.stringify(monitorData, null, 2));
 }
 
 // Define slash commands
@@ -279,6 +214,7 @@ const commands = [
             .setName('countdown-love')
             .setDescription('Spread the love <3'),
     
+    
 ];
 
 // Register slash commands
@@ -310,19 +246,6 @@ let tokenExpiry = null;
 let cachedRedditPost = null;
 let redditPostCacheDate = null;
 
-// Discord command rate limiting
-const commandCooldowns = new Map();
-const COMMAND_COOLDOWN = 3000; // 3 seconds between commands per user
-
-// Clean up old cooldowns every 5 minutes to prevent memory leaks
-setInterval(() => {
-    const now = Date.now();
-    for (const [key, timestamp] of commandCooldowns.entries()) {
-        if (now - timestamp > COMMAND_COOLDOWN * 2) {
-            commandCooldowns.delete(key);
-        }
-    }
-}, 5 * 60 * 1000); // 5 minutes
 
 // Function to get Reddit OAuth access token
 async function getRedditAccessToken() {
@@ -334,12 +257,10 @@ async function getRedditAccessToken() {
     // Validate Reddit OAuth credentials
     if (!config.REDDIT_CLIENT_ID || !config.REDDIT_CLIENT_SECRET || 
         !config.REDDIT_USERNAME || !config.REDDIT_PASSWORD) {
-        console.log('Reddit OAuth credentials not configured, skipping Reddit integration');
         return null;
     }
 
     try {
-        console.log('Getting Reddit OAuth access token...');
         
         const auth = Buffer.from(`${config.REDDIT_CLIENT_ID}:${config.REDDIT_CLIENT_SECRET}`).toString('base64');
         
@@ -349,19 +270,15 @@ async function getRedditAccessToken() {
             {
                 headers: {
                     'Authorization': `Basic ${auth}`,
-                    'User-Agent': config.REDDIT_USER_AGENT,
+                    'User-Agent': 'ArcRaidersCountdownBot/1.0.0',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                timeout: config.API_TIMEOUT
+                timeout: 10000
             }
         );
 
         // Check for errors in the response
         if (response.data.error) {
-            console.error('❌ Reddit OAuth error:', response.data.error);
-            if (response.data.error_description) {
-                console.error('Error description:', response.data.error_description);
-            }
             return null;
         }
         
@@ -369,10 +286,8 @@ async function getRedditAccessToken() {
         // Set expiry to 45 minutes (tokens last 1 hour, but we refresh early)
         tokenExpiry = Date.now() + (45 * 60 * 1000);
         
-        console.log('✅ Reddit OAuth access token obtained successfully');
         return redditAccessToken;
     } catch (error) {
-        console.error('❌ Failed to get Reddit OAuth access token:', error.response?.data || error.message);
         return null;
     }
 }
@@ -391,24 +306,21 @@ async function getCachedRedditPost() {
     
     // Check if we have a valid cached post for today
     if (cachedRedditPost && redditPostCacheDate === today) {
-        console.log('Using cached Reddit post for today');
         return cachedRedditPost;
     }
     
     // Fetch new post and cache it
-    console.log('Fetching new Reddit post for today');
-    cachedRedditPost = await getTopArcRaidersPostWithMedia();
+    cachedRedditPost = await getTopArcRaidersPost();
     redditPostCacheDate = today;
     
     return cachedRedditPost;
 }
 
-// Function to fetch top Arc Raiders Reddit post with image
-async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS) {
+// Function to fetch top Arc Raiders Reddit post (with media if available)
+async function getTopArcRaidersPost(retries = 3) {
     // Get OAuth access token
     const accessToken = await getRedditAccessToken();
     if (!accessToken) {
-        console.log('No Reddit access token available, skipping Reddit post');
         return null;
     }
 
@@ -416,17 +328,16 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
         try {
             // Fetch top post of the day from Arc Raiders subreddit
             const response = await axios.get(`https://oauth.reddit.com/r/arcraiders/top.json?limit=1&t=day`, {
-                timeout: config.API_TIMEOUT,
+                timeout: 10000,
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
-                    'User-Agent': config.REDDIT_USER_AGENT
+                    'User-Agent': 'ArcRaidersCountdownBot/1.0.0'
                 }
             });
             
             const posts = response.data.data.children;
             
             if (posts.length === 0) {
-                console.log('No posts found in r/arcraiders');
                 return null;
             }
             
@@ -443,20 +354,15 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
                            postData.media.reddit_video && 
                            postData.media.reddit_video.fallback_url;
             
-            if (!hasImage && !hasVideo) {
-                console.log('Top post of the day does not have media (image or video), skipping Reddit post');
-                return null;
-                }
+            // Note: We now include posts even without media
                 
                 // Filter out NSFW or inappropriate content
                 if (postData.over_18 || postData.spoiler) {
-                console.log('Top post of the day is NSFW or spoiler, skipping Reddit post');
                 return null;
                 }
                 
                 // Filter out posts with no title or very short titles
-                if (!postData.title || postData.title.length < config.REDDIT_MIN_TITLE_LENGTH) {
-                console.log('Top post of the day has invalid title, skipping Reddit post');
+                if (!postData.title || postData.title.length < 10) {
                 return null;
             }
             
@@ -464,12 +370,7 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
             let mediaUrl = null;
             let mediaType = null;
             
-            if (hasVideo) {
-                // Prefer video if available
-                mediaUrl = postData.media.reddit_video.fallback_url;
-                mediaType = 'video';
-            } else if (hasImage) {
-                // Use image as fallback
+            if (hasImage) {
                 mediaUrl = postData.preview.images[0].source.url
                     .replace(/&amp;/g, '&')
                     .replace(/&lt;/g, '<')
@@ -477,6 +378,9 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
                     .replace(/&quot;/g, '"')
                     .replace(/&#x27;/g, "'");
                 mediaType = 'image';
+            } else if (hasVideo) {
+                mediaUrl = postData.media.reddit_video.fallback_url;
+                mediaType = 'video';
             }
             
             return {
@@ -490,16 +394,12 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
                 mediaType: mediaType
             };
         } catch (error) {
-            console.error(`Reddit API attempt ${attempt}/${retries} failed:`, error.message);
-            
             if (attempt === retries) {
-                console.error('All Reddit API attempts failed, skipping Reddit post');
                 return null;
             }
             
             // Wait before retrying (exponential backoff)
             const delay = 1000 * Math.pow(2, attempt - 1);
-            console.log(`Retrying in ${delay}ms...`);
             await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
@@ -938,11 +838,13 @@ async function createCountdownEmbedTest(daysRemaining = null) {
             inline: false
         });
         
-        // Use the Reddit post media (image or video) as the main embed media
-        if (redditPost.mediaType === 'video') {
-            embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
-        } else {
-            embed.setImage(redditPost.mediaUrl);
+        // Use the Reddit post media (image or video) as the main embed media if available
+        if (redditPost.mediaUrl && redditPost.mediaType) {
+            if (redditPost.mediaType === 'video') {
+                embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
+            } else if (redditPost.mediaType === 'image') {
+                embed.setImage(redditPost.mediaUrl);
+            }
         }
     }
 
@@ -957,7 +859,7 @@ async function createCountdownEmbed() {
     const emojiPlacement = getEmojiPlacement(daysRemaining);
     
     // Get social message for today to use as description
-    const socialMessage = getSocialMessageForToday();
+    const socialMessage = getNextSocialMessage();
     
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
@@ -990,11 +892,13 @@ async function createCountdownEmbed() {
             inline: false
         });
         
-        // Use the Reddit post media (image or video) as the main embed media
-        if (redditPost.mediaType === 'video') {
-            embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
-        } else {
-            embed.setImage(redditPost.mediaUrl);
+        // Use the Reddit post media (image or video) as the main embed media if available
+        if (redditPost.mediaUrl && redditPost.mediaType) {
+            if (redditPost.mediaType === 'video') {
+                embed.setImage(redditPost.mediaUrl); // Discord shows video thumbnails
+            } else if (redditPost.mediaType === 'image') {
+                embed.setImage(redditPost.mediaUrl);
+            }
         }
     }
 
@@ -1010,7 +914,6 @@ async function postTestCountdownMessage(guildId, testPhase = null) {
         const channelId = serverConfig.channelId;
         
         if (!channelId) {
-            console.log(`No channel configured for guild ${guildId}, skipping test countdown message`);
             return;
         }
         
@@ -1041,7 +944,6 @@ async function postTestCountdownMessage(guildId, testPhase = null) {
             }
         }
         
-        console.log(`🧪 Testing countdown message (${daysRemaining} days remaining, phase: ${testPhase || 'current'})...`);
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) {
@@ -1056,18 +958,8 @@ async function postTestCountdownMessage(guildId, testPhase = null) {
         // Post single test message
         const embed = await createCountdownEmbedTest(testPhase);
         await channel.send({ embeds: [embed] });
-        
-        console.log(`✅ Test countdown message posted successfully! Days remaining: ${daysRemaining}, Phase: ${testPhase || 'current'}`);
     } catch (error) {
-        console.error('❌ Error posting test countdown message:', error.message);
-        
-        // Log additional context for debugging
-        if (error.code) {
-            console.error(`Discord API Error Code: ${error.code}`);
-        }
-        
-        // Don't crash the bot for posting errors, just log them
-        console.error('Bot will continue running');
+        // Error posting test message
     }
 }
 
@@ -1078,14 +970,12 @@ async function postCountdownMessage(guildId) {
         const channelId = serverConfig.channelId;
         
         if (!channelId) {
-            console.log(`No channel configured for guild ${guildId}, skipping countdown message`);
             return;
         }
         
         const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
         const daysRemaining = getDaysRemaining(releaseDate);
         
-        console.log(`📅 Attempting to post countdown message (${daysRemaining} days remaining)...`);
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) {
@@ -1100,56 +990,24 @@ async function postCountdownMessage(guildId) {
         // Always post just 1 message per day
         const embed = await createCountdownEmbed();
         await channel.send({ embeds: [embed] });
-        
-        console.log(`✅ Countdown message posted successfully! Days remaining: ${daysRemaining}`);
     } catch (error) {
-        console.error('❌ Error posting countdown message:', error.message);
-        
-        // Log additional context for debugging
-        if (error.code) {
-            console.error(`Discord API Error Code: ${error.code}`);
-        }
-        
-        // Don't crash the bot for posting errors, just log them
-        console.error('Bot will continue running and retry on next scheduled post');
+        // Error posting message, will retry next scheduled post
     }
 }
 
 
-// Monitor bot joins and leaves
+// Simple guild event logging
 function logGuildEvent(event, guild) {
-    const timestamp = new Date().toISOString();
-    const guildInfo = {
-        id: guild.id,
-        name: guild.name,
-        memberCount: guild.memberCount,
-        ownerId: guild.ownerId,
-        createdAt: guild.createdAt.toISOString(),
-        region: guild.preferredLocale || 'Unknown'
-    };
-    
-    console.log(`\n🔔 ${event.toUpperCase()} EVENT - ${timestamp}`);
-    console.log(`📊 Server: ${guildInfo.name} (${guildInfo.id})`);
-    console.log(`👥 Members: ${guildInfo.memberCount}`);
-    console.log(`👑 Owner ID: ${guildInfo.ownerId}`);
-    console.log(`🌍 Region: ${guildInfo.region}`);
-    console.log(`📅 Created: ${guildInfo.createdAt}`);
-    console.log(`📈 Total servers: ${client.guilds.cache.size}`);
-    console.log('─'.repeat(50));
-    
-    // Log to monitor file
-    if (typeof logMonitor === 'function') {
-        logMonitor(`GUILD_EVENT: ${event} - ${guildInfo.name} (${guildInfo.id}) - ${guildInfo.memberCount} members`);
-    }
+    console.log(`Guild ${event}: ${guild.name} (${guild.id}) - ${guild.memberCount} members`);
+    updateServerCount();
 }
 
 // When the client is ready, run this code
 client.once('ready', async () => {
-    console.log(`Bot is ready! Logged in as ${client.user.tag}`);
-    console.log(`📊 Currently in ${client.guilds.cache.size} servers`);
+    console.log(`Bot ready - ${client.guilds.cache.size} servers`);
     
-    // Start monitoring system
-    startMonitoring();
+    // Update server count
+    updateServerCount();
     
     // Register slash commands
     await registerCommands();
@@ -1163,14 +1021,12 @@ client.once('ready', async () => {
             
             // Main daily countdown message
             cron.schedule(baseSchedule, () => {
-                console.log(`Running scheduled countdown post for guild ${guildId}...`);
                 postCountdownMessage(guildId);
             }, {
                 scheduled: true,
                 timezone: 'UTC'
             });
             
-            console.log(`📅 Scheduled for guild ${guildId} at ${baseTime} (UTC)`);
         }
     }
 });
@@ -1207,21 +1063,6 @@ client.on('interactionCreate', async interaction => {
 
     const { commandName, guildId, user } = interaction;
 
-    // Rate limiting check
-    const cooldownKey = `${user.id}-${commandName}`;
-    const lastUsed = commandCooldowns.get(cooldownKey);
-    const now = Date.now();
-    
-    if (lastUsed && (now - lastUsed) < COMMAND_COOLDOWN) {
-        const timeLeft = Math.ceil((COMMAND_COOLDOWN - (now - lastUsed)) / 1000);
-        return interaction.reply({ 
-            content: `⏰ Please wait ${timeLeft} seconds before using this command again.`, 
-            ephemeral: true 
-        });
-    }
-    
-    // Update cooldown
-    commandCooldowns.set(cooldownKey, now);
 
     // Check if user has permission to manage the server
     if (!interaction.member.permissions.has('ManageGuild')) {
@@ -1313,9 +1154,8 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                 try {
                     await postTestCountdownMessage(guildId);
                 } catch (error) {
-                    console.error('Error in test command:', error);
                     await interaction.followUp({
-                        content: `❌ Error testing countdown message: ${error.message}`,
+                        content: `❌ Error testing countdown message`,
                         ephemeral: true
                     });
                 }
@@ -1351,6 +1191,7 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                 break;
             }
             
+            
         }
     } catch (error) {
         console.error('Error handling slash command:', error);
@@ -1376,13 +1217,11 @@ process.on('SIGTERM', () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
-    console.error('❌ Uncaught Exception:', error);
-    console.error('Bot will continue running, but this error should be investigated');
+    // Uncaught exception - bot continues running
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-    console.error('Bot will continue running, but this error should be investigated');
+    // Unhandled rejection - bot continues running
 });
 
 // Note: Message handling removed to avoid intent requirements
@@ -1390,3 +1229,4 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // Login to Discord
 client.login(config.DISCORD_TOKEN);
+

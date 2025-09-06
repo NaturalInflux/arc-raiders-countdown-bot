@@ -39,6 +39,11 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 - `/countdown-status` - Check your settings
 - `/countdown-love` - Help cover server costs <3
 
+**Developer Commands:**
+- `node add-message.js "message"` - Add a custom message for the next post
+
+Planning on adding game integration features.
+
 ---
 
 ## Self-Host (for devs)
@@ -90,17 +95,15 @@ pm2 restart arc-raiders-countdown-bot
 
 ### Monitor
 
-The bot includes an integrated monitoring system that automatically starts when the bot starts:
+The bot includes a simple monitoring system:
 
-- Tracks baseline server count and calculates net changes
-- Logs all guild join/leave events persistently
-- Stores data in `~/.arc-raiders-monitor/`
-- Runs continuously in the background
-- Survives server restarts
+- Tracks current server count
+- Stores data in `monitor-data.json`
+- Updates automatically when servers join/leave
 
 > Make monitor script executable
 ```bash
-chmod +x monitor.sh
+chmod +x monitor
 ```
 > View monitoring data
 ```bash

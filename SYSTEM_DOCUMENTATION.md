@@ -42,7 +42,6 @@ arc-raiders-countdown-bot/
 - **OAuth Authentication**: Uses Reddit API with proper authentication
 - **Top Post Fetching**: Gets the #1 top-voted post from r/arcraiders daily
 - **Media Support**: Automatically uses Reddit post images or videos as embed media
-- **Video Priority**: Prefers video posts over image posts when available
 - **Graceful Degradation**: Bot continues working even if Reddit API fails
 
 ### 3. Dynamic Emoji System
@@ -52,16 +51,16 @@ arc-raiders-countdown-bot/
 - **No Duplicates**: Prevents duplicate emojis in the same message
 
 ### 4. Social Messages System
-- **Date-Based Messages**: Messages tied to specific dates for synchronization
-- **Developer Notes**: Personal messages from the bot developer
-- **Synchronized Delivery**: All servers get the same message on the same day
-- **JSON Configuration**: Easy to manage via `social-messages.json` file
+- **Next-Message System**: Single message for the next post across all servers
+- **One-Time Use**: Message is consumed after being used once
+- **Command-Based**: Add messages via `/countdown-message` command
+- **Simple Storage**: Uses `next-message.txt` file
 
 ### 5. Monitoring System
-- **Integrated Monitoring**: Built into the bot process
-- **Persistent Logging**: Stores data in `~/.arc-raiders-monitor/`
+- **Simple Monitoring**: Basic server count tracking
+- **Local Storage**: Stores data in `monitor-data.json`
 - **Server Tracking**: Monitors server joins/leaves
-- **Performance Metrics**: Tracks memory usage and uptime
+- **Command Access**: View data via `./monitor` command
 
 ## Configuration System
 
@@ -70,17 +69,11 @@ arc-raiders-countdown-bot/
 # Required
 DISCORD_TOKEN=your_bot_token_here
 
-# Optional Reddit Integration
+# Optional Reddit Integration (bot works without these)
 REDDIT_CLIENT_ID=your_reddit_client_id_here
 REDDIT_CLIENT_SECRET=your_reddit_client_secret_here
 REDDIT_USERNAME=your_reddit_username_here
 REDDIT_PASSWORD=your_reddit_password_here
-
-# Optional Advanced
-API_TIMEOUT=10000
-API_RETRY_ATTEMPTS=3
-LOG_LEVEL=info
-NODE_ENV=production
 ```
 
 ### Server Configuration (server-config.json)
@@ -96,14 +89,11 @@ NODE_ENV=production
 }
 ```
 
-### Social Messages Configuration (social-messages.json)
-```json
-{
-  "2025-09-06": "Just played some Arc Raiders alpha - it's looking incredible!",
-  "2025-09-07": "The hype is real! Can't wait for October 30th!",
-  "2025-09-08": "These countdown messages are getting me so excited!"
-}
-```
+### Social Messages System
+- **File**: `next-message.txt` (auto-generated)
+- **Usage**: Add messages via `node add-message.js "message"` (developer only)
+- **Behavior**: Message is consumed after one use
+- **Fallback**: Default description if no message is set
 
 ## Discord Commands
 
@@ -132,6 +122,19 @@ NODE_ENV=production
    - Includes Bitcoin (BTC), Ethereum (ETH), and Monero (XMR) addresses
    - Ephemeral response for privacy
 
+## Developer Tools
+
+### Command Line Scripts
+1. **`node add-message.js "message"`**
+   - Adds a custom message for the next countdown post
+   - Message is used once and then deleted
+   - All servers get the same message on the next post
+   - Developer/hoster only - not available as Discord command
+
+2. **`./monitor`**
+   - View basic monitoring data and PM2 status
+   - Shows current server count and last update time
+
 ## Core Functions
 
 ### Configuration Management
@@ -148,14 +151,12 @@ function getServerConfig(guildId)
 // Update server configuration
 function updateServerConfig(guildId, updates)
 
-// Load social messages from JSON file
-function loadSocialMessages()
 
-// Save social messages to JSON file
-function saveSocialMessages(messages)
+// Get next social message (consumes it)
+function getNextSocialMessage()
 
-// Get social message for today
-function getSocialMessageForToday()
+// Add a social message for the next post
+function addSocialMessage(message)
 ```
 
 ### Reddit Integration
@@ -233,8 +234,7 @@ async function postTestCountdownMessage(guildId, testPhase)
 - **Parameters**: `limit=1`, `t=day`, `raw_json=1`
 
 ### Post Filtering
-- **Media Requirement**: Only posts with images or videos are selected
-- **Video Priority**: Prefers video posts over image posts when available
+- **Media Optional**: Posts are selected regardless of media presence, but media is attached if available
 - **Score Filtering**: Gets the top-voted post of the day
 - **Content Validation**: Ensures post has valid title and URL
 
@@ -272,23 +272,14 @@ nano social-messages.json
 ## Monitoring System
 
 ### Data Storage
-- **Location**: `~/.arc-raiders-monitor/`
-- **Files**: 
-  - `monitor-data.json` - Current metrics
-  - `monitor.log` - Event log
-  - `monitor.pid` - Process ID
-
-### Metrics Tracked
-- **Server Count**: Current number of Discord servers
-- **Server Changes**: Joins and leaves with timestamps
-- **Memory Usage**: Bot memory consumption
-- **Uptime**: Bot runtime duration
-- **Last Update**: Timestamp of last data update
+- **Location**: `monitor-data.json` (in bot directory)
+- **Content**: 
+  - `servers` - Current number of Discord servers
+  - `last_updated` - Timestamp of last update
 
 ### Access Methods
-- **Terminal Command**: `./monitor` - Shows current data
-- **Log File**: `tail ~/.arc-raiders-monitor/monitor.log` - Shows events
-- **Data File**: `cat ~/.arc-raiders-monitor/monitor-data.json` - Shows metrics
+- **Terminal Command**: `./monitor` - Shows current data and PM2 status
+- **Data File**: `cat monitor-data.json` - Shows raw metrics
 
 ## Scheduling System
 
@@ -311,21 +302,19 @@ function timeToCron(timeInput)
 ## Error Handling
 
 ### Reddit API Errors
-- **Retry Logic**: Exponential backoff for failed requests
+- **Retry Logic**: 3 attempts with exponential backoff
 - **Token Refresh**: Automatic token renewal on 401 errors
 - **Daily Caching**: Reduces API calls from N servers to 1 per day
 - **Graceful Degradation**: Bot continues without Reddit post if API fails
-- **Logging**: Comprehensive error logging with context
 
 ### Discord API Errors
-- **Rate Limiting**: Built-in rate limit handling
 - **Permission Checks**: Validates bot permissions before posting
 - **Channel Validation**: Ensures channel exists and is accessible
 - **Error Recovery**: Continues operation after non-critical errors
 
 ### General Error Handling
-- **Try-Catch Blocks**: Comprehensive error catching
-- **Error Logging**: Detailed error messages with context
+- **Try-Catch Blocks**: Basic error catching for critical functions
+- **Error Logging**: Simple error messages without full stack traces
 - **Process Continuation**: Bot continues running after errors
 - **User Feedback**: Clear error messages for users
 
@@ -387,7 +376,6 @@ cp env.example .env
 - **Daily Post Caching**: Reddit posts fetched once per day, cached for all servers
 - **Request Timeouts**: 10-second timeout for API requests
 - **Retry Logic**: Smart retry with exponential backoff
-- **Rate Limiting**: 3-second cooldown between Discord commands per user
 
 ### Database Efficiency
 - **JSON Storage**: Lightweight file-based storage
@@ -419,7 +407,7 @@ pm2 restart arc-raiders-countdown-bot
 
 ### Log Analysis
 - **PM2 Logs**: `pm2 logs` for runtime errors
-- **Monitor Logs**: `tail ~/.arc-raiders-monitor/monitor.log` for events
+- **Monitor Data**: `cat monitor-data.json` for server count
 - **Error Patterns**: Look for specific error codes and messages
 
 ## Future Enhancements
