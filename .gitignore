@@ -101,6 +101,3 @@ Thumbs.db
 
 # Server configuration database
 server-config.json
-
-# System documentation (for AI/developer reference)
-SYSTEM_DOCUMENTATION.md

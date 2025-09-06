@@ -66,7 +66,7 @@ pm2 restart arc-raiders-countdown-bot
 
 ## Monitoring
 
-The bot includes an integrated monitoring system that automatically starts when the bot starts.
+The bot includes an integrated monitoring system that automatically starts when the bot starts:
 
 - Tracks baseline server count and calculates net changes
 - Logs all guild join/leave events persistently

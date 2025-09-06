@@ -553,7 +553,6 @@ function getCustomEmoji(daysRemaining) {
         '<a:DemonTime:1411879388663779419>', // DemonTime
         '<a:Glerm:1411879509229174824>', // Glerm
         '<a:HYPERYump:1411879742671687790>', // HYPERYump
-        '<a:INSANECAT~1:1411879746341699614>', // INSANECAT~1
         '<a:Kissahomie:1411879860707659776>', // Kissahomie
         '<a:danse:1411879380380024953>', // danse
         '<a:clappi:1411879249165418607>', // clappi
@@ -624,7 +623,6 @@ function getCustomEmoji(daysRemaining) {
         '<a:DemonTime:1411879388663779419>', // DemonTime
         '<a:Glerm:1411879509229174824>', // Glerm
         '<a:HYPERYump:1411879742671687790>', // HYPERYump
-        '<a:INSANECAT~1:1411879746341699614>', // INSANECAT~1
         '<a:Kissahomie:1411879860707659776>', // Kissahomie
         '<a:danse:1411879380380024953>', // danse
         '<a:clappi:1411879249165418607>', // clappi
@@ -695,7 +693,6 @@ function getCustomEmoji(daysRemaining) {
         '<a:DemonTime:1411879388663779419>', // DemonTime
         '<a:Glerm:1411879509229174824>', // Glerm
         '<a:HYPERYump:1411879742671687790>', // HYPERYump
-        '<a:INSANECAT~1:1411879746341699614>', // INSANECAT~1
         '<a:Kissahomie:1411879860707659776>', // Kissahomie
         '<a:danse:1411879380380024953>', // danse
         '<a:clappi:1411879249165418607>', // clappi

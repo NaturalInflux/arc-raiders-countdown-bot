@@ -121,11 +121,9 @@
 [HYPERYump](https://cdn.discordapp.com/emojis/1411879742671687790.gif?size=48&animated=true&name=HYPERYump) - HYPERYump - Hyper jump, used in late phases
 [IMDEAD](https://cdn.discordapp.com/emojis/1411879744412192860.gif?size=48&animated=true&name=IMDEAD) - IMDEAD - I'm dead, used in early phases for being dead
 [JustAnotherDay](https://cdn.discordapp.com/emojis/1411879858958499850.gif?size=48&animated=true&name=JustAnotherDay) - JustAnotherDay - Just another day, used in early phases for routine
-[INSANECAT~1](https://cdn.discordapp.com/emojis/1411879746341699614.gif?size=48&animated=true&name=INSANECAT%7E1) - INSANECAT~1 - Insane cat variant, used in late phases
 [Kissahomie](https://cdn.discordapp.com/emojis/1411879860707659776.gif?size=48&animated=true&name=Kissahomie) - Kissahomie - Kiss a homie, used in late phases
 [deadass](https://cdn.discordapp.com/emojis/1411879383425355888.gif?size=48&animated=true&name=deadass) - deadass - Dead ass, used in early phases for being dead
 [danse](https://cdn.discordapp.com/emojis/1411879380380024953.gif?size=48&animated=true&name=danse) - danse - Dance energy, used in late phases
-[cool~1](https://cdn.discordapp.com/emojis/1411879256958697552.gif?size=48&animated=true&name=cool%7E1) - cool~1 - Cool variant, used in mid phases
 [clappi](https://cdn.discordapp.com/emojis/1411879249165418607.gif?size=48&animated=true&name=clappi) - clappi - Clapping energy, used in late phases
 [duckass](https://cdn.discordapp.com/emojis/1411879397161570366.gif?size=48&animated=true&name=duckass) - duckass - Duck ass, used in late phases
 [dvaWalk4x](https://cdn.discordapp.com/emojis/1411879494192464055.gif?size=48&animated=true&name=dvaWalk4x) - dvaWalk4x - DVA walk 4x, used in late phases
