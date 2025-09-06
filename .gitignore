@@ -101,6 +101,7 @@ Thumbs.db
 
 # Server configuration database
 server-config.json
+server-config-backup-*.json
 
 # Social messages and monitoring
 next-message.txt

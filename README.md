@@ -21,7 +21,7 @@
   <img width="50" alt="ForsenSingingAtYou" src="https://cdn.discordapp.com/emojis/1411879503982235679.gif?size=48&animated=true&name=ForsenSingingAtYou" />
   <img width="50" alt="veiNODDERS" src="https://cdn.discordapp.com/emojis/1411880514104725644.gif?size=48&animated=true&name=veiNODDERS" />
   <br><br>
-  <a href="https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot">
+  <a href="https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=2147928128&integration_type=0&scope=bot">
     <img src="https://img.shields.io/badge/Add%20Bot%20to%20Your%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Add Bot to Your Server" />
   </a>
 </td>
@@ -39,13 +39,11 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 - `/countdown-status` - Check your settings
 - `/countdown-love` - Help cover server costs <3
 
-Planning on adding game integration features.
-
 ---
 
 ## Self-Host (for devs)
 
-Want to host the bot yourself? Instructions for Ubuntu Server below.
+Want to host the bot yourself? Instructions for Ubuntu below.
 
 ### Deploy:
 > Clone the repository
@@ -97,6 +95,7 @@ The bot includes a simple monitoring system:
 - Tracks current server count
 - Stores data in `monitor-data.json`
 - Updates automatically when servers join/leave
+- Health check endpoint for external monitoring
 
 > Make monitor script executable
 ```bash
@@ -107,7 +106,7 @@ chmod +x monitor
 ./monitor
 ```
 
-### Developer Commands
+### Dev Commands
 
 **Add Custom Messages:**
 ```bash

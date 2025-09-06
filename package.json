@@ -2,10 +2,10 @@
   "name": "arc-raiders-countdown-bot",
   "version": "1.0.0",
   "description": "Discord bot that posts daily countdown messages for Arc Raiders release with Reddit integration",
-  "main": "bot.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node bot.js",
-    "dev": "node bot.js",
+    "start": "node src/index.js",
+    "dev": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "echo \"No linter configured\" && exit 0",
     "deploy": "./deploy.sh"

@@ -1,7 +1,16 @@
+const fs = require('fs');
+const path = require('path');
+
+// Ensure logs directory exists
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
 module.exports = {
   apps: [{
     name: 'arc-raiders-countdown-bot',
-    script: 'bot.js',
+    script: 'src/index.js',
     instances: 1,
     autorestart: true,
     watch: false,
