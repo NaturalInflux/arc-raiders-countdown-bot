@@ -14,9 +14,9 @@ Want a different time?
 `/countdown-time <time in UTC>`
 
 **Other Commands:**
-- `/countdown-test` - Test it right now
+- `/countdown-test` - Send a test message
 - `/countdown-status` - Check your settings
-- `/countdown-love` - Help cover server costs
+- `/countdown-love` - Help cover server costs <3
 
 ---
 
