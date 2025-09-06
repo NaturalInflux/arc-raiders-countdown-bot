@@ -1291,7 +1291,7 @@ client.on('interactionCreate', async interaction => {
                 const embed = new EmbedBuilder()
                     .setTitle('💜 Help cover server costs')
                     .setDescription('Working on some cool new features for when the game is out 👀')
-                    .setColor(0xff6b6b)
+                    .setColor(0x9b59b6)
                     .addFields(
                         {
                             name: '₿ Bitcoin (BTC)',
