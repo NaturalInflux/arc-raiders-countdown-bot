@@ -25,17 +25,17 @@
     "gaming",
     "automation"
   ],
-  "author": "Your Name",
+  "author": "NaturalInflux",
   "license": "MIT",
   "engines": {
     "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/arc-raiders-countdown-bot.git"
+    "url": "https://github.com/NaturalInflux/arc-raiders-countdown-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/arc-raiders-countdown-bot/issues"
+    "url": "https://github.com/NaturalInflux/arc-raiders-countdown-bot/issues"
   },
-  "homepage": "https://github.com/yourusername/arc-raiders-countdown-bot#readme"
+  "homepage": "https://github.com/NaturalInflux/arc-raiders-countdown-bot#readme"
 }

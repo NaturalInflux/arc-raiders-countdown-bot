@@ -22,8 +22,11 @@ arc-raiders-countdown-bot/
 ├── deploy.sh                 # Deployment script
 ├── env.example               # Environment variables template
 ├── server-config.json        # Per-server configuration (auto-generated)
+├── social-messages.json      # Date-based developer messages (auto-generated)
 ├── emojis.txt                # Emoji definitions and interpretations
+├── monitor                   # Monitoring script
 ├── README.md                 # User documentation
+├── SYSTEM_DOCUMENTATION.md   # Complete system documentation
 ├── .gitignore                # Git ignore rules
 └── logs/                     # PM2 log files (auto-generated)
 ```
@@ -126,7 +129,7 @@ NODE_ENV=production
 
 5. **`/countdown-donate`**
    - Shows donation links to support the bot developer
-   - Includes PayPal, Ko-fi, Patreon, and GitHub Sponsors
+   - Includes Bitcoin (BTC), Ethereum (ETH), and Monero (XMR) addresses
    - Ephemeral response for privacy
 
 ## Core Functions

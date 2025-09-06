@@ -9,14 +9,14 @@ echo "🚀 Deploying Arc Raiders Countdown Bot..."
 if [ ! -f ".env" ]; then
     echo "❌ .env file not found! Please create it from env.example"
     echo "   cp env.example .env"
-    echo "   # Then edit .env with your bot token and channel ID"
+    echo "   # Then edit .env with your bot token"
     exit 1
 fi
 
 # Check if required environment variables are set
-if ! grep -q "DISCORD_TOKEN=" .env || ! grep -q "CHANNEL_ID=" .env; then
+if ! grep -q "DISCORD_TOKEN=" .env; then
     echo "❌ Required environment variables not found in .env file"
-    echo "   Please ensure DISCORD_TOKEN and CHANNEL_ID are set in your .env file"
+    echo "   Please ensure DISCORD_TOKEN is set in your .env file"
     exit 1
 fi
 

@@ -276,8 +276,8 @@ const commands = [
             .setDescription('Test countdown message - shows current phase'),
     
         new SlashCommandBuilder()
-            .setName('countdown-donate')
-            .setDescription('Support the bot developer with donations'),
+            .setName('countdown-love')
+            .setDescription('Spread the love <3'),
     
 ];
 
@@ -881,15 +881,15 @@ async function createCountdownEmbedTest(daysRemaining = null) {
 
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
-        embed.setDescription(socialMessage || 'Arc Raiders has launched on October 30, 2025!');
+        embed.setDescription('Arc Raiders has launched on October 30, 2025!');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
         embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
-        embed.setDescription(socialMessage || 'Arc Raiders launches TOMORROW - October 30, 2025!');
+        embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
-        embed.setDescription(socialMessage || `Only ${daysRemaining} days left until October 30, 2025!`);
+        embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
         embed.setColor(0xff4500);
     }
 
@@ -933,15 +933,15 @@ async function createCountdownEmbed() {
 
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
-        embed.setDescription('Arc Raiders has launched on October 30, 2025!');
+        embed.setDescription(socialMessage || 'Arc Raiders has launched on October 30, 2025!');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
         embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
-        embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
+        embed.setDescription(socialMessage || 'Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
-        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders!`);
-        embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
+        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
+        embed.setDescription(socialMessage || `Only ${daysRemaining} days left until October 30, 2025!`);
         embed.setColor(0xff4500);
     }
 
@@ -1134,32 +1134,7 @@ client.once('ready', async () => {
                 timezone: 'UTC'
             });
             
-            // Additional messages for final week (7-1 days remaining)
-            // These will be scheduled dynamically based on current date
-            const releaseDate = new Date('2025-10-30T00:00:00Z');
-            const daysRemaining = getDaysRemaining(releaseDate);
-            
-            if (daysRemaining <= 7) {
-                // Add extra messages for final week
-                const extraTimes = [
-                    '06:00', '09:00', '15:00', '18:00', '21:00'
-                ];
-                
-                extraTimes.forEach((extraTime, index) => {
-                    const extraSchedule = timeToCron(extraTime);
-                    cron.schedule(extraSchedule, () => {
-                        console.log(`Running extra countdown post for guild ${guildId} at ${extraTime}...`);
-                        postCountdownMessage(guildId);
-    }, {
-        scheduled: true,
-                        timezone: 'UTC'
-                    });
-                });
-                
-                console.log(`📅 Scheduled main + 5 extra messages for guild ${guildId} (final week)`);
-            } else {
-                console.log(`📅 Scheduled for guild ${guildId} at ${baseTime} (UTC)`);
-            }
+            console.log(`📅 Scheduled for guild ${guildId} at ${baseTime} (UTC)`);
         }
     }
 });
