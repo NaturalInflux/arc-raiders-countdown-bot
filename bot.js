@@ -1295,17 +1295,17 @@ client.on('interactionCreate', async interaction => {
                     .addFields(
                         {
                             name: '₿ Bitcoin (BTC)',
-                            value: '```\nbc1q3wksadftgyn5f6y36pvprpmd54ny5jj8x8pxeu\n```\n*Click to copy*',
+                            value: '```\nbc1q3wksadftgyn5f6y36pvprpmd54ny5jj8x8pxeu\n```',
                             inline: true
                         },
                         {
                             name: 'Ξ Ethereum (ETH)',
-                            value: '```\n0x9c0d097ef971674D9133e88Eff5a256187d2C09d\n```\n*Click to copy*',
+                            value: '```\n0x9c0d097ef971674D9133e88Eff5a256187d2C09d\n```',
                             inline: true
                         },
                         {
                             name: 'ɱ Monero (XMR)',
-                            value: '```\n88tVVqExo9EPmRB4CwLV7qFgDHrbfLyXrLFsYcFb6KCS1T8RiimThkBgMQzRewTTAKcfKzMs1rJ3qFC2Mm3HTNVcVi2wSVT\n```\n*Click to copy*',
+                            value: '```\n88tVVqExo9EPmRB4CwLV7qFgDHrbfLyXrLFsYcFb6KCS1T8RiimThkBgMQzRewTTAKcfKzMs1rJ3qFC2Mm3HTNVcVi2wSVT\n```',
                             inline: true
                         }
                     )
