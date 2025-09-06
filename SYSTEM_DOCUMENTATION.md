@@ -48,7 +48,13 @@ arc-raiders-countdown-bot/
 - **Custom Emojis**: Uses Discord custom emojis from various servers
 - **No Duplicates**: Prevents duplicate emojis in the same message
 
-### 4. Monitoring System
+### 4. Social Messages System
+- **Date-Based Messages**: Messages tied to specific dates for synchronization
+- **Developer Notes**: Personal messages from the bot developer
+- **Synchronized Delivery**: All servers get the same message on the same day
+- **JSON Configuration**: Easy to manage via `social-messages.json` file
+
+### 5. Monitoring System
 - **Integrated Monitoring**: Built into the bot process
 - **Persistent Logging**: Stores data in `~/.arc-raiders-monitor/`
 - **Server Tracking**: Monitors server joins/leaves
@@ -84,6 +90,15 @@ NODE_ENV=production
       "postTime": "12:00"
     }
   }
+}
+```
+
+### Social Messages Configuration (social-messages.json)
+```json
+{
+  "2025-09-06": "🎮 Just played some Arc Raiders alpha - it's looking incredible!",
+  "2025-09-07": "🔥 The hype is real! Can't wait for October 30th!",
+  "2025-09-08": "💀 These countdown messages are getting me so excited!"
 }
 ```
 
@@ -129,6 +144,15 @@ function getServerConfig(guildId)
 
 // Update server configuration
 function updateServerConfig(guildId, updates)
+
+// Load social messages from JSON file
+function loadSocialMessages()
+
+// Save social messages to JSON file
+function saveSocialMessages(messages)
+
+// Get social message for today
+function getSocialMessageForToday()
 ```
 
 ### Reddit Integration
@@ -207,6 +231,37 @@ async function postTestCountdownMessage(guildId, testPhase)
 - **Video Priority**: Prefers video posts over image posts when available
 - **Score Filtering**: Gets the top-voted post of the day
 - **Content Validation**: Ensures post has valid title and URL
+
+## Social Messages System
+
+### Overview
+The social messages system allows the bot developer to add personal messages to the daily countdown posts. Messages are synchronized across all servers based on the current date.
+
+### File Structure
+- **File**: `social-messages.json`
+- **Format**: JSON object with date keys (YYYY-MM-DD) and message values
+- **Location**: Project root directory
+- **Git Ignore**: Excluded from version control for privacy
+
+### Message Management
+```bash
+# Add a message for today
+echo '{"2025-09-06": "🎮 Just played some Arc Raiders alpha!"}' > social-messages.json
+
+# Add multiple messages
+nano social-messages.json
+```
+
+### Integration
+- **Automatic Detection**: Bot checks for today's message before posting
+- **Embed Integration**: Messages appear as "💬 Developer's Note" field
+- **Styling**: Italic text, clearly marked as personal message
+- **Fallback**: No message shown if none available for today
+
+### Synchronization
+- **Date-Based**: All servers get the same message on the same day
+- **UTC Timezone**: Uses UTC date for consistency
+- **One-Time Use**: Messages are tied to specific dates, not consumed
 
 ## Monitoring System
 

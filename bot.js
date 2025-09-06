@@ -10,6 +10,9 @@ require('dotenv').config();
 // Server configuration database
 const CONFIG_FILE = path.join(__dirname, 'server-config.json');
 
+// Social messages database
+const SOCIAL_MESSAGES_FILE = path.join(__dirname, 'social-messages.json');
+
 // Load server configurations
 function loadServerConfigs() {
     try {
@@ -52,6 +55,35 @@ function updateServerConfig(guildId, updates) {
     
     Object.assign(configs.servers[guildId], updates);
     saveServerConfigs(configs);
+}
+
+// Load social messages
+function loadSocialMessages() {
+    try {
+        if (fs.existsSync(SOCIAL_MESSAGES_FILE)) {
+            return JSON.parse(fs.readFileSync(SOCIAL_MESSAGES_FILE, 'utf8'));
+        }
+    } catch (error) {
+        console.error('Error loading social messages:', error);
+    }
+    return {};
+}
+
+// Save social messages
+function saveSocialMessages(messages) {
+    try {
+        fs.writeFileSync(SOCIAL_MESSAGES_FILE, JSON.stringify(messages, null, 2));
+    } catch (error) {
+        console.error('Error saving social messages:', error);
+    }
+}
+
+// Get social message for today
+function getSocialMessageForToday() {
+    const messages = loadSocialMessages();
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    
+    return messages[today] || null;
 }
 
 // Convert simple time input to cron format
@@ -378,16 +410,16 @@ async function getTopArcRaidersPostWithMedia(retries = config.API_RETRY_ATTEMPTS
             if (!hasImage && !hasVideo) {
                 console.log('Top post of the day does not have media (image or video), skipping Reddit post');
                 return null;
-            }
-            
-            // Filter out NSFW or inappropriate content
-            if (postData.over_18 || postData.spoiler) {
+                }
+                
+                // Filter out NSFW or inappropriate content
+                if (postData.over_18 || postData.spoiler) {
                 console.log('Top post of the day is NSFW or spoiler, skipping Reddit post');
                 return null;
-            }
-            
-            // Filter out posts with no title or very short titles
-            if (!postData.title || postData.title.length < config.REDDIT_MIN_TITLE_LENGTH) {
+                }
+                
+                // Filter out posts with no title or very short titles
+                if (!postData.title || postData.title.length < config.REDDIT_MIN_TITLE_LENGTH) {
                 console.log('Top post of the day has invalid title, skipping Reddit post');
                 return null;
             }
@@ -879,6 +911,16 @@ async function createCountdownEmbedTest(daysRemaining = null) {
         }
     }
 
+    // Add social message if available for today
+    const socialMessage = getSocialMessageForToday();
+    if (socialMessage) {
+        embed.addFields({
+            name: '💬 Developer\'s Note',
+            value: `*${socialMessage}*`,
+            inline: false
+        });
+    }
+
     return embed;
 }
 
@@ -925,6 +967,16 @@ async function createCountdownEmbed() {
         } else {
             embed.setImage(redditPost.mediaUrl);
         }
+    }
+
+    // Add social message if available for today
+    const socialMessage = getSocialMessageForToday();
+    if (socialMessage) {
+        embed.addFields({
+            name: '💬 Developer\'s Note',
+            value: `*${socialMessage}*`,
+            inline: false
+        });
     }
 
     return embed;
@@ -1114,8 +1166,8 @@ client.once('ready', async () => {
                     cron.schedule(extraSchedule, () => {
                         console.log(`Running extra countdown post for guild ${guildId} at ${extraTime}...`);
                         postCountdownMessage(guildId);
-                    }, {
-                        scheduled: true,
+    }, {
+        scheduled: true,
                         timezone: 'UTC'
                     });
                 });
