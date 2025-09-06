@@ -57,6 +57,16 @@ function updateServerConfig(guildId, updates) {
     saveServerConfigs(configs);
 }
 
+// Remove server configuration
+function removeServerConfig(guildId) {
+    const configs = loadServerConfigs();
+    if (configs.servers[guildId]) {
+        delete configs.servers[guildId];
+        saveServerConfigs(configs);
+        console.log(`🗑️ Removed server configuration for guild: ${guildId}`);
+    }
+}
+
 // Get next social message (consumes it after use)
 function getNextSocialMessage() {
     try {
@@ -907,6 +917,40 @@ async function createCountdownEmbed() {
 }
 
 
+// Function to post permission error message to server admins
+async function postPermissionError(guildId, errorMessage) {
+    try {
+        const guild = await client.guilds.fetch(guildId);
+        if (!guild) {
+            throw new Error('Guild not found');
+        }
+
+        // Find a channel where bot can send messages and admins can see
+        const channel = guild.channels.cache.find(ch => 
+            ch.type === 0 && // Text channel
+            ch.permissionsFor(guild.members.me).has('SendMessages') &&
+            ch.permissionsFor(guild.members.me).has('EmbedLinks')
+        );
+
+        if (!channel) {
+            throw new Error('No accessible channel found for error message');
+        }
+
+        const errorEmbed = new EmbedBuilder()
+            .setTitle('⚠️ Arc Raiders Countdown Bot - Configuration Issue')
+            .setDescription(`I'm having trouble posting countdown messages in the configured channel.\n\n**Error:** ${errorMessage}\n\n**Solutions:**\n• Check if I have permission to send messages in the channel\n• Verify the channel still exists\n• Re-run \`/countdown-setup\` to reconfigure\n• Make sure I haven't been removed from the server`)
+            .setColor(0xFF6B6B)
+            .setTimestamp()
+            .setFooter({ text: 'This message will stop appearing once the issue is resolved' });
+
+        await channel.send({ embeds: [errorEmbed] });
+        console.log(`📢 Posted permission error message to guild: ${guild.name} (${guildId})`);
+    } catch (error) {
+        console.error(`❌ Failed to post permission error message: ${error.message}`);
+        throw error;
+    }
+}
+
 // Function to post test countdown message (legacy - keeping for compatibility)
 async function postTestCountdownMessage(guildId, testPhase = null) {
     try {
@@ -970,12 +1014,14 @@ async function postCountdownMessage(guildId) {
         const channelId = serverConfig.channelId;
         
         if (!channelId) {
+            console.log(`⚠️ No channel configured for guild: ${guildId}`);
             return;
         }
         
         const releaseDate = new Date('2025-10-30T00:00:00Z'); // Arc Raiders release date
         const daysRemaining = getDaysRemaining(releaseDate);
         
+        console.log(`📅 Attempting to post countdown message (${daysRemaining} days remaining)...`);
 
         const channel = await client.channels.fetch(channelId);
         if (!channel) {
@@ -990,8 +1036,22 @@ async function postCountdownMessage(guildId) {
         // Always post just 1 message per day
         const embed = await createCountdownEmbed();
         await channel.send({ embeds: [embed] });
+        console.log(`✅ Countdown message posted successfully! Days remaining: ${daysRemaining}`);
     } catch (error) {
-        // Error posting message, will retry next scheduled post
+        console.error(`❌ Error posting countdown message: ${error.message}`);
+        
+        // Try to post error message to server admins
+        try {
+            await postPermissionError(guildId, error.message);
+        } catch (adminError) {
+            console.error(`❌ Failed to notify admins: ${adminError.message}`);
+        }
+        
+        // Check if it's a permission error and remove server config if bot was kicked
+        if (error.message.includes('Missing Access') || error.message.includes('not found')) {
+            console.log(`🗑️ Removing server configuration due to access error: ${guildId}`);
+            removeServerConfig(guildId);
+        }
     }
 }
 
@@ -1002,12 +1062,35 @@ function logGuildEvent(event, guild) {
     updateServerCount();
 }
 
+// Function to clean up orphaned server configurations
+async function cleanupOrphanedConfigs() {
+    const configs = loadServerConfigs();
+    const currentGuilds = client.guilds.cache.map(guild => guild.id);
+    let removedCount = 0;
+    
+    for (const guildId of Object.keys(configs.servers)) {
+        if (!currentGuilds.includes(guildId)) {
+            console.log(`🗑️ Removing orphaned configuration for guild: ${guildId} (bot no longer in server)`);
+            delete configs.servers[guildId];
+            removedCount++;
+        }
+    }
+    
+    if (removedCount > 0) {
+        saveServerConfigs(configs);
+        console.log(`🧹 Cleaned up ${removedCount} orphaned server configurations`);
+    }
+}
+
 // When the client is ready, run this code
 client.once('ready', async () => {
     console.log(`Bot ready - ${client.guilds.cache.size} servers`);
     
     // Update server count
     updateServerCount();
+    
+    // Clean up orphaned server configurations
+    await cleanupOrphanedConfigs();
     
     // Register slash commands
     await registerCommands();
@@ -1018,6 +1101,8 @@ client.once('ready', async () => {
         if (serverConfig.channelId) {
             const baseTime = serverConfig.postTime || '12:00';
             const baseSchedule = timeToCron(baseTime);
+            
+            console.log(`📅 Scheduled for guild ${guildId} at ${baseTime} (UTC)`);
             
             // Main daily countdown message
             cron.schedule(baseSchedule, () => {
@@ -1041,7 +1126,7 @@ client.on('guildCreate', async (guild) => {
         if (channel) {
             const welcomeEmbed = new EmbedBuilder()
                 .setTitle('⚙️ Arc Raiders Countdown Bot')
-                .setDescription(`Thanks for adding me :)\nRun \`/countdown-setup\` to get started.\n\n📖 [View docs on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
+                .setDescription(`Thanks for adding me :)\nRun \`/countdown-setup\` to get started.\n\n📖 [View on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
                 .setColor(0x5294E2)
                 .setTimestamp();
             
@@ -1055,6 +1140,10 @@ client.on('guildCreate', async (guild) => {
 // Monitor when bot leaves a server
 client.on('guildDelete', (guild) => {
     logGuildEvent('LEFT', guild);
+    
+    // Remove server configuration when bot leaves
+    removeServerConfig(guild.id);
+    console.log(`🗑️ Removed configuration for server: ${guild.name} (${guild.id})`);
 });
 
 // Handle slash command interactions
@@ -1229,4 +1318,3 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // Login to Discord
 client.login(config.DISCORD_TOKEN);
-
