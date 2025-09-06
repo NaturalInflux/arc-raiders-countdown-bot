@@ -874,7 +874,7 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     
     const embed = new EmbedBuilder()
         .setTitle(title)
-        .setColor(0x00ff00)
+        .setColor(0x303642)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
@@ -882,15 +882,15 @@ async function createCountdownEmbedTest(daysRemaining = null) {
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
         embed.setDescription('Arc Raiders has launched on October 30, 2025!');
-        embed.setColor(0xff0000);
+        embed.setColor(0xDC322F);
     } else if (daysRemaining === 1) {
         embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
         embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
-        embed.setColor(0xffa500);
+        embed.setColor(0xF68B3E);
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
         embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
-        embed.setColor(0xff4500);
+        embed.setColor(0xDC322F);
     }
 
     // Try to fetch the top Reddit post with image
@@ -926,7 +926,7 @@ async function createCountdownEmbed() {
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
         .setDescription(socialMessage || `Arc Raiders launches on October 30, 2025`)
-        .setColor(0x00ff00)
+        .setColor(0x303642)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
         .setTimestamp();
@@ -934,15 +934,15 @@ async function createCountdownEmbed() {
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
         embed.setDescription(socialMessage || 'Arc Raiders has launched on October 30, 2025!');
-        embed.setColor(0xff0000);
+        embed.setColor(0xDC322F);
     } else if (daysRemaining === 1) {
         embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
         embed.setDescription(socialMessage || 'Arc Raiders launches TOMORROW - October 30, 2025!');
-        embed.setColor(0xffa500);
+        embed.setColor(0xF68B3E);
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
         embed.setDescription(socialMessage || `Only ${daysRemaining} days left until October 30, 2025!`);
-        embed.setColor(0xff4500);
+        embed.setColor(0xDC322F);
     }
 
     // Try to fetch the top Reddit post with image
@@ -1150,7 +1150,7 @@ client.on('guildCreate', async (guild) => {
             const welcomeEmbed = new EmbedBuilder()
                 .setTitle('⚙️ Arc Raiders Countdown Bot')
                 .setDescription(`Thanks for adding me :)\nRun \`/countdown-setup <channel>\` to get started.\n\n📖 [View documentation on GitHub](https://github.com/NaturalInflux/arc-raiders-countdown-bot)`)
-                .setColor(0x00ff00)
+                .setColor(0x5294E2)
                 .setTimestamp();
             
             await channel.send({ embeds: [welcomeEmbed] });
@@ -1274,7 +1274,7 @@ Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                 const embed = new EmbedBuilder()
                     .setTitle('💜 Help cover server costs')
                     .setDescription('Working on some cool new features for when the game is out <a:NODDERS:1081963012405071953>')
-                    .setColor(0x9b59b6)
+                    .setColor(0x2AA198)
                     .addFields(
                         {
                             name: '₿ Bitcoin (BTC)',
