@@ -767,22 +767,15 @@ function getCustomEmoji(daysRemaining) {
         }
     } else {
         // Phase 5: Final Days - 4 emojis (INSANE HYPE)
-        console.log(`🎭 Phase 5: Final Days - daysRemaining: ${daysRemaining}`);
-        console.log(`🎭 finalDaysEmojis array length: ${finalDaysEmojis.length}`);
         emojiCount = 4; // 4 emojis (max we can use in title)
         let attempts = 0;
         while (selectedEmojis.length < emojiCount && attempts < 100) {
             const randomEmoji = finalDaysEmojis[Math.floor(Math.random() * finalDaysEmojis.length)];
-            console.log(`🎭 Attempt ${attempts}: trying emoji: ${randomEmoji}`);
             if (!selectedEmojis.includes(randomEmoji)) {
                 selectedEmojis.push(randomEmoji);
-                console.log(`🎭 Added emoji: ${randomEmoji}, total: ${selectedEmojis.length}`);
-            } else {
-                console.log(`🎭 Duplicate emoji skipped: ${randomEmoji}`);
             }
             attempts++;
         }
-        console.log(`🎭 Phase 5 final result: ${selectedEmojis.length} emojis selected`);
     }
     
     // Join emojis with spaces for better display
@@ -847,7 +840,7 @@ async function createCountdownEmbedTest(daysRemaining = null) {
         embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
-        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders!`);
+        embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
         embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
         embed.setColor(0xff4500);
     }
