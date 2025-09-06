@@ -28,7 +28,7 @@
 </tr>
 </table>
 
-# Setup
+# Bot Setup
 
 Type: `/countdown-setup <channel name>`
 
@@ -41,7 +41,7 @@ Bot posts daily at 12:00 UTC. Want a different time? `/countdown-time <time in U
 
 ---
 
-# Self-Hosting
+# Self-Hosting the bot
 
 Want to host the bot yourself? Instructions for Ubuntu Server below.
 
