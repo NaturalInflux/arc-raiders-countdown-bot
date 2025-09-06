@@ -4,7 +4,7 @@
   <img width="300" alt="ChatGPT Image Sep 6, 2025, 04_59_27 PM" src="https://github.com/user-attachments/assets/aeed6e25-0fe2-465e-aa91-382f41131b99" />
 </td>
 <td>
-  <strong>Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.</strong>
+  Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.
 </td>
 </tr>
 </table>
