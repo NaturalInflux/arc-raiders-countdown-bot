@@ -26,7 +26,7 @@
 
 # Quick Add
 
-[**>> Add bot to your server <<**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
+[**>> ADD BOT TO YOUR SERVER <<**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
 
 Then type:
 `/countdown-setup <channel name>`
