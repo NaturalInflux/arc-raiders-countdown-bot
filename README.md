@@ -29,7 +29,7 @@ Want a different time?
 
 # Self-Hosting
 
-Want to run on your own server? Instructions for Ubuntu Server below.
+Want to host the bot yourself? Instructions for Ubuntu Server below.
 
 ## Deploy:
 > Clone the repository
