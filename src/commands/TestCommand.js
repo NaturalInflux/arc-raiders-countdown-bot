@@ -26,8 +26,10 @@ class TestCommand extends BaseCommand {
    * Execute the test command
    * @param {Object} interaction - Discord interaction
    * @param {Object} services - Service instances
+   * @param {Object} client - Discord client
+   * @param {Date} releaseDate - Release date
    */
-  async execute(interaction, services) {
+  async execute(interaction, services, client, releaseDate) {
     const { configService, messageService } = services;
     
     const serverConfig = configService.getServerConfig(interaction.guildId);
@@ -46,7 +48,7 @@ class TestCommand extends BaseCommand {
     });
     
     try {
-      await messageService.postTestCountdownMessage(interaction.guildId);
+      await messageService.postTestCountdownMessage(interaction.guildId, client, configService, releaseDate);
       this.logCommand(interaction, 'Test message sent');
     } catch (error) {
       Logger.error('Error testing countdown message', error);

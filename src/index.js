@@ -181,10 +181,7 @@ class ArcRaidersCountdownBot {
     
     // Interaction events
     this.client.on('interactionCreate', async (interaction) => {
-      await this.handlers.interactionHandler.handleInteraction(interaction, {
-        ...this.services,
-        releaseDate: this.releaseDate
-      });
+      await this.handlers.interactionHandler.handleInteraction(interaction, this.services, this.client, this.releaseDate);
     });
     
     // Error handling

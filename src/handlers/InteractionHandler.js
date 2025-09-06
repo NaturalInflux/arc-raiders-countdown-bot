@@ -19,8 +19,10 @@ class InteractionHandler {
    * Handle slash command interactions
    * @param {Object} interaction - Discord interaction
    * @param {Object} services - Service instances
+   * @param {Object} client - Discord client
+   * @param {Date} releaseDate - Release date
    */
-  async handleInteraction(interaction, services) {
+  async handleInteraction(interaction, services, client, releaseDate) {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName, guildId, user } = interaction;
@@ -44,7 +46,7 @@ class InteractionHandler {
         username: user.username
       });
 
-      await command.execute(interaction, services);
+      await command.execute(interaction, services, client, releaseDate);
     } catch (error) {
       Logger.error(`Error handling slash command: ${commandName}`, error, {
         guildId,

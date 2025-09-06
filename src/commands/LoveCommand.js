@@ -26,8 +26,10 @@ class LoveCommand extends BaseCommand {
    * Execute the love command
    * @param {Object} interaction - Discord interaction
    * @param {Object} services - Service instances
+   * @param {Object} client - Discord client
+   * @param {Date} releaseDate - Release date
    */
-  async execute(interaction, services) {
+  async execute(interaction, services, client, releaseDate) {
     const embed = new EmbedBuilder()
       .setTitle('🩵 Help cover server costs')
       .setDescription('Working on some cool new features for when the game is out <a:NODDERS:1081963012405071953>')

@@ -32,8 +32,10 @@ class TimeCommand extends BaseCommand {
    * Execute the time command
    * @param {Object} interaction - Discord interaction
    * @param {Object} services - Service instances
+   * @param {Object} client - Discord client
+   * @param {Date} releaseDate - Release date
    */
-  async execute(interaction, services) {
+  async execute(interaction, services, client, releaseDate) {
     const { configService, releaseDate } = services;
 
     // Check if game has already launched
