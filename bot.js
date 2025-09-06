@@ -1031,21 +1031,11 @@ async function postTestCountdownMessage(guildId, testPhase = null) {
             throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
         }
 
-        // For testing, always send only 1 message
-        let messageCount = 1;
-
-        // Post test messages
-        for (let i = 0; i < messageCount; i++) {
-            const embed = await createCountdownEmbedTest(testPhase);
-            await channel.send({ embeds: [embed] });
-            
-            // Add delay between messages to avoid rate limiting
-            if (i < messageCount - 1) {
-                await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay for testing
-            }
-        }
+        // Post single test message
+        const embed = await createCountdownEmbedTest(testPhase);
+        await channel.send({ embeds: [embed] });
         
-        console.log(`✅ ${messageCount} test countdown message(s) posted successfully! Days remaining: ${daysRemaining}, Phase: ${testPhase || 'current'}`);
+        console.log(`✅ Test countdown message posted successfully! Days remaining: ${daysRemaining}, Phase: ${testPhase || 'current'}`);
     } catch (error) {
         console.error('❌ Error posting test countdown message:', error.message);
         
@@ -1085,63 +1075,11 @@ async function postCountdownMessage(guildId) {
             throw new Error(`Bot doesn't have permission to send messages in channel ${channelId}`);
         }
 
-        // Determine number of messages based on days remaining (for final week only)
-        let messageCount = 1;
-        if (daysRemaining === 1) {
-            messageCount = 6; // Final day: 6 messages
-        } else if (daysRemaining === 2) {
-            messageCount = 4; // 2 days: 4 messages
-        } else if (daysRemaining === 3) {
-            messageCount = 3; // 3 days: 3 messages
-        } else if (daysRemaining >= 4 && daysRemaining <= 6) {
-            messageCount = 2; // 4-6 days: 2 messages
-        } else if (daysRemaining >= 7 && daysRemaining <= 14) {
-            messageCount = 2; // Final week: 2 messages
-        }
-
-        // Post multiple messages for final week with proper spacing
-        if (messageCount > 1) {
-            // Calculate time intervals based on scheduled time
-            const scheduledTime = serverConfig.postTime || '12:00';
-            const [hours, minutes] = scheduledTime.split(':').map(Number);
-            const baseTime = new Date();
-            baseTime.setHours(hours, minutes, 0, 0);
-            
-            // Calculate intervals to spread messages throughout the day
-            const intervals = [];
-            if (messageCount === 2) {
-                // 2 messages: morning and evening
-                intervals.push(0, 8 * 60 * 60 * 1000); // 0 hours, 8 hours
-            } else if (messageCount === 3) {
-                // 3 messages: morning, afternoon, evening
-                intervals.push(0, 4 * 60 * 60 * 1000, 8 * 60 * 60 * 1000); // 0, 4, 8 hours
-            } else if (messageCount === 4) {
-                // 4 messages: every 6 hours
-                intervals.push(0, 6 * 60 * 60 * 1000, 12 * 60 * 60 * 1000, 18 * 60 * 60 * 1000);
-            } else if (messageCount === 6) {
-                // 6 messages: every 4 hours
-                intervals.push(0, 4 * 60 * 60 * 1000, 8 * 60 * 60 * 1000, 12 * 60 * 60 * 1000, 16 * 60 * 60 * 1000, 20 * 60 * 60 * 1000);
-            }
-            
-            // Post messages at calculated intervals
-            for (let i = 0; i < messageCount; i++) {
-                const embed = await createCountdownEmbed();
-                await channel.send({ embeds: [embed] });
-                
-                // Wait for the next interval (except for the last message)
-                if (i < messageCount - 1) {
-                    const delay = intervals[i + 1] - intervals[i];
-                    console.log(`⏰ Waiting ${delay / (60 * 60 * 1000)} hours until next message...`);
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
-        } else {
-            // Single message
-            const embed = await createCountdownEmbed();
-            await channel.send({ embeds: [embed] });
-        }
+        // Always post just 1 message per day
+        const embed = await createCountdownEmbed();
+        await channel.send({ embeds: [embed] });
         
-        console.log(`✅ ${messageCount} countdown message(s) posted successfully! Days remaining: ${daysRemaining}`);
+        console.log(`✅ Countdown message posted successfully! Days remaining: ${daysRemaining}`);
     } catch (error) {
         console.error('❌ Error posting countdown message:', error.message);
         
