@@ -1,6 +1,13 @@
-<img width="1315" height="1006" alt="ChatGPT Image Sep 6, 2025, 04_59_27 PM" src="https://github.com/user-attachments/assets/aeed6e25-0fe2-465e-aa91-382f41131b99" />
-
-**Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.**
+<table>
+<tr>
+<td width="300">
+  <img width="300" alt="ChatGPT Image Sep 6, 2025, 04_59_27 PM" src="https://github.com/user-attachments/assets/aeed6e25-0fe2-465e-aa91-382f41131b99" />
+</td>
+<td>
+  <strong>Discord bot that posts daily countdown messages for Arc Raiders release with top daily Reddit post from r/arcraiders.</strong>
+</td>
+</tr>
+</table>
 
 # Quick Add
 
