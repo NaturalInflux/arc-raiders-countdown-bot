@@ -14,12 +14,12 @@
   <img width="50" alt="veryCat" src="https://cdn.discordapp.com/emojis/1229852881465905212.gif?size=48&animated=true&name=veryCat" />
   <img width="50" alt="omgBruh" src="https://cdn.discordapp.com/emojis/1411863929117741218.gif?size=48&animated=true&name=omgBruh" />
   <img width="50" alt="pepeMeltdown" src="https://cdn.discordapp.com/emojis/1081967381460557824.gif?size=48&animated=true&name=pepeMeltdown" />
-  <img width="50" alt="DEMONCAT" src="https://cdn.discordapp.com/emojis/1411879385509789736.gif?size=48&animated=true&name=DEMONCAT" />
+  <img width="50" alt="zyzzRave" src="https://cdn.discordapp.com/emojis/1229861574152294550.gif?size=48&animated=true&name=zyzzRave" />
   <img width="50" alt="PagBounce" src="https://cdn.discordapp.com/emojis/1229866080613437562.gif?size=48&animated=true&name=PagBounce" />
   <img width="50" alt="TryHarding" src="https://cdn.discordapp.com/emojis/1411880509499375736.gif?size=48&animated=true&name=TryHarding" />
   <img width="50" alt="AlienPls" src="https://cdn.discordapp.com/emojis/1411849327558529155.gif?size=48&animated=true&name=AlienPls" />
   <img width="50" alt="ForsenSingingAtYou" src="https://cdn.discordapp.com/emojis/1411879503982235679.gif?size=48&animated=true&name=ForsenSingingAtYou" />
-  <img width="50" alt="zyzzRave" src="https://cdn.discordapp.com/emojis/1229861574152294550.gif?size=48&animated=true&name=zyzzRave" />
+  <img width="50" alt="veiNODDERS" src="https://cdn.discordapp.com/emojis/1411880514104725644.gif?size=48&animated=true&name=veiNODDERS" />
   <br><br>
   <a href="https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot">
     <img src="https://img.shields.io/badge/Add%20Bot%20to%20Your%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Add Bot to Your Server" />
