@@ -4,7 +4,7 @@
   <img width="600" alt="Bot Message Example" src="https://github.com/user-attachments/assets/bd22cbfc-ee1e-40df-82a2-5cc82fcea017" />
 </td>
 <td>
-  <h3 style="margin: 0; color: #5865F2; font-weight: 600;">Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity.</h3>
+  <p style="margin: 0; color: #5865F2; font-weight: 500; font-size: 16px;">Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity.</p>
   <br><br>
   <img width="50" alt="PogChamping" src="https://cdn.discordapp.com/emojis/1229857218380304505.gif?size=48&animated=true&name=PogChamping" />
   <img width="50" alt="catPls" src="https://github.com/user-attachments/assets/e9709481-ff34-4506-ad0d-69c8232faf9f" />
