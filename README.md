@@ -14,13 +14,13 @@ Want a different time?
 **Other Commands:**
 - `/countdown-test` - Test it right now
 - `/countdown-status` - Check your settings
-- `/countdown-donate` - Help pay server costs
+- `/countdown-donate` - Help cover server costs
 
 ---
 
 # Self-Hosting
 
-Want to run on your own server? Instructions for Ubuntu below.
+Want to run on your own server? Instructions for Ubuntu Server below.
 
 ## Deploy:
 > Clone the repository

@@ -1244,19 +1244,11 @@ client.on('interactionCreate', async interaction => {
             
             case 'countdown-status': {
                 const serverConfig = getServerConfig(guildId);
-                const releaseDate = new Date('2025-10-30T00:00:00Z');
-                const daysRemaining = getDaysRemaining(releaseDate);
                 
-                const embed = new EmbedBuilder()
-                    .setTitle('📊 Status')
-                    .setColor(0x00ff00)
-                    .addFields(
-                        { name: 'Channel', value: serverConfig.channelName ? `#${serverConfig.channelName}` : 'Not configured', inline: true },
-                        { name: 'Post Time (UTC)', value: serverConfig.postTime || '12:00', inline: true }
-                    )
-                    .setTimestamp();
+                const statusMessage = `Channel: ${serverConfig.channelName ? `#${serverConfig.channelName}` : 'Not configured'}
+Time: ${serverConfig.postTime || '12:00'} (UTC)`;
                 
-                await interaction.reply({ embeds: [embed], ephemeral: true });
+                await interaction.reply({ content: statusMessage, ephemeral: true });
                 break;
             }
             
@@ -1271,7 +1263,7 @@ client.on('interactionCreate', async interaction => {
                 }
                 
                 await interaction.reply({
-                    content: '🧪 Testing current phase...',
+                    content: 'Sending test message...',
                     ephemeral: true
                 });
                 
