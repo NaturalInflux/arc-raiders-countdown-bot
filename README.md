@@ -9,6 +9,8 @@
 </tr>
 </table>
 
+<img width="505" height="415" alt="Discord_jSegDZXdaL" src="https://github.com/user-attachments/assets/bd22cbfc-ee1e-40df-82a2-5cc82fcea017" />
+
 # Quick Add
 
 [**Add bot to your server**](https://discord.com/oauth2/authorize?client_id=1413486967525478462&permissions=51264&integration_type=0&scope=bot)
