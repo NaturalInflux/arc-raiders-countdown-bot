@@ -96,9 +96,9 @@ NODE_ENV=production
 ### Social Messages Configuration (social-messages.json)
 ```json
 {
-  "2025-09-06": "🎮 Just played some Arc Raiders alpha - it's looking incredible!",
-  "2025-09-07": "🔥 The hype is real! Can't wait for October 30th!",
-  "2025-09-08": "💀 These countdown messages are getting me so excited!"
+  "2025-09-06": "Just played some Arc Raiders alpha - it's looking incredible!",
+  "2025-09-07": "The hype is real! Can't wait for October 30th!",
+  "2025-09-08": "These countdown messages are getting me so excited!"
 }
 ```
 
@@ -246,7 +246,7 @@ The social messages system allows the bot developer to add personal messages to 
 ### Message Management
 ```bash
 # Add a message for today
-echo '{"2025-09-06": "🎮 Just played some Arc Raiders alpha!"}' > social-messages.json
+echo '{"2025-09-06": "Just played some Arc Raiders alpha!"}' > social-messages.json
 
 # Add multiple messages
 nano social-messages.json
@@ -254,9 +254,9 @@ nano social-messages.json
 
 ### Integration
 - **Automatic Detection**: Bot checks for today's message before posting
-- **Embed Integration**: Messages appear as "💬 Developer's Note" field
-- **Styling**: Italic text, clearly marked as personal message
-- **Fallback**: No message shown if none available for today
+- **Embed Integration**: Messages replace the description text (main content area)
+- **Styling**: Clean, prominent text without emojis or special formatting
+- **Fallback**: Default "Arc Raiders launches on October 30, 2025" if no message available
 
 ### Synchronization
 - **Date-Based**: All servers get the same message on the same day

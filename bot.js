@@ -882,15 +882,15 @@ async function createCountdownEmbedTest(daysRemaining = null) {
 
     if (daysRemaining === 0) {
         embed.setTitle('🎉 **ARC RAIDERS IS NOW LIVE!** 🎉');
-        embed.setDescription('Arc Raiders has launched on October 30, 2025!');
+        embed.setDescription(socialMessage || 'Arc Raiders has launched on October 30, 2025!');
         embed.setColor(0xff0000);
     } else if (daysRemaining === 1) {
         embed.setTitle('⚠️⚠️⚠️ **1 DAY** until Arc Raiders!');
-        embed.setDescription('Arc Raiders launches TOMORROW - October 30, 2025!');
+        embed.setDescription(socialMessage || 'Arc Raiders launches TOMORROW - October 30, 2025!');
         embed.setColor(0xffa500);
     } else if (daysRemaining <= 7) {
         embed.setTitle(`⚠️ **${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`);
-        embed.setDescription(`Only ${daysRemaining} days left until October 30, 2025!`);
+        embed.setDescription(socialMessage || `Only ${daysRemaining} days left until October 30, 2025!`);
         embed.setColor(0xff4500);
     }
 
@@ -911,15 +911,6 @@ async function createCountdownEmbedTest(daysRemaining = null) {
         }
     }
 
-    // Add social message if available for today
-    const socialMessage = getSocialMessageForToday();
-    if (socialMessage) {
-        embed.addFields({
-            name: '💬 Developer\'s Note',
-            value: `*${socialMessage}*`,
-            inline: false
-        });
-    }
 
     return embed;
 }
@@ -930,9 +921,12 @@ async function createCountdownEmbed() {
     const daysRemaining = getDaysRemaining(releaseDate);
     const emojiPlacement = getEmojiPlacement(daysRemaining);
     
+    // Get social message for today to use as description
+    const socialMessage = getSocialMessageForToday();
+    
     const embed = new EmbedBuilder()
         .setTitle(`**${daysRemaining} DAYS** until Arc Raiders! ${emojiPlacement.title}`)
-        .setDescription(`Arc Raiders launches on October 30, 2025`)
+        .setDescription(socialMessage || `Arc Raiders launches on October 30, 2025`)
         .setColor(0x00ff00)
         .setThumbnail('https://cdn.akamai.steamstatic.com/steam/apps/2389730/header.jpg')
         .setFooter({ text: 'Arc Raiders - Embark Studios' })
@@ -969,15 +963,6 @@ async function createCountdownEmbed() {
         }
     }
 
-    // Add social message if available for today
-    const socialMessage = getSocialMessageForToday();
-    if (socialMessage) {
-        embed.addFields({
-            name: '💬 Developer\'s Note',
-            value: `*${socialMessage}*`,
-            inline: false
-        });
-    }
 
     return embed;
 }
