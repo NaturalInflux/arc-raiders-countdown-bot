@@ -15,9 +15,9 @@
   <img width="50" alt="omgBruh" src="https://cdn.discordapp.com/emojis/1411863929117741218.gif?size=48&animated=true&name=omgBruh" />
   <img width="50" alt="pepeMeltdown" src="https://cdn.discordapp.com/emojis/1081967381460557824.gif?size=48&animated=true&name=pepeMeltdown" />
   <img width="50" alt="PagBounce" src="https://cdn.discordapp.com/emojis/1229866080613437562.gif?size=48&animated=true&name=PagBounce" />
-  <img width="50" alt="pepeSmoke" src="https://cdn.discordapp.com/emojis/1081963039881961572.gif?size=48&animated=true&name=pepeSmoke" />
-  <img width="50" alt="sumSmash" src="https://cdn.discordapp.com/emojis/1081971182976381118.gif?size=48&animated=true&name=sumSmash" />
-  <img width="50" alt="AlienPls3" src="https://cdn.discordapp.com/emojis/1229866466355187744.gif?size=48&animated=true&name=AlienPls3" />
+  <img width="50" alt="DEMONCAT" src="https://cdn.discordapp.com/emojis/1411879385509789736.gif?size=48&animated=true&name=DEMONCAT" />
+  <img width="50" alt="TryHarding" src="https://cdn.discordapp.com/emojis/1411880509499375736.gif?size=48&animated=true&name=TryHarding" />
+  <img width="50" alt="AlienPls" src="https://cdn.discordapp.com/emojis/1411849327558529155.gif?size=48&animated=true&name=AlienPls" />
   <img width="50" alt="ForsenSingingAtYou" src="https://cdn.discordapp.com/emojis/1411879503982235679.gif?size=48&animated=true&name=ForsenSingingAtYou" />
   <img width="50" alt="zyzzRave" src="https://cdn.discordapp.com/emojis/1229861574152294550.gif?size=48&animated=true&name=zyzzRave" />
 </td>
