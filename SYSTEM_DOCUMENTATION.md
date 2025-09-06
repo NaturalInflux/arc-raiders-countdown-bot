@@ -127,7 +127,7 @@ NODE_ENV=production
    - Posts example message for current phase
    - Useful for previewing current emoji intensity
 
-5. **`/countdown-donate`**
+5. **`/countdown-love`**
    - Shows donation links to support the bot developer
    - Includes Bitcoin (BTC), Ethereum (ETH), and Monero (XMR) addresses
    - Ephemeral response for privacy
@@ -162,6 +162,9 @@ function getSocialMessageForToday()
 ```javascript
 // Get Reddit OAuth access token
 async function getRedditAccessToken()
+
+// Get cached Reddit post (fetches once per day)
+async function getCachedRedditPost()
 
 // Fetch top Arc Raiders post with media (image or video)
 async function getTopArcRaidersPostWithMedia()
@@ -310,6 +313,7 @@ function timeToCron(timeInput)
 ### Reddit API Errors
 - **Retry Logic**: Exponential backoff for failed requests
 - **Token Refresh**: Automatic token renewal on 401 errors
+- **Daily Caching**: Reduces API calls from N servers to 1 per day
 - **Graceful Degradation**: Bot continues without Reddit post if API fails
 - **Logging**: Comprehensive error logging with context
 
@@ -380,8 +384,10 @@ cp env.example .env
 
 ### API Efficiency
 - **Token Caching**: Reddit tokens cached to reduce API calls
+- **Daily Post Caching**: Reddit posts fetched once per day, cached for all servers
 - **Request Timeouts**: 10-second timeout for API requests
 - **Retry Logic**: Smart retry with exponential backoff
+- **Rate Limiting**: 3-second cooldown between Discord commands per user
 
 ### Database Efficiency
 - **JSON Storage**: Lightweight file-based storage

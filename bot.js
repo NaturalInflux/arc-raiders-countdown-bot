@@ -306,6 +306,24 @@ const RELEASE_DATE = new Date(config.RELEASE_DATE || '2025-10-30T00:00:00Z');
 let redditAccessToken = null;
 let tokenExpiry = null;
 
+// Reddit post cache (daily)
+let cachedRedditPost = null;
+let redditPostCacheDate = null;
+
+// Discord command rate limiting
+const commandCooldowns = new Map();
+const COMMAND_COOLDOWN = 3000; // 3 seconds between commands per user
+
+// Clean up old cooldowns every 5 minutes to prevent memory leaks
+setInterval(() => {
+    const now = Date.now();
+    for (const [key, timestamp] of commandCooldowns.entries()) {
+        if (now - timestamp > COMMAND_COOLDOWN * 2) {
+            commandCooldowns.delete(key);
+        }
+    }
+}, 5 * 60 * 1000); // 5 minutes
+
 // Function to get Reddit OAuth access token
 async function getRedditAccessToken() {
     // Check if we have a valid cached token
@@ -365,6 +383,24 @@ function getDaysRemaining(releaseDate) {
     const timeDiff = releaseDate.getTime() - now.getTime();
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return Math.max(0, daysRemaining);
+}
+
+// Function to get cached Reddit post (fetches once per day)
+async function getCachedRedditPost() {
+    const today = new Date().toDateString();
+    
+    // Check if we have a valid cached post for today
+    if (cachedRedditPost && redditPostCacheDate === today) {
+        console.log('Using cached Reddit post for today');
+        return cachedRedditPost;
+    }
+    
+    // Fetch new post and cache it
+    console.log('Fetching new Reddit post for today');
+    cachedRedditPost = await getTopArcRaidersPostWithMedia();
+    redditPostCacheDate = today;
+    
+    return cachedRedditPost;
 }
 
 // Function to fetch top Arc Raiders Reddit post with image
@@ -893,8 +929,8 @@ async function createCountdownEmbedTest(daysRemaining = null) {
         embed.setColor(0xF68B3E);
     }
 
-    // Try to fetch the top Reddit post with image
-    const redditPost = await getTopArcRaidersPostWithMedia();
+    // Try to fetch the top Reddit post with image (cached daily)
+    const redditPost = await getCachedRedditPost();
     if (redditPost) {
         embed.addFields({
             name: 'Top r/arcraiders Post Today',
@@ -945,8 +981,8 @@ async function createCountdownEmbed() {
         embed.setColor(0xF68B3E);
     }
 
-    // Try to fetch the top Reddit post with image
-    const redditPost = await getTopArcRaidersPostWithMedia();
+    // Try to fetch the top Reddit post with image (cached daily)
+    const redditPost = await getCachedRedditPost();
     if (redditPost) {
         embed.addFields({
             name: 'Top r/arcraiders Post Today',
@@ -1170,6 +1206,22 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName, guildId, user } = interaction;
+
+    // Rate limiting check
+    const cooldownKey = `${user.id}-${commandName}`;
+    const lastUsed = commandCooldowns.get(cooldownKey);
+    const now = Date.now();
+    
+    if (lastUsed && (now - lastUsed) < COMMAND_COOLDOWN) {
+        const timeLeft = Math.ceil((COMMAND_COOLDOWN - (now - lastUsed)) / 1000);
+        return interaction.reply({ 
+            content: `⏰ Please wait ${timeLeft} seconds before using this command again.`, 
+            ephemeral: true 
+        });
+    }
+    
+    // Update cooldown
+    commandCooldowns.set(cooldownKey, now);
 
     // Check if user has permission to manage the server
     if (!interaction.member.permissions.has('ManageGuild')) {
