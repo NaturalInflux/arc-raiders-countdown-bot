@@ -52,6 +52,11 @@ class EmojiService {
     const selectedEmojis = [];
     let attempts = 0;
 
+    // Return empty array if pool is empty
+    if (emojiPool.length === 0) {
+      return selectedEmojis;
+    }
+
     while (selectedEmojis.length < count && attempts < CONFIG.EMOJI.MAX_SELECTION_ATTEMPTS) {
       const randomEmoji = emojiPool[Math.floor(Math.random() * emojiPool.length)];
       if (!selectedEmojis.includes(randomEmoji)) {

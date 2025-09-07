@@ -17,7 +17,7 @@ class TimeUtil {
     const time = timeInput.toLowerCase().replace(/\s/g, '');
     
     // Handle formats like "3am", "3pm", "15:00", "3:00pm", etc.
-    let hour, minute = 0;
+    let hour = 0, minute = 0;
     
     if (time.includes('am') || time.includes('pm')) {
       // Handle 12-hour format
