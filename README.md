@@ -6,6 +6,8 @@
 <td align="center">
   <strong>Discord bot that posts daily countdown messages until Arc Raiders release, including the top daily Reddit post from r/arcraiders and animated Twitch emotes that increase in amount and intensity over time.</strong>
   <br><br>
+  <strong>READY TO USE! Production-ready bot with comprehensive testing, error handling, and documentation.</strong>
+  <br><br>
   <img width="50" alt="PogChamping" src="https://cdn.discordapp.com/emojis/1229857218380304505.gif?size=48&animated=true&name=PogChamping" />
   <img width="50" alt="catPls" src="https://github.com/user-attachments/assets/e9709481-ff34-4506-ad0d-69c8232faf9f" />
   <img width="50" alt="agaCheck" src="https://cdn.discordapp.com/emojis/1411849176798462042.gif?size=48&animated=true&name=agaCheck" />
