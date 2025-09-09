@@ -65,6 +65,20 @@ class SetupCommand extends BaseCommand {
       postTime: '12:00' // Default time
     });
     
+    // Schedule the cron job for this server
+    const cronHandler = client.cronHandler;
+    if (cronHandler) {
+      const serverConfig = configService.getServerConfig(interaction.guildId);
+      cronHandler.scheduleServerCountdown(
+        interaction.guildId,
+        serverConfig,
+        client,
+        services,
+        releaseDate
+      );
+      Logger.info(`Cron job scheduled for guild ${interaction.guildId} with channel #${channelName}`);
+    }
+    
     this.logCommand(interaction, `Channel set to #${channelName}`);
     
     await interaction.reply({

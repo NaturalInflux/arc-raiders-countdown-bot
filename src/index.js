@@ -209,6 +209,9 @@ class ArcRaidersCountdownBot {
       // Clean up orphaned server configurations
       await this.handlers.guildHandler.cleanupOrphanedConfigs(this.client);
       
+      // Attach cron handler to client for command access
+      this.client.cronHandler = this.handlers.cronHandler;
+      
       // Schedule countdown messages for all configured servers
       this.handlers.cronHandler.scheduleCountdownMessages(
         this.client,

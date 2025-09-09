@@ -59,10 +59,21 @@ class TimeCommand extends BaseCommand {
     // Update configuration
     configService.updateServerConfig(interaction.guildId, { postTime: timeInput });
     
+    // Reschedule the cron job immediately with the new time
+    const serverConfig = configService.getServerConfig(interaction.guildId);
+    if (serverConfig.channelId) {
+      // Get the cron handler from the client (it's attached during bot initialization)
+      const cronHandler = client.cronHandler;
+      if (cronHandler) {
+        cronHandler.updateServerSchedule(interaction.guildId, timeInput, client, services, releaseDate);
+        Logger.info(`Cron job rescheduled for guild ${interaction.guildId} with new time: ${timeInput}`);
+      }
+    }
+    
     this.logCommand(interaction, `Time updated to ${timeInput}`);
     
     await interaction.reply({
-      content: `Post time updated to ${timeInput} (UTC)`,
+      content: `Post time updated to ${timeInput} (UTC) and rescheduled immediately!`,
       ephemeral: true
     });
   }
